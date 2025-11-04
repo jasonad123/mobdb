@@ -58,6 +58,22 @@ translink_yvr <- mobdb_feeds(provider = "TransLink Vancouver")
 # with relevance ranking. Use mobdb_feeds() with filters for better results.
 ```
 
+### Download feed from MobilityData
+
+```r
+library(gtfsio)
+
+# Download latest MobilityData-hosted version of the feed 
+stm_montreal <- mobdb_download_feed("mdb-2126")
+
+# use export_gtfs() to export as GTFS zip file
+export_gtfs (stm_montreal, "data/gtfs/gtfs.zip")
+
+> zip::zip_list("data/gtfs/gtfs.zip")$filename
+[1] "agency.txt"         "calendar.txt"       "calendar_dates.txt" "feed_info.txt"      "routes.txt"         "shapes.txt"        
+[7] "stops.txt"          "stop_times.txt"     "trips.txt"  
+```
+
 ### Get feed details
 
 ```r
