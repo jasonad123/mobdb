@@ -18,6 +18,6 @@ and available data types.
 # Check API metadata
 meta <- mobdb_metadata()
 print(meta$version)
-}
 
+}
 }

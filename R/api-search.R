@@ -34,8 +34,8 @@
 #'   country_code = "CA",
 #'   data_type = "gtfs"
 #' )
-#' }
 #'
+#' }
 #' @export
 mobdb_search <- function(query,
                          data_type = NULL,

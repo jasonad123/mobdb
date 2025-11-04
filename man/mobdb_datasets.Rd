@@ -30,11 +30,11 @@ particular point in time.
 }
 \examples{
 \dontrun{
-# Get latest dataset for a feed
-latest <- mobdb_datasets("mdb-123")
+# Get latest dataset for a feed (GTFS schedule feeds only)
+latest <- mobdb_datasets("mdb-53")
 
 # Get all historical datasets
-all_versions <- mobdb_datasets("mdb-123", latest = FALSE)
-}
+all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
 
+}
 }

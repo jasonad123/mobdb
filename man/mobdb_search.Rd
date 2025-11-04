@@ -47,6 +47,6 @@ canadian_transit <- mobdb_search(
   country_code = "CA",
   data_type = "gtfs"
 )
-}
 
+}
 }

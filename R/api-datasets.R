@@ -19,13 +19,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Get latest dataset for a feed
-#' latest <- mobdb_datasets("mdb-123")
+#' # Get latest dataset for a feed (GTFS schedule feeds only)
+#' latest <- mobdb_datasets("mdb-53")
 #'
 #' # Get all historical datasets
-#' all_versions <- mobdb_datasets("mdb-123", latest = FALSE)
-#' }
+#' all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
 #'
+#' }
 #' @export
 mobdb_datasets <- function(feed_id, latest = TRUE) {
   if (!is.character(feed_id) || length(feed_id) != 1) {
@@ -71,9 +71,9 @@ mobdb_datasets <- function(feed_id, latest = TRUE) {
 #' @examples
 #' \dontrun{
 #' # Get details for a specific dataset
-#' dataset_info <- mobdb_get_dataset("dataset-456")
-#' }
+#' dataset_info <- mobdb_get_dataset("mdb-53-202510250025")
 #'
+#' }
 #' @export
 mobdb_get_dataset <- function(dataset_id) {
   if (!is.character(dataset_id) || length(dataset_id) != 1) {

@@ -14,16 +14,17 @@ Character. The direct download URL, or \code{NULL} if not available.
 }
 \description{
 Convenience function to quickly get the direct download URL for a feed.
-This is useful for passing to tidytransit::read_gtfs() or similar functions.
+This is useful for passing to tidytransit::read_gtfs() or similar
+functions.
 }
 \examples{
 \dontrun{
 # Get download URL
-url <- mobdb_feed_url("mdb-123")
+url <- mobdb_feed_url("mdb-53")
 
 # Use with tidytransit
 library(tidytransit)
 gtfs <- read_gtfs(url)
-}
 
+}
 }

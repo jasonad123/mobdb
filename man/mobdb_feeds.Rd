@@ -18,9 +18,9 @@ mobdb_feeds(
 \arguments{
 \item{provider}{Character. Filter by provider/agency name (partial match).}
 
-\item{country_code}{Character. Two-letter ISO country code (e.g., "US", "CA").
-\strong{Note:} Location filters (\code{country_code}, \code{subdivision_name}, \code{municipality})
-require \code{data_type} to be specified.}
+\item{country_code}{Character. Two-letter ISO country code
+(e.g., "US", "CA"). \strong{Note:} Location filters (\code{country_code},
+\code{subdivision_name}, \code{municipality}) require \code{data_type} to be specified.}
 
 \item{subdivision_name}{Character. State, province, or region name.
 Requires \code{data_type} to be specified.}
@@ -28,14 +28,17 @@ Requires \code{data_type} to be specified.}
 \item{municipality}{Character. City or municipality name.
 Requires \code{data_type} to be specified.}
 
-\item{data_type}{Character. Type of feed: "gtfs" (schedule), "gtfs_rt" (realtime), or "gbfs" (bike share).
-Required when using location filters.}
+\item{data_type}{Character. Type of feed: "gtfs" (schedule),
+"gtfs_rt" (realtime), or "gbfs" (bike share). Required when using
+location filters.}
 
-\item{status}{Character. Feed status: "active", "inactive", or "deprecated".}
+\item{status}{Character. Feed status: "active", "inactive", or
+"deprecated".}
 
 \item{limit}{Integer. Maximum number of results to return (default: 100).}
 
-\item{offset}{Integer. Number of results to skip for pagination (default: 0).}
+\item{offset}{Integer. Number of results to skip for pagination
+(default: 0).}
 }
 \value{
 A tibble containing feed information with columns including:
@@ -77,6 +80,6 @@ sf_muni <- mobdb_feeds(provider = "San Francisco")
 # Get feeds with pagination
 first_100 <- mobdb_feeds(limit = 100, offset = 0)
 next_100 <- mobdb_feeds(limit = 100, offset = 100)
-}
 
+}
 }

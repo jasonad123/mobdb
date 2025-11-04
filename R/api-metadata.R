@@ -11,8 +11,8 @@
 #' # Check API metadata
 #' meta <- mobdb_metadata()
 #' print(meta$version)
-#' }
 #'
+#' }
 #' @export
 mobdb_metadata <- function() {
   req <- mobdb_request("metadata")

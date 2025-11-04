@@ -18,7 +18,7 @@ Retrieve detailed information about a single feed by its ID.
 \examples{
 \dontrun{
 # Get details for a specific feed
-feed_details <- mobdb_get_feed("mdb-123")
-}
+feed_details <- mobdb_get_feed("mdb-53")
 
+}
 }

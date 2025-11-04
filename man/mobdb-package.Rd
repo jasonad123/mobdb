@@ -14,6 +14,7 @@ Provides functions to search and access transit feed data from the Mobility Data
 Useful links:
 \itemize{
   \item \url{https://github.com/jasonad123/mobdb}
+  \item \url{https://jasonad123.github.io/mobdb/}
   \item Report bugs at \url{https://github.com/jasonad123/mobdb/issues}
 }
 

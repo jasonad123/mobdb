@@ -5,7 +5,7 @@
 [![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen.svg)](https://github.com/jasonad123/mobdb)
 <!-- badges: end -->
 
-**mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database API v1, enabling programmatic discovery of GTFS (General Transit Feed Specification) and GTFS Realtime feeds from transit agencies worldwide.
+**mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule and GTFS Realtime feeds from transit agencies worldwide.
 
 ## Installation
 
@@ -18,7 +18,7 @@ remotes::install_github("jasonad123/mobdb")
 
 ## Authentication
 
-To use the Mobility Database API, you need a refresh token:
+To use the Mobility Database Catalog API, you need a refresh token:
 
 1. Sign up at [mobilitydatabase.org](https://mobilitydatabase.org)
 2. Navigate to your account details page to view your refresh token
@@ -82,9 +82,9 @@ latest <- mobdb_datasets("mdb-53", latest = TRUE)
 all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
 ```
 
-### Integration with tidytransit
+### Using with tidytransit
 
-The package integrates with [tidytransit](https://github.com/r-transit/tidytransit) for GTFS analysis:
+The package works with [tidytransit](https://github.com/r-transit/tidytransit) for GTFS analysis:
 
 ```r
 library(tidytransit)

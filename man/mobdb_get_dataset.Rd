@@ -18,7 +18,7 @@ Retrieve detailed information about a single dataset by its ID.
 \examples{
 \dontrun{
 # Get details for a specific dataset
-dataset_info <- mobdb_get_dataset("dataset-456")
-}
+dataset_info <- mobdb_get_dataset("mdb-53-202510250025")
 
+}
 }
