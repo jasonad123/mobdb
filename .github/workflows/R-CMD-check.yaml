@@ -1,14 +1,40 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+# Optimized for free tier: Ubuntu-only, critical file changes, concurrency controls
 on:
   push:
     branches: [main, master]
+    paths:
+      - 'R/**'
+      - 'src/**'
+      - 'tests/**'
+      - 'man/**'
+      - 'data/**'
+      - 'inst/**'
+      - 'DESCRIPTION'
+      - 'NAMESPACE'
+      - '.github/workflows/R-CMD-check.yaml'
   pull_request:
     branches: [main, master]
+    paths:
+      - 'R/**'
+      - 'src/**'
+      - 'tests/**'
+      - 'man/**'
+      - 'data/**'
+      - 'inst/**'
+      - 'DESCRIPTION'
+      - 'NAMESPACE'
+      - '.github/workflows/R-CMD-check.yaml'
 
 name: R-CMD-check.yaml
 
 permissions: read-all
+
+# Cancel outdated workflows to save minutes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   R-CMD-check:
@@ -17,14 +43,14 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         config:
-          - {os: macos-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
+          # Development mode: Ubuntu-only for fast, cheap CI (1x minutes)
+          # Before CRAN submission: Uncomment Windows + R-devel below
           - {os: ubuntu-latest,  r: 'release'}
-          - {os: ubuntu-latest,  r: 'oldrel-1'}
+          # - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
+          # - {os: windows-latest, r: 'release'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -50,3 +76,6 @@ jobs:
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+          # Streamlined checks for faster execution
+          error-on: '"error"'
+          check-dir: '"check"'

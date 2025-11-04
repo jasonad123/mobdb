@@ -3,3 +3,6 @@ template:
   bootstrap: 5
   light-switch: true
   bootswatch: morph
+navbar:
+  structure:
+    right: [github, lightswitch]
