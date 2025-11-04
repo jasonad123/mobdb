@@ -1,7 +1,7 @@
 Package: mobdb
 Type: Package
 Title: Access the Mobility Database API
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Jason", "A", , "me@jasonadle.com", role = c("aut", "cre"))
 Description: Provides functions to search and access transit feed data from the 

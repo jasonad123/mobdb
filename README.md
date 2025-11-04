@@ -12,8 +12,8 @@
 You can install the development version of mobdb from GitHub:
 
 ```r
-# install.packages("remotes")
-remotes::install_github("jasonad123/mobdb")
+# install.packages("pak")
+pak::pak("jasonad123/mobdb")
 ```
 
 ## Authentication
