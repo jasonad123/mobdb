@@ -49,3 +49,15 @@ docs/
 
 # Mac
 .DS_Store
+
+# R plotting output
+Rplots.pdf
+*.pdf
+
+# Development/testing scripts
+test_*.R
+check_*.R
+create_hex_sticker.R
+
+# External documentation
+external/

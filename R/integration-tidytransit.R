@@ -40,7 +40,7 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
     if (nrow(feed_id) != 1) {
       cli::cli_abort("{.arg feed_id} data frame must have exactly one row.")
     }
-     
+    
     # Try to extract URL directly if available from actual API structure
     if ("source_info" %in% names(feed_id) && 
         is.data.frame(feed_id$source_info) &&

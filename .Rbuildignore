@@ -1,0 +1,11 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.git$
+^\.gitignore$
+^external$
+^API_STRUCTURE\.md$
+^test_.*\.R$
+^check_.*\.R$
+^check_output\.txt$
+^LICENSE\.md$
+^create_hex_sticker\.R$

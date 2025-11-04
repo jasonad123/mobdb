@@ -11,7 +11,11 @@
 #' @param country_code Character. Optional filter by two-letter ISO country code.
 #' @param limit Integer. Maximum number of results (default: 50).
 #'
-#' @return A tibble of matching feeds with the same structure as [mobdb_feeds()].
+#' @return A tibble of matching feeds. Note that search results include additional
+#'   fields compared to [mobdb_feeds()]:
+#'   * `locations` - List of data frames with geographical information
+#'   * `latest_dataset` - Data frame with most recent dataset details and validation
+#'   * Core fields (`id`, `provider`, `data_type`, `status`, `source_info`) are the same
 #'
 #' @examples
 #' \dontrun{

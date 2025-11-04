@@ -8,7 +8,7 @@
 #' @param country_code Character. Two-letter ISO country code (e.g., "US", "CA").
 #' @param subdivision_name Character. State, province, or region name.
 #' @param municipality Character. City or municipality name.
-#' @param data_type Character. Type of feed: "gtfs" (schedule) or "gtfs_rt" (realtime).
+#' @param data_type Character. Type of feed: "gtfs" (schedule), "gtfs_rt" (realtime), or "gbfs" (bike share).
 #' @param status Character. Feed status: "active", "inactive", or "deprecated".
 #' @param limit Integer. Maximum number of results to return (default: 100).
 #' @param offset Integer. Number of results to skip for pagination (default: 0).
@@ -58,28 +58,39 @@ mobdb_feeds <- function(provider = NULL,
   
   # Validate data_type if provided
   if (!is.null(data_type)) {
-    data_type <- match.arg(data_type, c("gtfs", "gtfs_rt"))
+    data_type <- match.arg(data_type, c("gtfs", "gtfs_rt", "gbfs"))
   }
-  
+
   # Validate status if provided
   if (!is.null(status)) {
     status <- match.arg(status, c("active", "inactive", "deprecated"))
   }
-  
-  # Build query parameters
+
+  # Determine endpoint based on data_type
+  # /feeds returns all types; use specific endpoints to filter by type
+  endpoint <- if (!is.null(data_type)) {
+    switch(data_type,
+           "gtfs" = "gtfs_feeds",
+           "gtfs_rt" = "gtfs_rt_feeds",
+           "gbfs" = "gbfs_feeds",
+           "feeds")
+  } else {
+    "feeds"
+  }
+
+  # Build query parameters (data_type not needed since endpoint filters it)
   query_params <- build_query(
     provider = provider,
     country_code = country_code,
     subdivision_name = subdivision_name,
     municipality = municipality,
-    data_type = data_type,
     status = status,
     limit = limit,
     offset = offset
   )
-  
+
   # Make request
-  req <- mobdb_request("feeds")
+  req <- mobdb_request(endpoint)
   
   if (length(query_params) > 0) {
     req <- httr2::req_url_query(req, !!!query_params)

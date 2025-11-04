@@ -34,18 +34,29 @@ mobdb_datasets <- function(feed_id, latest = TRUE) {
   
   # Build query parameters
   query_params <- build_query(
-    feed_id = feed_id,
     latest = if (latest) "true" else NULL
   )
-  
-  # Make request
-  req <- mobdb_request("datasets") |>
+
+  # Make request - endpoint is /gtfs_feeds/{feed_id}/datasets
+  req <- mobdb_request("gtfs_feeds") |>
+    httr2::req_url_path_append(feed_id) |>
+    httr2::req_url_path_append("datasets") |>
     httr2::req_url_query(!!!query_params)
-  
+
   resp <- httr2::req_perform(req)
   check_rate_limit(resp)
-  
-  mobdb_parse_response(resp)
+
+  # Response is a list, convert to tibble
+  body <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+
+  if (is.data.frame(body)) {
+    return(tibble::as_tibble(body))
+  } else if (is.list(body) && length(body) > 0) {
+    # Convert list of lists to data frame
+    return(tibble::as_tibble(do.call(rbind.data.frame, lapply(body, as.data.frame))))
+  }
+
+  tibble::as_tibble(body)
 }
 
 #' Get details for a specific dataset
@@ -68,12 +79,14 @@ mobdb_get_dataset <- function(dataset_id) {
   if (!is.character(dataset_id) || length(dataset_id) != 1) {
     cli::cli_abort("{.arg dataset_id} must be a single character string.")
   }
-  
+
+  # Endpoint is /datasets/gtfs/{id}
   req <- mobdb_request("datasets") |>
+    httr2::req_url_path_append("gtfs") |>
     httr2::req_url_path_append(dataset_id)
-  
+
   resp <- httr2::req_perform(req)
   check_rate_limit(resp)
-  
+
   httr2::resp_body_json(resp)
 }
