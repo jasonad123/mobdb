@@ -1,4 +1,4 @@
-# mobdb <img src="man/figures/logo.png" align="right" height="139" alt="" />
+# mobdb <img src="man/figures/logo.png" align="right" width="180" alt="logo" />
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -41,8 +41,8 @@ Alternatively, you can set the `MOBDB_REFRESH_TOKEN` environment variable in you
 ### Search for transit feeds
 
 ```r
-# Search by keywords
-bart_feeds <- mobdb_search("BART")
+# Search by provider name
+bart_feeds <- mobdb_feeds(provider = "BART")
 
 # Filter feeds by location
 ca_feeds <- mobdb_feeds(
@@ -53,6 +53,9 @@ ca_feeds <- mobdb_feeds(
 
 # Search for a specific provider
 sf_muni <- mobdb_feeds(provider = "San Francisco Municipal")
+
+# Note: mobdb_search() uses the /search endpoint which has known issues
+# with relevance ranking. Use mobdb_feeds() with filters for better results.
 ```
 
 ### Get feed details

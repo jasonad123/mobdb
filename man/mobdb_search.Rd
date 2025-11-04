@@ -27,14 +27,19 @@ fields compared to \code{\link[=mobdb_feeds]{mobdb_feeds()}}:
 }
 \description{
 Perform a text search across feed names, providers, and locations.
-This is useful when you don't know the exact feed ID or want to
-discover feeds based on keywords.
+
+\strong{Note:} The \verb{/search} endpoint has known issues with relevance ranking.
+Results may not match your search query well. For better results when searching
+by provider name, use \code{\link[=mobdb_feeds]{mobdb_feeds()}} with the \code{provider} parameter instead.
 }
 \examples{
 \dontrun{
-# Search for transit agencies
-bart <- mobdb_search("BART")
-mta <- mobdb_search("MTA New York")
+# Search for transit agencies (Note: results may not be well-ranked)
+results <- mobdb_search("transit")
+
+# Better approach: use mobdb_feeds() with provider filter
+bart <- mobdb_feeds(provider = "BART")
+mta <- mobdb_feeds(provider = "MTA New York")
 
 # Search with filters
 canadian_transit <- mobdb_search(
