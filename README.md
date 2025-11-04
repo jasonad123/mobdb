@@ -45,14 +45,14 @@ Alternatively, you can set the `MOBDB_REFRESH_TOKEN` environment variable in you
 bart_feeds <- mobdb_feeds(provider = "BART")
 
 # Filter feeds by location
-ca_feeds <- mobdb_feeds(
-  country_code = "US",
-  subdivision_name = "California",
+on_feeds <- mobdb_feeds(
+  country_code = "CA",
+  subdivision_name = "Ontario",
   data_type = "gtfs"
 )
 
 # Search for a specific provider
-sf_muni <- mobdb_feeds(provider = "San Francisco Municipal")
+translink_yvr <- mobdb_feeds(provider = "TransLink Vancouver")
 
 # Note: mobdb_search() uses the /search endpoint which has known issues
 # with relevance ranking. Use mobdb_feeds() with filters for better results.
@@ -62,24 +62,24 @@ sf_muni <- mobdb_feeds(provider = "San Francisco Municipal")
 
 ```r
 # Get detailed information about a specific feed
-feed_info <- mobdb_get_feed("mdb-123")
+feed_info <- mobdb_get_feed("mdb-53")
 
 # Get just the download URL
-url <- mobdb_feed_url("mdb-123")
+url <- mobdb_feed_url("mdb-53")
 
-# Or extract URLs from multiple feeds
-feeds <- mobdb_feeds(country_code = "US", limit = 10)
+# Or extract URLs from multiple feeds (requires data_type for location filters)
+feeds <- mobdb_feeds(country_code = "US", data_type = "gtfs", limit = 10)
 urls <- mobdb_extract_urls(feeds)
 ```
 
 ### Access historical datasets
 
 ```r
-# Get the latest dataset for a feed
-latest <- mobdb_datasets("mdb-123", latest = TRUE)
+# Get the latest dataset for a feed (only works with GTFS schedule feeds)
+latest <- mobdb_datasets("mdb-53", latest = TRUE)
 
 # Get all historical versions
-all_versions <- mobdb_datasets("mdb-123", latest = FALSE)
+all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
 ```
 
 ### Integration with tidytransit
@@ -90,18 +90,17 @@ The package integrates with [tidytransit](https://github.com/r-transit/tidytrans
 library(tidytransit)
 library(dplyr)
 
-# Search and read in one pipeline
-gtfs <- mobdb_search("SF Muni") 
-  slice(1) %>%
-  mobdb_read_gtfs()
+# Read by feed ID (simplest approach)
+gtfs <- mobdb_read_gtfs("mdb-53")
 
-# Or by feed ID
-gtfs <- mobdb_read_gtfs("mdb-123")
+# Or search and read in one pipeline
+feeds <- mobdb_feeds(provider = "San Francisco", data_type = "gtfs")
+gtfs <- mobdb_read_gtfs(feeds[1, ])  # Pass single-row data frame
 
-# Or manually extract the URL
-feeds <- mobdb_feeds(provider = "SF Muni")
-url <- feeds$source_info$producer_url[1]  # Download URL is here
-gtfs <- read_gtfs(url)
+# Or manually extract the URL using helper function
+feeds <- mobdb_feeds(provider = "San Francisco", data_type = "gtfs")
+urls <- mobdb_extract_urls(feeds)
+gtfs <- read_gtfs(urls[1])
 
 # Now analyze with tidytransit
 gtfs$routes

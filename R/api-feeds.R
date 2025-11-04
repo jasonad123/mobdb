@@ -6,9 +6,14 @@
 #'
 #' @param provider Character. Filter by provider/agency name (partial match).
 #' @param country_code Character. Two-letter ISO country code (e.g., "US", "CA").
+#'   **Note:** Location filters (`country_code`, `subdivision_name`, `municipality`)
+#'   require `data_type` to be specified.
 #' @param subdivision_name Character. State, province, or region name.
+#'   Requires `data_type` to be specified.
 #' @param municipality Character. City or municipality name.
+#'   Requires `data_type` to be specified.
 #' @param data_type Character. Type of feed: "gtfs" (schedule), "gtfs_rt" (realtime), or "gbfs" (bike share).
+#'   Required when using location filters.
 #' @param status Character. Feed status: "active", "inactive", or "deprecated".
 #' @param limit Integer. Maximum number of results to return (default: 100).
 #' @param offset Integer. Number of results to skip for pagination (default: 0).
@@ -64,6 +69,16 @@ mobdb_feeds <- function(provider = NULL,
   # Validate status if provided
   if (!is.null(status)) {
     status <- match.arg(status, c("active", "inactive", "deprecated"))
+  }
+
+  # Location filters only work with specific endpoints (when data_type is specified)
+  location_filters_used <- !is.null(country_code) || !is.null(subdivision_name) || !is.null(municipality)
+  if (location_filters_used && is.null(data_type)) {
+    cli::cli_abort(c(
+      "Location filters require {.arg data_type} to be specified.",
+      "i" = "The {.path /feeds} endpoint does not support location filtering.",
+      "i" = "Specify {.code data_type = \"gtfs\"}, {.code \"gtfs_rt\"}, or {.code \"gbfs\"} to use location filters."
+    ))
   }
 
   # Determine endpoint based on data_type
