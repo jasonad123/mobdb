@@ -7,7 +7,6 @@
 ^test_.*\.R$
 ^check_.*\.R$
 ^check_output\.txt$
-^LICENSE\.md$
 ^create_hex_sticker\.R$
 ^_pkgdown\.yml$
 ^docs$
