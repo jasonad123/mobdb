@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen.svg)](https://github.com/jasonad123/mobdb)
+[![R-CMD-check](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 **mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule and GTFS Realtime feeds from transit agencies worldwide.
