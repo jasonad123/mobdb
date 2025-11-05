@@ -63,21 +63,41 @@ translink_yvr <- mobdb_feeds(provider = "TransLink Vancouver")
 # with relevance ranking. Use mobdb_feeds() with filters for better results.
 ```
 
-### Download feed from MobilityData
+### Download GTFS Schedule feeds
+
+The `mobdb_download_feed()` function downloads GTFS Schedule feeds by feed ID or by searching for providers/locations.
 
 ```r
+library(tidytransit)
 library(gtfsio)
 
-# Download latest MobilityData-hosted version of the feed 
+# Download by feed ID
 stm_montreal <- mobdb_download_feed("mdb-2126")
 
-# use export_gtfs() to export as GTFS zip file
-export_gtfs (stm_montreal, "data/gtfs/gtfs.zip")
+# Download by provider name (excludes GTFS-Flex feeds automatically)
+bart_gtfs <- mobdb_download_feed(provider = "BART")
 
-> zip::zip_list("data/gtfs/gtfs.zip")$filename
-[1] "agency.txt"         "calendar.txt"       "calendar_dates.txt" "feed_info.txt"      "routes.txt"         "shapes.txt"        
-[7] "stops.txt"          "stop_times.txt"     "trips.txt"  
+# Use feed_name parameter when multiple feeds exist for a provider
+dc_bus <- mobdb_download_feed(provider = "WMATA", feed_name = "Bus")
+
+# Download from agency source URL instead of MobilityData hosted version
+gtfs <- mobdb_download_feed(provider = "San Francisco", use_source_url = TRUE)
+
+# Filter by location
+on_gtfs <- mobdb_download_feed(
+  country_code = "CA",
+  subdivision_name = "Ontario"
+)
+
+# Export as GTFS zip file
+export_gtfs(stm_montreal, "data/gtfs/stm_montreal.zip")
+
+> zip::zip_list("data/gtfs/stm_montreal.zip")$filename
+[1] "agency.txt"         "calendar.txt"       "calendar_dates.txt" "feed_info.txt"      "routes.txt"         "shapes.txt"
+[7] "stops.txt"          "stop_times.txt"     "trips.txt"
 ```
+
+**Note:** When multiple feeds match your search criteria, the function displays a table of options and prompts you to specify which feed to download using its feed ID.
 
 ### Get feed details
 
@@ -105,21 +125,26 @@ all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
 
 ### Using with tidytransit
 
-The package works with [tidytransit](https://github.com/r-transit/tidytransit) for GTFS analysis:
+The package provides two functions for working with [tidytransit](https://github.com/r-transit/tidytransit):
+
+- **`mobdb_download_feed()`** - Download GTFS Schedule feeds with provider/location search (recommended)
+- **`mobdb_read_gtfs()`** - More flexible reader that works with any GTFS feed type
 
 ```r
 library(tidytransit)
 library(dplyr)
 
-# Read by feed ID (simplest approach)
+# Download GTFS Schedule feed with search (recommended for most users)
+gtfs <- mobdb_download_feed(provider = "San Francisco")
+
+# Or use mobdb_read_gtfs() for more flexibility
 gtfs <- mobdb_read_gtfs("mdb-53")
 
-# Or search and read in one pipeline
+# Pass a data frame from mobdb_feeds()
 feeds <- mobdb_feeds(provider = "San Francisco", data_type = "gtfs")
-gtfs <- mobdb_read_gtfs(feeds[1, ])  # Pass single-row data frame
+gtfs <- mobdb_read_gtfs(feeds[1, ])
 
-# Or manually extract the URL using helper function
-feeds <- mobdb_feeds(provider = "San Francisco", data_type = "gtfs")
+# Or manually extract URLs and use tidytransit directly
 urls <- mobdb_extract_urls(feeds)
 gtfs <- read_gtfs(urls[1])
 

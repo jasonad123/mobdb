@@ -3,6 +3,7 @@
 ^\.git$
 ^\.gitignore$
 ^external$
+^\.claude$
 ^API_STRUCTURE\.md$
 ^test_.*\.R$
 ^check_.*\.R$
