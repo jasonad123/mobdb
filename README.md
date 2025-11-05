@@ -81,7 +81,7 @@ bart_gtfs <- mobdb_download_feed(provider = "BART")
 dc_bus <- mobdb_download_feed(provider = "WMATA", feed_name = "Bus")
 
 # Download from agency source URL instead of MobilityData hosted version
-gtfs <- mobdb_download_feed(provider = "San Francisco", use_source_url = TRUE)
+gtfs <- mobdb_download_feed(provider = "SFMTA", use_source_url = TRUE)
 
 # Filter by location
 on_gtfs <- mobdb_download_feed(
@@ -99,14 +99,31 @@ export_gtfs(stm_montreal, "data/gtfs/stm_montreal.zip")
 
 **Note:** When multiple feeds match your search criteria, the function displays a table of options and prompts you to specify which feed to download using its feed ID.
 
+```r
+> gtfs <- mobdb_download_feed(provider = "San Francisco")
+Searching for GTFS Schedule feeds...
+! Found 2 matching feeds:
+  
+# A tibble: 2 × 4
+  id     provider                                                               feed_name status
+  <chr>  <chr>                                                                  <chr>     <chr> 
+1 mdb-62 San Francisco Bay Area Water Emergency Transportation Authority (WETA) ""        active
+2 mdb-50 San Francisco Municipal Transportation Agency (SFMTA, Muni)            ""        inact…
+Error in `mobdb_download_feed()`:
+Multiple feeds found. Please specify which one to download.
+Use `mobdb_download_feed(feed_id = "mdb-XXX")` with one of the IDs above.
+Or refine your search with the `provider` or `feed_name` parameters.
+
+```
+
 ### Get feed details
 
 ```r
 # Get detailed information about a specific feed
-feed_info <- mobdb_get_feed("mdb-53")
+feed_info <- mobdb_get_feed("mdb-247")
 
 # Get just the download URL
-url <- mobdb_feed_url("mdb-53")
+url <- mobdb_feed_url("mdb-247")
 
 # Or extract URLs from multiple feeds (requires data_type for location filters)
 feeds <- mobdb_feeds(country_code = "US", data_type = "gtfs", limit = 10)
@@ -117,10 +134,10 @@ urls <- mobdb_extract_urls(feeds)
 
 ```r
 # Get the latest dataset for a feed (only works with GTFS schedule feeds)
-latest <- mobdb_datasets("mdb-53", latest = TRUE)
+latest <- mobdb_datasets("mdb-247", latest = TRUE)
 
 # Get all historical versions
-all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
+all_versions <- mobdb_datasets("mdb-247", latest = FALSE)
 ```
 
 ### Using with tidytransit
@@ -135,13 +152,13 @@ library(tidytransit)
 library(dplyr)
 
 # Download GTFS Schedule feed with search (recommended for most users)
-gtfs <- mobdb_download_feed(provider = "San Francisco")
+gtfs <- mobdb_download_feed(provider = "TriMet")
 
 # Or use mobdb_read_gtfs() for more flexibility
-gtfs <- mobdb_read_gtfs("mdb-53")
+gtfs <- mobdb_read_gtfs("mdb-247")
 
 # Pass a data frame from mobdb_feeds()
-feeds <- mobdb_feeds(provider = "San Francisco", data_type = "gtfs")
+feeds <- mobdb_feeds(provider = "TriMet", data_type = "gtfs")
 gtfs <- mobdb_read_gtfs(feeds[1, ])
 
 # Or manually extract URLs and use tidytransit directly
