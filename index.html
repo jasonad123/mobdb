@@ -18,7 +18,6 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Access the Mobility Database API">
 <meta name="description" content="Provides functions to search and access transit feed data from the Mobility Database (mobilitydata.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GTFS Realtime feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with the tidytransit and gtfstools packages for subsequent feed analysis.">
 <meta property="og:description" content="Provides functions to search and access transit feed data from the Mobility Database (mobilitydata.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GTFS Realtime feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with the tidytransit and gtfstools packages for subsequent feed analysis.">
-<meta property="og:image" content="https://jasonad123.github.io/mobdb/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -58,20 +57,23 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="mobdb-">mobdb <a class="anchor" aria-label="anchor" href="#mobdb-"></a>
-</h1>
-</div>
+<div class="page-header"><h1 id="mobdb-">mobdb <img src="reference/figures/logo.png" align="right" width="180" alt="logo"><a class="anchor" aria-label="anchor" href="#mobdb-"></a>
+</h1></div>
 <!-- badges: start -->
 
-<p><strong>mobdb</strong> provides R functions to search and access transit feed data from the <a href="https://mobilitydatabase.org" class="external-link">Mobility Database</a>. The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule and GTFS Realtime feeds from transit agencies worldwide.</p>
+<p><strong>mobdb</strong> provides R functions to search and access transit feed data from the <a href="https://mobilitydatabase.org" class="external-link">Mobility Database</a>. The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule, GTFS Realtime, and GBFS (General Bikeshare Feed Specification) feeds from transit agencies worldwide.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the development version of mobdb from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"jasonad123/mobdb"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Install using pak (recommended)</span></span>
+<span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"jasonad123/mobdb"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or using remotes</span></span>
+<span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jasonad123/mobdb"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a>
@@ -192,6 +194,13 @@
 </div>
 </div>
 <div class="section level2">
+<h2 id="project-status">Project Status<a class="anchor" aria-label="anchor" href="#project-status"></a>
+</h2>
+<p><strong>What works:</strong> Core API access (feeds, datasets, metadata), direct downloads, authentication, all filters. R CMD check: 0/0/0.</p>
+<p><strong>Experimental:</strong> tidytransit integration (<code><a href="reference/mobdb_read_gtfs.html">mobdb_read_gtfs()</a></code>) - implemented but needs more testing.</p>
+<p><strong>Pipeline:</strong> Unit tests with mocked responses, vignettes, batch downloads, caching, pkgdown site.</p>
+</div>
+<div class="section level2">
 <h2 id="api-endpoints">API Endpoints<a class="anchor" aria-label="anchor" href="#api-endpoints"></a>
 </h2>
 <p>The package provides access to the following Mobility Database API endpoints:</p>
@@ -227,7 +236,7 @@
 <h2 id="disclaimers">Disclaimers<a class="anchor" aria-label="anchor" href="#disclaimers"></a>
 </h2>
 <p><strong>Not Affiliated with MobilityData</strong>: This package is an independent, community-developed project and is not officially affiliated with, endorsed by, or supported by MobilityData or the Mobility Database project. It is a third-party API wrapper created to facilitate R users’ access to the Mobility Database.</p>
-<p><strong>Work in Progress</strong>: This package is under active development (v0.1.0). While all functions have been tested against the live API and the package passes R CMD check, the API structure may change, and some features are still being refined. Use in production environments at your own discretion.</p>
+<p><strong>Work in Progress</strong>: This package is under active development. While all functions have been tested against the live API and the package passes R CMD check, the API structure may change, and some features are still being refined. Use in production environments at your own discretion.</p>
 <p><strong>Generative AI Assistance</strong>: This code and documentation were developed with assistance from generative AI tools, including Claude and Claude Code. While all outputs have been reviewed and tested, users should validate results independently before use in production environments.</p>
 </div>
 </div>
