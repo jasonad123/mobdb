@@ -38,7 +38,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="mobdb-011">mobdb 0.1.1<a class="anchor" aria-label="anchor" href="#mobdb-011"></a></h2>
-<ul><li>Added <code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> for downloading feeds from MobilityData hosted URLs</li>
+<ul><li>Added <code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> for downloading GTFS Schedule feeds from MobilityData hosted URLs</li>
+<li>Enhanced <code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> to support provider/location search parameters</li>
+<li>Added automatic GTFS-Flex feed filtering with <code>exclude_flex</code> parameter (default: TRUE)</li>
+<li>Added <code>use_source_url</code> parameter to choose between MobilityData hosted or agency source URLs</li>
+<li>Improved error messages to display feed details table when multiple feeds match search criteria</li>
 <li>Updated installation instructions to use <code>pak</code> instead of <code>remotes</code>
 </li>
 </ul></div>
