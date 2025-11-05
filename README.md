@@ -5,15 +5,20 @@
 [![R-CMD-check](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-**mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule and GTFS Realtime feeds from transit agencies worldwide.
+**mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule, GTFS Realtime, and GBFS (General Bikeshare Feed Specification) feeds from transit agencies worldwide.
 
 ## Installation
 
 You can install the development version of mobdb from GitHub:
 
 ```r
+# Install using pak (recommended)
 # install.packages("pak")
 pak::pak("jasonad123/mobdb")
+
+# Or using remotes
+# install.packages("pak")
+remotes::install_github("jasonad123/mobdb")
 ```
 
 ## Authentication
@@ -135,6 +140,14 @@ page1 <- mobdb_feeds(limit = 100, offset = 0)
 page2 <- mobdb_feeds(limit = 100, offset = 100)
 ```
 
+## Project Status
+
+**What works:** Core API access (feeds, datasets, metadata), direct downloads, authentication, all filters. R CMD check: 0/0/0.
+
+**Experimental:** tidytransit integration (`mobdb_read_gtfs()`) - implemented but needs more testing.
+
+**Pipeline:** Unit tests with mocked responses, vignettes, batch downloads, caching, pkgdown site.
+
 ## API Endpoints
 
 The package provides access to the following Mobility Database API endpoints:
@@ -150,7 +163,6 @@ The package provides access to the following Mobility Database API endpoints:
 - [gtfstools](https://github.com/ipeaGIT/gtfstools) - Edit and analyze GTFS feeds
 - [gtfsio](https://github.com/r-transit/gtfsio) - Read and write GTFS files
 
-
 ## License
 
 MIT License
@@ -159,6 +171,6 @@ MIT License
 
 **Not Affiliated with MobilityData**: This package is an independent, community-developed project and is not officially affiliated with, endorsed by, or supported by MobilityData or the Mobility Database project. It is a third-party API wrapper created to facilitate R users' access to the Mobility Database.
 
-**Work in Progress**: This package is under active development (v0.1.0). While all functions have been tested against the live API and the package passes R CMD check, the API structure may change, and some features are still being refined. Use in production environments at your own discretion.
+**Work in Progress**: This package is under active development. While all functions have been tested against the live API and the package passes R CMD check, the API structure may change, and some features are still being refined. Use in production environments at your own discretion.
 
 **Generative AI Assistance**: This code and documentation were developed with assistance from generative AI tools, including Claude and Claude Code. While all outputs have been reviewed and tested, users should validate results independently before use in production environments.
