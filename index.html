@@ -135,7 +135,7 @@
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>dc_bus <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(<span class="at">provider =</span> <span class="st">"WMATA"</span>, <span class="at">feed_name =</span> <span class="st">"Bus"</span>)</span>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># Download from agency source URL instead of MobilityData hosted version</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>gtfs <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(<span class="at">provider =</span> <span class="st">"San Francisco"</span>, <span class="at">use_source_url =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>gtfs <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(<span class="at">provider =</span> <span class="st">"SFMTA"</span>, <span class="at">use_source_url =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
 <span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># Filter by location</span></span>
 <span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>on_gtfs <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(</span>
@@ -150,16 +150,29 @@
 <span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"agency.txt"</span>         <span class="st">"calendar.txt"</span>       <span class="st">"calendar_dates.txt"</span> <span class="st">"feed_info.txt"</span>      <span class="st">"routes.txt"</span>         <span class="st">"shapes.txt"</span></span>
 <span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>[<span class="dv">7</span>] <span class="st">"stops.txt"</span>          <span class="st">"stop_times.txt"</span>     <span class="st">"trips.txt"</span></span></code></pre></div>
 <p><strong>Note:</strong> When multiple feeds match your search criteria, the function displays a table of options and prompts you to specify which feed to download using its feed ID.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="sc">&gt;</span> gtfs <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(<span class="at">provider =</span> <span class="st">"San Francisco"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>Searching <span class="cf">for</span> GTFS Schedule feeds...</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="sc">!</span> Found <span class="dv">2</span> matching feeds<span class="sc">:</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  </span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># A tibble: 2 × 4</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  id     provider                                                               feed_name status</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>  <span class="er">&lt;</span>chr<span class="sc">&gt;</span>                                                                  <span class="er">&lt;</span>chr<span class="sc">&gt;</span>     <span class="er">&lt;</span>chr<span class="sc">&gt;</span> </span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="dv">1</span> mdb<span class="dv">-62</span> San Francisco Bay Area Water Emergency Transportation <span class="fu">Authority</span> (WETA) <span class="st">""</span>        active</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="dv">2</span> mdb<span class="dv">-50</span> San Francisco Municipal Transportation <span class="fu">Agency</span> (SFMTA, Muni)            <span class="st">""</span>        inact…</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">mobdb_download_feed()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>Multiple feeds found. Please specify which one to download.</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>Use <span class="st">`</span><span class="at">mobdb_download_feed(feed_id = "mdb-XXX")</span><span class="st">`</span> with one of the IDs above.</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>Or refine your search with the <span class="st">`</span><span class="at">provider</span><span class="st">`</span> or <span class="st">`</span><span class="at">feed_name</span><span class="st">`</span> parameters.</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get-feed-details">Get feed details<a class="anchor" aria-label="anchor" href="#get-feed-details"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get detailed information about a specific feed</span></span>
-<span><span class="va">feed_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_get_feed.html">mobdb_get_feed</a></span><span class="op">(</span><span class="st">"mdb-53"</span><span class="op">)</span></span>
+<span><span class="va">feed_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_get_feed.html">mobdb_get_feed</a></span><span class="op">(</span><span class="st">"mdb-247"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get just the download URL</span></span>
-<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feed_url.html">mobdb_feed_url</a></span><span class="op">(</span><span class="st">"mdb-53"</span><span class="op">)</span></span>
+<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feed_url.html">mobdb_feed_url</a></span><span class="op">(</span><span class="st">"mdb-247"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Or extract URLs from multiple feeds (requires data_type for location filters)</span></span>
 <span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="st">"US"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span>, limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
@@ -168,12 +181,12 @@
 <div class="section level3">
 <h3 id="access-historical-datasets">Access historical datasets<a class="anchor" aria-label="anchor" href="#access-historical-datasets"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get the latest dataset for a feed (only works with GTFS schedule feeds)</span></span>
-<span><span class="va">latest</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_datasets.html">mobdb_datasets</a></span><span class="op">(</span><span class="st">"mdb-53"</span>, latest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">latest</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_datasets.html">mobdb_datasets</a></span><span class="op">(</span><span class="st">"mdb-247"</span>, latest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get all historical versions</span></span>
-<span><span class="va">all_versions</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_datasets.html">mobdb_datasets</a></span><span class="op">(</span><span class="st">"mdb-53"</span>, latest <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">all_versions</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_datasets.html">mobdb_datasets</a></span><span class="op">(</span><span class="st">"mdb-247"</span>, latest <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="using-with-tidytransit">Using with tidytransit<a class="anchor" aria-label="anchor" href="#using-with-tidytransit"></a>
@@ -185,18 +198,18 @@
 <li>
 <strong><code><a href="reference/mobdb_read_gtfs.html">mobdb_read_gtfs()</a></code></strong> - More flexible reader that works with any GTFS feed type</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-transit/tidytransit" class="external-link">tidytransit</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Download GTFS Schedule feed with search (recommended for most users)</span></span>
-<span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_download_feed.html">mobdb_download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"San Francisco"</span><span class="op">)</span></span>
+<span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_download_feed.html">mobdb_download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TriMet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Or use mobdb_read_gtfs() for more flexibility</span></span>
-<span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_read_gtfs.html">mobdb_read_gtfs</a></span><span class="op">(</span><span class="st">"mdb-53"</span><span class="op">)</span></span>
+<span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_read_gtfs.html">mobdb_read_gtfs</a></span><span class="op">(</span><span class="st">"mdb-247"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Pass a data frame from mobdb_feeds()</span></span>
-<span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"San Francisco"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
+<span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TriMet"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
 <span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_read_gtfs.html">mobdb_read_gtfs</a></span><span class="op">(</span><span class="va">feeds</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Or manually extract URLs and use tidytransit directly</span></span>
@@ -211,7 +224,7 @@
 <h3 id="pagination">Pagination<a class="anchor" aria-label="anchor" href="#pagination"></a>
 </h3>
 <p>For large result sets, use pagination:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get first 100 results</span></span>
 <span><span class="va">page1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">100</span>, offset <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span></span>

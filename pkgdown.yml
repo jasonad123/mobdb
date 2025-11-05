@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-11-05T19:26Z
+last_built: 2025-11-05T19:42Z
 urls:
   reference: https://jasonad123.github.io/mobdb/reference
   article: https://jasonad123.github.io/mobdb/articles
