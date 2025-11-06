@@ -1,0 +1,9 @@
+# httptest2 fixtures - record locally with your API key
+# These can be very large (especially search results) and contain temporary auth tokens
+# Each developer should record their own fixtures by running tests with an API key set
+
+# Ignore all fixture directories
+*/
+
+# testthat artifacts
+testthat-problems.rds

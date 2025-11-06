@@ -1,7 +1,7 @@
 Package: mobdb
 Type: Package
 Title: Access the Mobility Database API
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     person("Jason", "A", , "me@jasonadle.com", role = c("aut", "cre"))
 Description: Provides functions to search and access transit feed data from the 
@@ -22,8 +22,12 @@ Imports:
 Suggests:
     testthat (>= 3.0.0),
     withr (>= 2.0.0),
+    httptest2,
+    knitr,
+    rmarkdown,
     tidytransit,
     keyring
 Config/testthat/edition: 3
+VignetteBuilder: knitr
 URL: https://github.com/jasonad123/mobdb, https://jasonad123.github.io/mobdb/
 BugReports: https://github.com/jasonad123/mobdb/issues

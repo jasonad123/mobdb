@@ -13,3 +13,6 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+.archived_tests
+^doc$
+^Meta$

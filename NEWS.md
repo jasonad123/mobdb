@@ -1,3 +1,12 @@
+# mobdb 0.1.2
+
+* `mobdb_download_feed()` now accepts data frames from `mobdb_feeds()` or `mobdb_search()`
+* Soft deprecation of `mobdb_read_gtfs()` (still works; use `mobdb_download_feed()` for new code)
+* Fixed documentation examples to use valid feed IDs
+* Enhanced `mobdb_search()` docs to explain alphabetical sorting (API limitation)
+* Added comprehensive test suite (65 passing tests)
+* Clean `R CMD check`: 0 errors, 0 warnings
+
 # mobdb 0.1.1
 
 * Added `mobdb_download_feed()` for downloading GTFS Schedule feeds from MobilityData hosted URLs

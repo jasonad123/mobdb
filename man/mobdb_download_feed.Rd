@@ -2,7 +2,7 @@
 % Please edit documentation in R/integration-tidytransit.R
 \name{mobdb_download_feed}
 \alias{mobdb_download_feed}
-\title{Download GTFS Schedule feed (one-stop-shop)}
+\title{Download GTFS Schedule feed}
 \usage{
 mobdb_download_feed(
   feed_id = NULL,
@@ -19,8 +19,10 @@ mobdb_download_feed(
 )
 }
 \arguments{
-\item{feed_id}{Character. The unique identifier for the feed (e.g., "mdb-2862").
-If provided, all other search parameters are ignored.}
+\item{feed_id}{Character or data frame. The unique identifier for the feed
+(e.g., "mdb-2862"), or a single-row data frame from \code{\link[=mobdb_feeds]{mobdb_feeds()}} or
+\code{\link[=mobdb_search]{mobdb_search()}}. If a data frame is provided, the feed ID will be extracted
+automatically. If provided, all other search parameters are ignored.}
 
 \item{provider}{Character. Filter by provider/agency name (partial match).
 Use this to search for feeds without knowing the feed_id.}
@@ -32,8 +34,9 @@ Use this to search for feeds without knowing the feed_id.}
 \item{municipality}{Character. City or municipality name.}
 
 \item{exclude_flex}{Logical. If \code{TRUE} (default), automatically exclude feeds
-with "flex" in the feed name (case-insensitive). GTFS-Flex feeds have different
-schemas and may not work with standard GTFS tools.}
+with "flex" in the feed name (case-insensitive). GTFS-Flex feeds are an extension of
+the GTFS Schedule specification and may contain files that have unique schemas
+that may not work with standard GTFS tools.}
 
 \item{feed_name}{Character. Optional filter for feed name. If provided, only
 feeds whose \code{feed_name} contains this string (case-insensitive) will be
@@ -42,7 +45,7 @@ considered. Use \code{NULL} (default) to skip this filter.}
 \item{use_source_url}{Logical. If \code{FALSE} (default), uses MobilityData's
 hosted/archived URL which ensures you get the exact version in their database.
 If \code{TRUE}, uses the provider's direct source URL which may be more current
-but could differ from MobilityData's archived version.}
+but could differ from MobilityData's version.}
 
 \item{latest}{Logical. If \code{TRUE} (default), download the most recent dataset.
 If \code{FALSE}, returns information about all available datasets for the feed.}
@@ -57,7 +60,7 @@ If \code{latest = TRUE}, a \code{gtfs} object as returned by \code{\link[tidytra
 If \code{latest = FALSE}, a tibble of all available datasets with their metadata.
 }
 \description{
-A convenience function for downloading GTFS Schedule feeds. This is a
+A convenience function for downloading GTFS Schedule feeds from the Mobility Database. This is a
 "one-stop-shop" that can search for feeds by provider/location and download
 them in a single call, or download a specific feed by ID.
 
@@ -70,11 +73,15 @@ than downloadable archives) and are not supported by this function.
 # Download by feed ID
 gtfs <- mobdb_download_feed("mdb-2862")
 
+# Download from search results
+feeds <- mobdb_search("TransLink")
+gtfs <- mobdb_download_feed(feeds[1, ])
+
 # Search and download by provider name (excludes Flex automatically)
 gtfs <- mobdb_download_feed(provider = "Arlington")
 
 # Download using agency's source URL instead of MobilityData hosted
-gtfs <- mobdb_download_feed(provider = "San Francisco", use_source_url = TRUE)
+gtfs <- mobdb_download_feed(provider = "TriMet", use_source_url = TRUE)
 
 # Include Flex feeds in search
 gtfs <- mobdb_download_feed(provider = "Arlington", exclude_flex = FALSE)

@@ -19,21 +19,25 @@ uses the current/latest feed URL.}
 A \code{gtfs} object as returned by \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.
 }
 \description{
+\strong{Note:} This function is superseded by \code{\link[=mobdb_download_feed]{mobdb_download_feed()}}, which provides
+the same functionality plus integrated search, Flex filtering, and more control
+over data sources. New code should use \code{\link[=mobdb_download_feed]{mobdb_download_feed()}} instead.
+
 Convenience wrapper that fetches a feed's download URL from the Mobility
 Database and passes it to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}. Requires the tidytransit
 package to be installed.
 }
 \examples{
 \dontrun{
-# Read latest feed by ID
-gtfs <- mobdb_read_gtfs("mdb-123")
+# Read latest feed by ID (Bay Area Rapid Transit)
+gtfs <- mobdb_read_gtfs("mdb-53")
 
 # Read from search results
-sf_muni <- mobdb_search("SF Muni") |> slice(1)
-gtfs <- mobdb_read_gtfs(sf_muni)
+feeds <- mobdb_feeds(provider = "TransLink", data_type = "gtfs")
+gtfs <- mobdb_read_gtfs(feeds[1, ])
 
 # Read specific historical dataset
-gtfs_historical <- mobdb_read_gtfs("mdb-123", dataset_id = "dataset-456")
+gtfs_historical <- mobdb_read_gtfs("mdb-53", dataset_id = "mdb-53-202510250025")
 }
 
 }

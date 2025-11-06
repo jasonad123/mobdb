@@ -1,6 +1,10 @@
 #' Read GTFS feed directly from Mobility Database
 #'
 #' @description
+#' **Note:** This function is superseded by [mobdb_download_feed()], which provides
+#' the same functionality plus integrated search, Flex filtering, and more control
+#' over data sources. New code should use [mobdb_download_feed()] instead.
+#'
 #' Convenience wrapper that fetches a feed's download URL from the Mobility
 #' Database and passes it to [tidytransit::read_gtfs()]. Requires the tidytransit
 #' package to be installed.
@@ -15,15 +19,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Read latest feed by ID
-#' gtfs <- mobdb_read_gtfs("mdb-123")
+#' # Read latest feed by ID (Bay Area Rapid Transit)
+#' gtfs <- mobdb_read_gtfs("mdb-53")
 #'
 #' # Read from search results
-#' sf_muni <- mobdb_search("SF Muni") |> slice(1)
-#' gtfs <- mobdb_read_gtfs(sf_muni)
+#' feeds <- mobdb_feeds(provider = "TransLink", data_type = "gtfs")
+#' gtfs <- mobdb_read_gtfs(feeds[1, ])
 #'
 #' # Read specific historical dataset
-#' gtfs_historical <- mobdb_read_gtfs("mdb-123", dataset_id = "dataset-456")
+#' gtfs_historical <- mobdb_read_gtfs("mdb-53", dataset_id = "mdb-53-202510250025")
 #' }
 #'
 #' @export
@@ -77,10 +81,10 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
   tidytransit::read_gtfs(url, ...)
 }
 
-#' Download GTFS Schedule feed (one-stop-shop)
+#' Download GTFS Schedule feed
 #'
 #' @description
-#' A convenience function for downloading GTFS Schedule feeds. This is a
+#' A convenience function for downloading GTFS Schedule feeds from the Mobility Database. This is a
 #' "one-stop-shop" that can search for feeds by provider/location and download
 #' them in a single call, or download a specific feed by ID.
 #'
@@ -88,23 +92,26 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' GTFS Realtime feeds use a different data model (streaming endpoints rather
 #' than downloadable archives) and are not supported by this function.
 #'
-#' @param feed_id Character. The unique identifier for the feed (e.g., "mdb-2862").
-#'   If provided, all other search parameters are ignored.
+#' @param feed_id Character or data frame. The unique identifier for the feed
+#'   (e.g., "mdb-2862"), or a single-row data frame from [mobdb_feeds()] or
+#'   [mobdb_search()]. If a data frame is provided, the feed ID will be extracted
+#'   automatically. If provided, all other search parameters are ignored.
 #' @param provider Character. Filter by provider/agency name (partial match).
 #'   Use this to search for feeds without knowing the feed_id.
 #' @param country_code Character. Two-letter ISO country code (e.g., "US", "CA").
 #' @param subdivision_name Character. State, province, or region name.
 #' @param municipality Character. City or municipality name.
 #' @param exclude_flex Logical. If `TRUE` (default), automatically exclude feeds
-#'   with "flex" in the feed name (case-insensitive). GTFS-Flex feeds have different
-#'   schemas and may not work with standard GTFS tools.
+#'   with "flex" in the feed name (case-insensitive). GTFS-Flex feeds are an extension of
+#'   the GTFS Schedule specification and may contain files that have unique schemas
+#'   that may not work with standard GTFS tools.
 #' @param feed_name Character. Optional filter for feed name. If provided, only
 #'   feeds whose `feed_name` contains this string (case-insensitive) will be
 #'   considered. Use `NULL` (default) to skip this filter.
 #' @param use_source_url Logical. If `FALSE` (default), uses MobilityData's
 #'   hosted/archived URL which ensures you get the exact version in their database.
 #'   If `TRUE`, uses the provider's direct source URL which may be more current
-#'   but could differ from MobilityData's archived version.
+#'   but could differ from MobilityData's version.
 #' @param latest Logical. If `TRUE` (default), download the most recent dataset.
 #'   If `FALSE`, returns information about all available datasets for the feed.
 #' @param status Character. Feed status filter: "active" (default), "inactive",
@@ -119,11 +126,15 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' # Download by feed ID
 #' gtfs <- mobdb_download_feed("mdb-2862")
 #'
+#' # Download from search results
+#' feeds <- mobdb_search("TransLink")
+#' gtfs <- mobdb_download_feed(feeds[1, ])
+#'
 #' # Search and download by provider name (excludes Flex automatically)
 #' gtfs <- mobdb_download_feed(provider = "Arlington")
 #'
 #' # Download using agency's source URL instead of MobilityData hosted
-#' gtfs <- mobdb_download_feed(provider = "San Francisco", use_source_url = TRUE)
+#' gtfs <- mobdb_download_feed(provider = "TriMet", use_source_url = TRUE)
 #'
 #' # Include Flex feeds in search
 #' gtfs <- mobdb_download_feed(provider = "Arlington", exclude_flex = FALSE)
@@ -156,6 +167,27 @@ mobdb_download_feed <- function(feed_id = NULL,
       "The {.pkg tidytransit} package is required to use this function.",
       "i" = "Install it with {.code install.packages('tidytransit')}."
     ))
+  }
+
+  # Handle data frame input (extract feed_id from feed data)
+  if (is.data.frame(feed_id)) {
+    if (nrow(feed_id) != 1) {
+      cli::cli_abort(c(
+        "{.arg feed_id} data frame must have exactly one row.",
+        "i" = "Use {.code feed_df[1, ]} to select the first feed."
+      ))
+    }
+
+    if (!"id" %in% names(feed_id)) {
+      cli::cli_abort(c(
+        "{.arg feed_id} data frame must have an {.field id} column.",
+        "i" = "Pass a data frame from {.fn mobdb_feeds} or {.fn mobdb_search}."
+      ))
+    }
+
+    extracted_id <- feed_id$id[1]
+    cli::cli_inform("Extracted feed ID: {.val {extracted_id}}")
+    feed_id <- extracted_id
   }
 
   # Determine if we need to search for feeds
