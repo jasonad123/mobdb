@@ -15,25 +15,32 @@
 #' @param data_type Character. Type of feed: "gtfs" (schedule),
 #'   "gtfs_rt" (realtime), or "gbfs" (bike share). Required when using
 #'   location filters.
-#' @param status Character. Feed status: "active", "inactive", or
-#'   "deprecated".
+#' @param status Character. Feed status: "active", "deprecated",
+#'   "inactive", "development", or "future". 
+#' @param official Logical. If `TRUE`, only return official feeds.
+#'   If `FALSE`, only return unofficial feeds. If `NULL` (default),
+#'   return all feeds regardless of official status.
 #' @param limit Integer. Maximum number of results to return (default: 100).
 #' @param offset Integer. Number of results to skip for pagination
 #'   (default: 0).
 #'
 #' @return A tibble containing feed information with columns including:
 #'   * `id` - Unique feed identifier
+#'   * `data_type` - Type of feed (gtfs, gtfs_rt, or gbfs)
+#'   * `created_at` - Date and time feed was added to database
+#'   * `external_ids` - External identifier information
 #'   * `provider` - Transit agency/provider name
-#'   * `data_type` - Type of feed (gtfs or gtfs_rt)
-#'   * `status` - Feed status (active, inactive, deprecated)
+#'   * `feed_contact_email` - Contact email for the feed
 #'   * `source_info` - Data frame containing:
 #'     - `producer_url` - Direct download URL for the feed
 #'     - `authentication_type` - Type of auth required (0 = none)
+#'     - `authentication_info_url` - Human-readable page for authentication info
+#'     - `api_key_parameter_name` - Name of the parameter to pass in the URL to provide the API key
 #'     - `license_url` - License information
 #'   * `created_at` - Feed creation timestamp
-#'   * `external_ids` - External identifier information
-#'   * `feed_contact_email` - Contact email for the feed
+#'   * `status` - Feed status (active, inactive, deprecated)
 #'   * `official` - Whether feed is official
+#'   * `official_updated_at` - Date and time of last update
 #'   * Additional metadata columns
 #'
 #' @examples
@@ -61,6 +68,7 @@ mobdb_feeds <- function(provider = NULL,
                         municipality = NULL,
                         data_type = NULL,
                         status = NULL,
+                        official = NULL,
                         limit = 100,
                         offset = 0) {
 
@@ -107,6 +115,7 @@ mobdb_feeds <- function(provider = NULL,
     subdivision_name = subdivision_name,
     municipality = municipality,
     status = status,
+    official = official,
     limit = limit,
     offset = offset
   )
@@ -121,7 +130,20 @@ mobdb_feeds <- function(provider = NULL,
   resp <- httr2::req_perform(req)
   check_rate_limit(resp)
 
-  mobdb_parse_response(resp)
+  result <- mobdb_parse_response(resp)
+
+  # Post-filter for official status if needed (API may return NA values)
+  if (!is.null(official) && nrow(result) > 0) {
+    if (official) {
+      # Keep only feeds where official is TRUE (exclude NA and FALSE)
+      result <- result[!is.na(result$official) & result$official == TRUE, ]
+    } else {
+      # Keep only feeds where official is FALSE (exclude NA and TRUE)
+      result <- result[!is.na(result$official) & result$official == FALSE, ]
+    }
+  }
+
+  result
 }
 
 #' Get details for a specific feed

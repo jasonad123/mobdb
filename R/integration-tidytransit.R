@@ -114,8 +114,11 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   but could differ from MobilityData's version.
 #' @param latest Logical. If `TRUE` (default), download the most recent dataset.
 #'   If `FALSE`, returns information about all available datasets for the feed.
-#' @param status Character. Feed status filter: "active" (default), "inactive",
-#'   or "deprecated". Only used when searching by provider/location.
+#' @param status Character. Feed status filter: "active" (default), "deprecated",
+#'   "inactive", "deprecated", or "future". Only used when searching by provider/location.
+#' @param official Logical. If `TRUE` (default), only return official feeds when
+#'   searching by provider/location. If `FALSE`, only return unofficial feeds.
+#'   If `NULL`, return all feeds regardless of official status.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
 #' @return If `latest = TRUE`, a `gtfs` object as returned by [tidytransit::read_gtfs()].
@@ -146,6 +149,9 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   municipality = "San Francisco"
 #' )
 #'
+#' # Search and download all feeds, including unofficial ones
+#' gtfs <- mobdb_download_feed(provider = "TTC", official = NULL)
+#'
 #' # See all available versions for a feed
 #' versions <- mobdb_download_feed("mdb-2862", latest = FALSE)
 #' }
@@ -161,6 +167,7 @@ mobdb_download_feed <- function(feed_id = NULL,
                                  use_source_url = FALSE,
                                  latest = TRUE,
                                  status = "active",
+                                 official = TRUE,
                                  ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
@@ -217,8 +224,20 @@ mobdb_download_feed <- function(feed_id = NULL,
       municipality = municipality,
       data_type = "gtfs",  # GTFS Schedule only
       status = status,
+      official = official,
       limit = 100
     )
+
+    # Post-filter for official status if needed (API may return NA values)
+    if (!is.null(official)) {
+      if (official) {
+        # Keep only feeds where official is TRUE (exclude NA and FALSE)
+        feeds <- feeds[!is.na(feeds$official) & feeds$official == TRUE, ]
+      } else {
+        # Keep only feeds where official is FALSE (exclude NA and TRUE)
+        feeds <- feeds[!is.na(feeds$official) & feeds$official == FALSE, ]
+      }
+    }
 
     if (nrow(feeds) == 0) {
       cli::cli_abort(c(

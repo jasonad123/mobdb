@@ -15,6 +15,7 @@ mobdb_download_feed(
   use_source_url = FALSE,
   latest = TRUE,
   status = "active",
+  official = TRUE,
   ...
 )
 }
@@ -50,8 +51,12 @@ but could differ from MobilityData's version.}
 \item{latest}{Logical. If \code{TRUE} (default), download the most recent dataset.
 If \code{FALSE}, returns information about all available datasets for the feed.}
 
-\item{status}{Character. Feed status filter: "active" (default), "inactive",
-or "deprecated". Only used when searching by provider/location.}
+\item{status}{Character. Feed status filter: "active" (default), "deprecated",
+"inactive", "deprecated", or "future". Only used when searching by provider/location.}
+
+\item{official}{Logical. If \code{TRUE} (default), only return official feeds when
+searching by provider/location. If \code{FALSE}, only return unofficial feeds.
+If \code{NULL}, return all feeds regardless of official status.}
 
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
 }
@@ -92,6 +97,9 @@ gtfs <- mobdb_download_feed(
   subdivision_name = "California",
   municipality = "San Francisco"
 )
+
+# Search and download all feeds, including unofficial ones
+gtfs <- mobdb_download_feed(provider = "TTC", official = NULL)
 
 # See all available versions for a feed
 versions <- mobdb_download_feed("mdb-2862", latest = FALSE)

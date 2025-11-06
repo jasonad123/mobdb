@@ -11,6 +11,7 @@ mobdb_feeds(
   municipality = NULL,
   data_type = NULL,
   status = NULL,
+  official = NULL,
   limit = 100,
   offset = 0
 )
@@ -32,8 +33,12 @@ Requires \code{data_type} to be specified.}
 "gtfs_rt" (realtime), or "gbfs" (bike share). Required when using
 location filters.}
 
-\item{status}{Character. Feed status: "active", "inactive", or
-"deprecated".}
+\item{status}{Character. Feed status: "active", "deprecated",
+"inactive", "development", or "future".}
+
+\item{official}{Logical. If \code{TRUE}, only return official feeds.
+If \code{FALSE}, only return unofficial feeds. If \code{NULL} (default),
+return all feeds regardless of official status.}
 
 \item{limit}{Integer. Maximum number of results to return (default: 100).}
 
@@ -44,19 +49,23 @@ location filters.}
 A tibble containing feed information with columns including:
 \itemize{
 \item \code{id} - Unique feed identifier
+\item \code{data_type} - Type of feed (gtfs, gtfs_rt, or gbfs)
+\item \code{created_at} - Date and time feed was added to database
+\item \code{external_ids} - External identifier information
 \item \code{provider} - Transit agency/provider name
-\item \code{data_type} - Type of feed (gtfs or gtfs_rt)
-\item \code{status} - Feed status (active, inactive, deprecated)
+\item \code{feed_contact_email} - Contact email for the feed
 \item \code{source_info} - Data frame containing:
 \itemize{
 \item \code{producer_url} - Direct download URL for the feed
 \item \code{authentication_type} - Type of auth required (0 = none)
+\item \code{authentication_info_url} - Human-readable page for authentication info
+\item \code{api_key_parameter_name} - Name of the parameter to pass in the URL to provide the API key
 \item \code{license_url} - License information
 }
 \item \code{created_at} - Feed creation timestamp
-\item \code{external_ids} - External identifier information
-\item \code{feed_contact_email} - Contact email for the feed
+\item \code{status} - Feed status (active, inactive, deprecated)
 \item \code{official} - Whether feed is official
+\item \code{official_updated_at} - Date and time of last update
 \item Additional metadata columns
 }
 }
