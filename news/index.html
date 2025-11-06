@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,30 +37,54 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.2" id="mobdb-012">mobdb 0.1.2<a class="anchor" aria-label="anchor" href="#mobdb-012"></a></h2>
-<ul><li>
-<code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> now accepts data frames from <code><a href="../reference/mobdb_feeds.html">mobdb_feeds()</a></code> or <code><a href="../reference/mobdb_search.html">mobdb_search()</a></code>
-</li>
-<li>Soft deprecation of <code><a href="../reference/mobdb_read_gtfs.html">mobdb_read_gtfs()</a></code> (still works; use <code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> for new code)</li>
-<li>Fixed documentation examples to use valid feed IDs</li>
-<li>Enhanced <code><a href="../reference/mobdb_search.html">mobdb_search()</a></code> docs to explain alphabetical sorting (API limitation)</li>
-<li>Added comprehensive test suite (65 passing tests)</li>
-<li>Clean <code>R CMD check</code>: 0 errors, 0 warnings</li>
+<h2 class="pkg-version" data-toc-text="0.1.3" id="mobdb-013">mobdb 0.1.3<a class="anchor" aria-label="anchor" href="#mobdb-013"></a></h2>
+<div class="section level3">
+<h3 id="major-changes-0-1-3">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-0-1-3"></a></h3>
+<ul><li><p><code>mobdb_download_feed()</code> is now called <code><a href="../reference/download_feed.html">download_feed()</a></code>. This is a <strong>breaking change</strong> and requires users that uses this function to be updated to use the new function name.</p></li>
+<li><p><code>mobdb_feeds()</code> is now called <code><a href="../reference/feeds.html">feeds()</a></code>. This is a <strong>breaking change</strong> and requires all code that uses this function to be updated to use the new function name.</p></li>
 </ul></div>
+<div class="section level3">
+<h3 id="minor-changes-0-1-3">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-1-3"></a></h3>
+<ul><li><p><code><a href="../reference/download_feed.html">download_feed()</a></code> now accepts the <code>official</code> parameter for filtering official vs unofficial feeds</p></li>
+<li><p><code><a href="../reference/feeds.html">feeds()</a></code> now accepts the <code>official</code> parameter for filtering official vs unofficial feeds</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.2" id="mobdb-012">mobdb 0.1.2<a class="anchor" aria-label="anchor" href="#mobdb-012"></a></h2>
+<div class="section level3">
+<h3 id="major-changes-0-1-2">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-0-1-2"></a></h3>
+<ul><li>
+<code>mobdb_download_feed()</code> now accepts data frames from <code>mobdb_feeds()</code> or <code><a href="../reference/mobdb_search.html">mobdb_search()</a></code>
+</li>
+<li>Soft deprecation of <code><a href="../reference/mobdb_read_gtfs.html">mobdb_read_gtfs()</a></code> (still works; use <code>mobdb_download_feed()</code> for new code)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes-0-1-2">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-1-2"></a></h3>
+<ul><li>Fixed documentation examples to use valid feed IDs</li>
+<li>Enhanced <code><a href="../reference/mobdb_search.html">mobdb_search()</a></code> docs to explain API limitations</li>
+<li>Added comprehensive test suite</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="mobdb-011">mobdb 0.1.1<a class="anchor" aria-label="anchor" href="#mobdb-011"></a></h2>
-<ul><li>Added <code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> for downloading GTFS Schedule feeds from MobilityData hosted URLs</li>
-<li>Enhanced <code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> to support provider/location search parameters</li>
+<div class="section level3">
+<h3 id="major-changes-0-1-1">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-0-1-1"></a></h3>
+<ul><li>Added <code>mobdb_download_feed()</code> for downloading GTFS Schedule feeds from MobilityData hosted URLs</li>
+<li>Enhanced <code>mobdb_download_feed()</code> to support provider/location search parameters</li>
 <li>Added automatic GTFS-Flex feed filtering with <code>exclude_flex</code> parameter (default: TRUE)</li>
 <li>Added <code>use_source_url</code> parameter to choose between MobilityData hosted or agency source URLs</li>
-<li>Improved error messages to display feed details table when multiple feeds match search criteria</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes-0-1-1">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-1-1"></a></h3>
+<ul><li>Improved error messages to display feed details table when multiple feeds match search criteria</li>
 <li>Updated installation instructions to use <code>pak</code> instead of <code>remotes</code>
 </li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="mobdb-010">mobdb 0.1.0<a class="anchor" aria-label="anchor" href="#mobdb-010"></a></h2>
 <p>Initial release. Provides R access to the Mobility Database Catalog API for discovering and accessing GTFS transit feeds.</p>
-<ul><li>Search and filter feeds with <code><a href="../reference/mobdb_feeds.html">mobdb_feeds()</a></code>
+<ul><li>Search and filter feeds with <code>mobdb_feeds()</code>
 </li>
 <li>Access historical datasets with <code><a href="../reference/mobdb_datasets.html">mobdb_datasets()</a></code>
 </li>

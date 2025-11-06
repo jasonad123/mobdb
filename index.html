@@ -16,8 +16,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Access the Mobility Database API">
-<meta name="description" content="Provides functions to search and access transit feed data from the Mobility Database (mobilitydata.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GTFS Realtime feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with the tidytransit and gtfstools packages for subsequent feed analysis.">
-<meta property="og:description" content="Provides functions to search and access transit feed data from the Mobility Database (mobilitydata.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GTFS Realtime feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with the tidytransit and gtfstools packages for subsequent feed analysis.">
+<meta name="description" content="Provides functions to search and access transit feed data from the Mobility Database (mobilitydata.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GBFS feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with the tidytransit and gtfstools packages for subsequent feed analysis.">
+<meta property="og:description" content="Provides functions to search and access transit feed data from the Mobility Database (mobilitydata.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GBFS feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with the tidytransit and gtfstools packages for subsequent feed analysis.">
 <meta property="og:image" content="https://jasonad123.github.io/mobdb/logo.png">
 </head>
 <body>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,42 +107,42 @@
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Search by provider name</span></span>
-<span><span class="va">bart_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"BART"</span><span class="op">)</span></span>
+<span><span class="va">bart_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"BART"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Filter feeds by location</span></span>
-<span><span class="va">on_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span></span>
+<span><span class="va">on_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span></span>
 <span>  country_code <span class="op">=</span> <span class="st">"CA"</span>,</span>
 <span>  subdivision_name <span class="op">=</span> <span class="st">"Ontario"</span>,</span>
 <span>  data_type <span class="op">=</span> <span class="st">"gtfs"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Search for a specific provider</span></span>
-<span><span class="va">translink_yvr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TransLink Vancouver"</span><span class="op">)</span></span>
+<span><span class="va">translink_yvr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TransLink Vancouver"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Note: mobdb_search() uses the /search endpoint which has known issues</span></span>
-<span><span class="co"># with relevance ranking. Use mobdb_feeds() with filters for better results.</span></span></code></pre></div>
+<span><span class="co"># with relevance ranking. Use feeds() with filters for better results.</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="download-gtfs-schedule-feeds">Download GTFS Schedule feeds<a class="anchor" aria-label="anchor" href="#download-gtfs-schedule-feeds"></a>
 </h3>
-<p>The <code><a href="reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> function downloads GTFS Schedule feeds by feed ID or by searching for providers/locations.</p>
+<p>The <code><a href="reference/download_feed.html">download_feed()</a></code> function downloads GTFS Schedule feeds by feed ID or by searching for providers/locations.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(tidytransit)</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">library</span>(gtfsio)</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># Download by feed ID</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>stm_montreal <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(<span class="st">"mdb-2126"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>stm_montreal <span class="ot">&lt;-</span> <span class="fu">download_feed</span>(<span class="st">"mdb-2126"</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># Download by provider name (excludes GTFS-Flex feeds automatically)</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>bart_gtfs <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(<span class="at">provider =</span> <span class="st">"BART"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>bart_gtfs <span class="ot">&lt;-</span> <span class="fu">download_feed</span>(<span class="at">provider =</span> <span class="st">"BART"</span>)</span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co"># Use feed_name parameter when multiple feeds exist for a provider</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>dc_bus <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(<span class="at">provider =</span> <span class="st">"WMATA"</span>, <span class="at">feed_name =</span> <span class="st">"Bus"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>dc_bus <span class="ot">&lt;-</span> <span class="fu">download_feed</span>(<span class="at">provider =</span> <span class="st">"WMATA"</span>, <span class="at">feed_name =</span> <span class="st">"Bus"</span>)</span>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># Download from agency source URL instead of MobilityData hosted version</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>gtfs <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(<span class="at">provider =</span> <span class="st">"SFMTA"</span>, <span class="at">use_source_url =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>gtfs <span class="ot">&lt;-</span> <span class="fu">download_feed</span>(<span class="at">provider =</span> <span class="st">"SFMTA"</span>, <span class="at">use_source_url =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
 <span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># Filter by location</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>on_gtfs <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>on_gtfs <span class="ot">&lt;-</span> <span class="fu">download_feed</span>(</span>
 <span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="at">country_code =</span> <span class="st">"CA"</span>,</span>
 <span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>  <span class="at">subdivision_name =</span> <span class="st">"Ontario"</span></span>
 <span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>)</span>
@@ -150,11 +150,11 @@
 <span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co"># Export as GTFS zip file</span></span>
 <span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="fu">export_gtfs</span>(stm_montreal, <span class="st">"data/gtfs/stm_montreal.zip"</span>)</span>
 <span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="sc">&gt;</span> zip<span class="sc">::</span><span class="fu">zip_list</span>(<span class="st">"data/gtfs/stm_montreal.zip"</span>)<span class="sc">$</span>filename</span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>zip<span class="sc">::</span><span class="fu">zip_list</span>(<span class="st">"data/gtfs/stm_montreal.zip"</span>)<span class="sc">$</span>filename</span>
 <span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"agency.txt"</span>         <span class="st">"calendar.txt"</span>       <span class="st">"calendar_dates.txt"</span> <span class="st">"feed_info.txt"</span>      <span class="st">"routes.txt"</span>         <span class="st">"shapes.txt"</span></span>
 <span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>[<span class="dv">7</span>] <span class="st">"stops.txt"</span>          <span class="st">"stop_times.txt"</span>     <span class="st">"trips.txt"</span></span></code></pre></div>
 <p><strong>Note:</strong> When multiple feeds match your search criteria, the function displays a table of options and prompts you to specify which feed to download using its feed ID.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="sc">&gt;</span> gtfs <span class="ot">&lt;-</span> <span class="fu">mobdb_download_feed</span>(<span class="at">provider =</span> <span class="st">"San Francisco"</span>)</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="sc">&gt;</span> gtfs <span class="ot">&lt;-</span> <span class="fu">download_feed</span>(<span class="at">provider =</span> <span class="st">"San Francisco"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>Searching <span class="cf">for</span> GTFS Schedule feeds...</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="sc">!</span> Found <span class="dv">2</span> matching feeds<span class="sc">:</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  </span>
@@ -163,9 +163,9 @@
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>  <span class="er">&lt;</span>chr<span class="sc">&gt;</span>                                                                  <span class="er">&lt;</span>chr<span class="sc">&gt;</span>     <span class="er">&lt;</span>chr<span class="sc">&gt;</span> </span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="dv">1</span> mdb<span class="dv">-62</span> San Francisco Bay Area Water Emergency Transportation <span class="fu">Authority</span> (WETA) <span class="st">""</span>        active</span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="dv">2</span> mdb<span class="dv">-50</span> San Francisco Municipal Transportation <span class="fu">Agency</span> (SFMTA, Muni)            <span class="st">""</span>        inact…</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">mobdb_download_feed()</span><span class="st">`</span><span class="sc">:</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">`</span><span class="at">download_feed()</span><span class="st">`</span><span class="sc">:</span></span>
 <span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>Multiple feeds found. Please specify which one to download.</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>Use <span class="st">`</span><span class="at">mobdb_download_feed(feed_id = "mdb-XXX")</span><span class="st">`</span> with one of the IDs above.</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>Use <span class="st">`</span><span class="at">download_feed(feed_id = "mdb-XXX")</span><span class="st">`</span> with one of the IDs above.</span>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>Or refine your search with the <span class="st">`</span><span class="at">provider</span><span class="st">`</span> or <span class="st">`</span><span class="at">feed_name</span><span class="st">`</span> parameters.</span></code></pre></div>
 </div>
 <div class="section level3">
@@ -179,7 +179,7 @@
 <span><span class="va">url</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feed_url.html">mobdb_feed_url</a></span><span class="op">(</span><span class="st">"mdb-247"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Or extract URLs from multiple feeds (requires data_type for location filters)</span></span>
-<span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="st">"US"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span>, limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="st">"US"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span>, limit <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_extract_urls.html">mobdb_extract_urls</a></span><span class="op">(</span><span class="va">feeds</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -198,7 +198,7 @@
 <p>The package provides two functions for working with <a href="https://github.com/r-transit/tidytransit" class="external-link">tidytransit</a>:</p>
 <ul>
 <li>
-<strong><code><a href="reference/mobdb_download_feed.html">mobdb_download_feed()</a></code></strong> - Download GTFS Schedule feeds with provider/location search (recommended)</li>
+<strong><code><a href="reference/download_feed.html">download_feed()</a></code></strong> - Download GTFS Schedule feeds with provider/location search (recommended)</li>
 <li>
 <strong><code><a href="reference/mobdb_read_gtfs.html">mobdb_read_gtfs()</a></code></strong> - More flexible reader that works with any GTFS feed type</li>
 </ul>
@@ -207,13 +207,13 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Download GTFS Schedule feed with search (recommended for most users)</span></span>
-<span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_download_feed.html">mobdb_download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TriMet"</span><span class="op">)</span></span>
+<span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TriMet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Or use mobdb_read_gtfs() for more flexibility</span></span>
 <span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_read_gtfs.html">mobdb_read_gtfs</a></span><span class="op">(</span><span class="st">"mdb-247"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Pass a data frame from mobdb_feeds()</span></span>
-<span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TriMet"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
+<span><span class="co"># Pass a data frame from feeds()</span></span>
+<span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TriMet"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
 <span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_read_gtfs.html">mobdb_read_gtfs</a></span><span class="op">(</span><span class="va">feeds</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Or manually extract URLs and use tidytransit directly</span></span>
@@ -230,10 +230,10 @@
 <p>For large result sets, use pagination:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get first 100 results</span></span>
-<span><span class="va">page1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">100</span>, offset <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">page1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">100</span>, offset <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get next 100 results</span></span>
-<span><span class="va">page2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">100</span>, offset <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">page2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">100</span>, offset <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -249,7 +249,7 @@
 <p>The package provides access to the following Mobility Database API endpoints:</p>
 <ul>
 <li>
-<strong>Feeds</strong> (<code><a href="reference/mobdb_feeds.html">mobdb_feeds()</a></code>, <code><a href="reference/mobdb_get_feed.html">mobdb_get_feed()</a></code>) - Search and retrieve feed information</li>
+<strong>Feeds</strong> (<code><a href="reference/feeds.html">feeds()</a></code>, <code><a href="reference/mobdb_get_feed.html">mobdb_get_feed()</a></code>) - Search and retrieve feed information</li>
 <li>
 <strong>Search</strong> (<code><a href="reference/mobdb_search.html">mobdb_search()</a></code>) - Full-text search across feeds</li>
 <li>

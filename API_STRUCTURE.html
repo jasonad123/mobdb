@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,8 +43,8 @@
 <h2 id="feeds-vs-search-endpoints">Feeds vs Search Endpoints<a class="anchor" aria-label="anchor" href="#feeds-vs-search-endpoints"></a></h2>
 <p>The API has two main discovery endpoints with different response structures:</p>
 <div class="section level3">
-<h3 id="mobdb_feeds---basic-feed-listing">
-<code>mobdb_feeds()</code> - Basic feed listing<a class="anchor" aria-label="anchor" href="#mobdb_feeds---basic-feed-listing"></a></h3>
+<h3 id="feeds---basic-feed-listing">
+<code>feeds()</code> - Basic feed listing<a class="anchor" aria-label="anchor" href="#feeds---basic-feed-listing"></a></h3>
 <ul><li>Returns core feed information</li>
 <li>Simpler structure, faster queries</li>
 <li>Good for filtering by specific criteria</li>
@@ -63,8 +63,8 @@
 </ul></div>
 </div>
 <div class="section level2">
-<h2 id="feed-object-structure-from-mobdb_feeds">Feed Object Structure (from mobdb_feeds)<a class="anchor" aria-label="anchor" href="#feed-object-structure-from-mobdb_feeds"></a></h2>
-<p>When you call <code><a href="reference/mobdb_feeds.html">mobdb_feeds()</a></code> or <code><a href="reference/mobdb_search.html">mobdb_search()</a></code>, you get a tibble with these columns:</p>
+<h2 id="feed-object-structure-from-feeds">Feed Object Structure (from feeds)<a class="anchor" aria-label="anchor" href="#feed-object-structure-from-feeds"></a></h2>
+<p>When you call <code><a href="reference/feeds.html">feeds()</a></code> or <code><a href="reference/mobdb_search.html">mobdb_search()</a></code>, you get a tibble with these columns:</p>
 <div class="section level3">
 <h3 id="top-level-fields">Top-Level Fields<a class="anchor" aria-label="anchor" href="#top-level-fields"></a></h3>
 <table class="table"><thead><tr class="header"><th>Field</th>
@@ -137,7 +137,7 @@
 <div class="section level3">
 <h3 id="method-1-extract-from-search-results">Method 1: Extract from search results<a class="anchor" aria-label="anchor" href="#method-1-extract-from-search-results"></a></h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="st">"US"</span>, limit <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="st">"US"</span>, limit <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get first feed's URL</span></span>
 <span><span class="va">url</span> <span class="op">&lt;-</span> <span class="va">feeds</span><span class="op">$</span><span class="va">source_info</span><span class="op">$</span><span class="va">producer_url</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
@@ -174,7 +174,7 @@
 <span><span class="fu"><a href="reference/mobdb_set_key.html">mobdb_set_key</a></span><span class="op">(</span><span class="st">"your_refresh_token"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Search for California transit</span></span>
-<span><span class="va">ca_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span></span>
+<span><span class="va">ca_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span></span>
 <span>  subdivision_name <span class="op">=</span> <span class="st">"California"</span>,</span>
 <span>  data_type <span class="op">=</span> <span class="st">"gtfs"</span>,</span>
 <span>  status <span class="op">=</span> <span class="st">"active"</span></span>
@@ -312,7 +312,7 @@
 <div class="section level3">
 <h3 id="filter-active-gtfs-feeds">Filter active GTFS feeds<a class="anchor" aria-label="anchor" href="#filter-active-gtfs-feeds"></a></h3>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">active_gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">active_gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span></span>
 <span>  data_type <span class="op">=</span> <span class="st">"gtfs"</span>,</span>
 <span>  status <span class="op">=</span> <span class="st">"active"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -327,7 +327,7 @@
 <div class="section level3">
 <h3 id="get-urls-for-batch-download">Get URLs for batch download<a class="anchor" aria-label="anchor" href="#get-urls-for-batch-download"></a></h3>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="st">"US"</span>, limit <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="st">"US"</span>, limit <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_extract_urls.html">mobdb_extract_urls</a></span><span class="op">(</span><span class="va">feeds</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Download all (be respectful of rate limits!)</span></span>

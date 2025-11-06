@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -131,12 +131,12 @@ file to avoid entering it each session:</p>
 <h2 id="basic-workflow-discovery-download-analysis">Basic Workflow: Discovery → Download → Analysis<a class="anchor" aria-label="anchor" href="#basic-workflow-discovery-download-analysis"></a>
 </h2>
 <div class="section level3">
-<h3 id="step-1-discover-feeds">Step 1: Discover Feeds<a class="anchor" aria-label="anchor" href="#step-1-discover-feeds"></a>
+<h3 id="step-1-discover-feeds">Step 1: Discover feeds<a class="anchor" aria-label="anchor" href="#step-1-discover-feeds"></a>
 </h3>
 <p>Find GTFS feeds using various search criteria:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Find all feeds in California</span></span>
-<span><span class="va">ca_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span></span>
+<span><span class="va">ca_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span></span>
 <span>  country_code <span class="op">=</span> <span class="st">"US"</span>,</span>
 <span>  subdivision_name <span class="op">=</span> <span class="st">"California"</span>,</span>
 <span>  data_type <span class="op">=</span> <span class="st">"gtfs"</span></span>
@@ -148,19 +148,19 @@ file to avoid entering it each session:</p>
 <span><span class="co">#&gt;   id       data_type status provider     feed_name location...</span></span>
 <span></span>
 <span><span class="co"># Search by provider name</span></span>
-<span><span class="va">bart_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span><span class="st">"BART"</span><span class="op">)</span></span>
+<span><span class="va">bart_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span><span class="st">"BART"</span><span class="op">)</span></span>
 <span><span class="va">bart_feeds</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="step-2-download-feeds">Step 2: Download Feeds<a class="anchor" aria-label="anchor" href="#step-2-download-feeds"></a>
+<h3 id="step-2-download-feeds">Step 2: Download feeds<a class="anchor" aria-label="anchor" href="#step-2-download-feeds"></a>
 </h3>
 <p>Download a specific feed by ID or search term:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download by feed ID (Bay Area Rapid Transit)</span></span>
-<span><span class="va">bart</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_download_feed.html">mobdb_download_feed</a></span><span class="op">(</span><span class="st">"mdb-53"</span><span class="op">)</span></span>
+<span><span class="va">bart</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="st">"mdb-53"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Or search and download in one step (use full name for better results)</span></span>
-<span><span class="va">bart</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_download_feed.html">mobdb_download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"Bay Area Rapid Transit"</span><span class="op">)</span></span>
+<span><span class="va">bart</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"Bay Area Rapid Transit"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># The result is a gtfs object (from tidytransit)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bart</span><span class="op">)</span></span>
@@ -170,7 +170,7 @@ file to avoid entering it each session:</p>
 <span><span class="co">#&gt; [1] "agency" "calendar" "calendar_attributes" "calendar_dates" "directions" ...</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="step-3-analyze-feeds-with-tidytransit">Step 3: Analyze Feeds with tidytransit<a class="anchor" aria-label="anchor" href="#step-3-analyze-feeds-with-tidytransit"></a>
+<h3 id="step-3-analyze-feeds-with-tidytransit">Step 3: Analyze feeds with tidytransit<a class="anchor" aria-label="anchor" href="#step-3-analyze-feeds-with-tidytransit"></a>
 </h3>
 <p>Now that you have the feed, use tidytransit for analysis:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -194,20 +194,20 @@ file to avoid entering it each session:</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="common-use-cases">Common Use Cases<a class="anchor" aria-label="anchor" href="#common-use-cases"></a>
+<h2 id="common-use-cases">Common use cases<a class="anchor" aria-label="anchor" href="#common-use-cases"></a>
 </h2>
 <div class="section level3">
 <h3 id="finding-feeds-by-location">Finding Feeds by Location<a class="anchor" aria-label="anchor" href="#finding-feeds-by-location"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Find feeds in a specific municipality</span></span>
-<span><span class="va">seattle_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>municipality <span class="op">=</span> <span class="st">"Seattle"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
+<span><span class="va">seattle_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span>municipality <span class="op">=</span> <span class="st">"Seattle"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Find feeds in a country</span></span>
-<span><span class="va">canada_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="st">"CA"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
+<span><span class="va">canada_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="st">"CA"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Combine filters</span></span>
-<span><span class="va">bc_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span></span>
+<span><span class="va">bc_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span></span>
 <span>  country_code <span class="op">=</span> <span class="st">"CA"</span>,</span>
 <span>  subdivision_name <span class="op">=</span> <span class="st">"British Columbia"</span>,</span>
 <span>  status <span class="op">=</span> <span class="st">"active"</span>,</span>
@@ -215,33 +215,15 @@ file to avoid entering it each session:</p>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="downloading-with-gtfs-flex-filtering">Downloading with GTFS-Flex Filtering<a class="anchor" aria-label="anchor" href="#downloading-with-gtfs-flex-filtering"></a>
-</h3>
-<p>By default, <code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> includes only core
-GTFS Schedule files. You can control GTFS-Flex inclusion:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Include all files (including Flex if present)</span></span>
-<span><span class="va">gtfs_with_flex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_download_feed.html">mobdb_download_feed</a></span><span class="op">(</span></span>
-<span>  provider <span class="op">=</span> <span class="st">"Cape Cod"</span>,</span>
-<span>  exclude_flex <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Exclude Flex files (default)</span></span>
-<span><span class="va">gtfs_no_flex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_download_feed.html">mobdb_download_feed</a></span><span class="op">(</span></span>
-<span>  provider <span class="op">=</span> <span class="st">"Cape Cod"</span>,</span>
-<span>  exclude_flex <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
 <h3 id="working-with-multiple-feeds">Working with Multiple Feeds<a class="anchor" aria-label="anchor" href="#working-with-multiple-feeds"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get feeds for several cities</span></span>
 <span><span class="va">agencies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TriMet"</span>, <span class="st">"King County Metro"</span>, <span class="st">"TransLink Vancouver"</span><span class="op">)</span></span>
 <span><span class="va">feeds_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">agencies</span>, <span class="kw">function</span><span class="op">(</span><span class="va">agency</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="va">agency</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
+<span>  <span class="va">feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="va">agency</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">feeds</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="../reference/mobdb_download_feed.html">mobdb_download_feed</a></span><span class="op">(</span><span class="va">feeds</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="va">feeds</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
@@ -250,6 +232,28 @@ GTFS Schedule files. You can control GTFS-Flex inclusion:</p>
 <span><span class="va">frequencies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">feeds_list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://r-transit.github.io/tidytransit/reference/get_stop_frequency.html" class="external-link">get_stop_frequency</a></span><span class="op">(</span><span class="va">gtfs</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="advanced-cases">Advanced cases<a class="anchor" aria-label="anchor" href="#advanced-cases"></a>
+</h2>
+<div class="section level3">
+<h3 id="downloading-with-gtfs-flex-filtering">Downloading with GTFS-Flex Filtering<a class="anchor" aria-label="anchor" href="#downloading-with-gtfs-flex-filtering"></a>
+</h3>
+<p>By default, <code><a href="../reference/download_feed.html">download_feed()</a></code> includes only core GTFS
+Schedule files. You can control GTFS-Flex inclusion:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Include all files (including Flex if present)</span></span>
+<span><span class="va">gtfs_with_flex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span></span>
+<span>  provider <span class="op">=</span> <span class="st">"Cape Cod"</span>,</span>
+<span>  exclude_flex <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Exclude Flex files (default)</span></span>
+<span><span class="va">gtfs_no_flex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span></span>
+<span>  provider <span class="op">=</span> <span class="st">"Cape Cod"</span>,</span>
+<span>  exclude_flex <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -263,14 +267,14 @@ GTFS Schedule files. You can control GTFS-Flex inclusion:</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 1. DISCOVER: Find feeds in Vancouver, BC, Canada</span></span>
-<span><span class="va">vancouver_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_feeds.html">mobdb_feeds</a></span><span class="op">(</span></span>
+<span><span class="va">vancouver_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span></span>
 <span>  municipality <span class="op">=</span> <span class="st">"Vancouver"</span>,</span>
 <span>  country_code <span class="op">=</span> <span class="st">"CA"</span>,</span>
 <span>  data_type <span class="op">=</span> <span class="st">"gtfs"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 2. DOWNLOAD: Get the sixth feed (TransLink)</span></span>
-<span><span class="va">translink</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_download_feed.html">mobdb_download_feed</a></span><span class="op">(</span><span class="va">vancouver_feeds</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">translink</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="va">vancouver_feeds</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 3. VALIDATE: Check feed quality (tidytransit)</span></span>
 <span><span class="va">validation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-transit.github.io/tidytransit/reference/validate_gtfs.html" class="external-link">validate_gtfs</a></span><span class="op">(</span><span class="va">translink</span><span class="op">)</span></span>
