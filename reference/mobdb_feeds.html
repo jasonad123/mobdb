@@ -35,7 +35,7 @@ Returns a tibble with feed metadata including download URLs."><meta property="og
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>List and filter GTFS feeds</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jasonad123/mobdb/blob/v0.1.2/R/api-feeds.R" class="external-link"><code>R/api-feeds.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jasonad123/mobdb/blob/main/R/api-feeds.R" class="external-link"><code>R/api-feeds.R</code></a></small>
       <div class="d-none name"><code>mobdb_feeds.Rd</code></div>
     </div>
 
@@ -53,6 +53,7 @@ Returns a tibble with feed metadata including download URLs.</p>
 <span>  municipality <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  data_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  status <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  official <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  limit <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  offset <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -89,8 +90,14 @@ location filters.</p></dd>
 
 
 <dt id="arg-status">status<a class="anchor" aria-label="anchor" href="#arg-status"></a></dt>
-<dd><p>Character. Feed status: "active", "inactive", or
-"deprecated".</p></dd>
+<dd><p>Character. Feed status: "active", "deprecated",
+"inactive", "development", or "future".</p></dd>
+
+
+<dt id="arg-official">official<a class="anchor" aria-label="anchor" href="#arg-official"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, only return official feeds.
+If <code>FALSE</code>, only return unofficial feeds. If <code>NULL</code> (default),
+return all feeds regardless of official status.</p></dd>
 
 
 <dt id="arg-limit">limit<a class="anchor" aria-label="anchor" href="#arg-limit"></a></dt>
@@ -105,17 +112,21 @@ location filters.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A tibble containing feed information with columns including:</p><ul><li><p><code>id</code> - Unique feed identifier</p></li>
+<li><p><code>data_type</code> - Type of feed (gtfs, gtfs_rt, or gbfs)</p></li>
+<li><p><code>created_at</code> - Date and time feed was added to database</p></li>
+<li><p><code>external_ids</code> - External identifier information</p></li>
 <li><p><code>provider</code> - Transit agency/provider name</p></li>
-<li><p><code>data_type</code> - Type of feed (gtfs or gtfs_rt)</p></li>
-<li><p><code>status</code> - Feed status (active, inactive, deprecated)</p></li>
+<li><p><code>feed_contact_email</code> - Contact email for the feed</p></li>
 <li><p><code>source_info</code> - Data frame containing:</p><ul><li><p><code>producer_url</code> - Direct download URL for the feed</p></li>
 <li><p><code>authentication_type</code> - Type of auth required (0 = none)</p></li>
+<li><p><code>authentication_info_url</code> - Human-readable page for authentication info</p></li>
+<li><p><code>api_key_parameter_name</code> - Name of the parameter to pass in the URL to provide the API key</p></li>
 <li><p><code>license_url</code> - License information</p></li>
 </ul></li>
 <li><p><code>created_at</code> - Feed creation timestamp</p></li>
-<li><p><code>external_ids</code> - External identifier information</p></li>
-<li><p><code>feed_contact_email</code> - Contact email for the feed</p></li>
+<li><p><code>status</code> - Feed status (active, inactive, deprecated)</p></li>
 <li><p><code>official</code> - Whether feed is official</p></li>
+<li><p><code>official_updated_at</code> - Date and time of last update</p></li>
 <li><p>Additional metadata columns</p></li>
 </ul></div>
 

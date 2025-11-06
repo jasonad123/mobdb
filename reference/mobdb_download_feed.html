@@ -43,7 +43,7 @@ than downloadable archives) and are not supported by this function.'><meta prope
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Download GTFS Schedule feed</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jasonad123/mobdb/blob/v0.1.2/R/integration-tidytransit.R" class="external-link"><code>R/integration-tidytransit.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jasonad123/mobdb/blob/main/R/integration-tidytransit.R" class="external-link"><code>R/integration-tidytransit.R</code></a></small>
       <div class="d-none name"><code>mobdb_download_feed.Rd</code></div>
     </div>
 
@@ -69,6 +69,7 @@ than downloadable archives) and are not supported by this function.</p>
 <span>  use_source_url <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  latest <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  status <span class="op">=</span> <span class="st">"active"</span>,</span>
+<span>  official <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -127,8 +128,14 @@ If <code>FALSE</code>, returns information about all available datasets for the 
 
 
 <dt id="arg-status">status<a class="anchor" aria-label="anchor" href="#arg-status"></a></dt>
-<dd><p>Character. Feed status filter: "active" (default), "inactive",
-or "deprecated". Only used when searching by provider/location.</p></dd>
+<dd><p>Character. Feed status filter: "active" (default), "deprecated",
+"inactive", "deprecated", or "future". Only used when searching by provider/location.</p></dd>
+
+
+<dt id="arg-official">official<a class="anchor" aria-label="anchor" href="#arg-official"></a></dt>
+<dd><p>Logical. If <code>TRUE</code> (default), only return official feeds when
+searching by provider/location. If <code>FALSE</code>, only return unofficial feeds.
+If <code>NULL</code>, return all feeds regardless of official status.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -166,6 +173,9 @@ If <code>latest = FALSE</code>, a tibble of all available datasets with their me
 <span class="r-in"><span>  subdivision_name <span class="op">=</span> <span class="st">"California"</span>,</span></span>
 <span class="r-in"><span>  municipality <span class="op">=</span> <span class="st">"San Francisco"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Search and download all feeds, including unofficial ones</span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">mobdb_download_feed</span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TTC"</span>, official <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># See all available versions for a feed</span></span></span>
 <span class="r-in"><span><span class="va">versions</span> <span class="op">&lt;-</span> <span class="fu">mobdb_download_feed</span><span class="op">(</span><span class="st">"mdb-2862"</span>, latest <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
