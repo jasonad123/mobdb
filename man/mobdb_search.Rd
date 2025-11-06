@@ -18,7 +18,7 @@ feed names, and locations.}
 }
 \value{
 A tibble of matching feeds. Note that search results include additional
-fields compared to \code{\link[=mobdb_feeds]{mobdb_feeds()}}:
+fields compared to \code{\link[=feeds]{feeds()}}:
 \itemize{
 \item \code{locations} - List of data frames with geographical information
 \item \code{latest_dataset} - Data frame with most recent dataset details and validation
@@ -30,16 +30,16 @@ Perform a text search across feed names, providers, and locations.
 
 \strong{Note:} The \verb{/search} endpoint has known issues with relevance ranking.
 Results may not match your search query well. For better results when searching
-by provider name, use \code{\link[=mobdb_feeds]{mobdb_feeds()}} with the \code{provider} parameter instead.
+by provider name, use \code{\link[=feeds]{feeds()}} with the \code{provider} parameter instead.
 }
 \examples{
 \dontrun{
 # Search for transit agencies (Note: results may not be well-ranked)
 results <- mobdb_search("transit")
 
-# Better approach: use mobdb_feeds() with provider filter
-bart <- mobdb_feeds(provider = "BART")
-mta <- mobdb_feeds(provider = "MTA New York")
+# Better approach: use feeds() with provider filter
+bart <- feeds(provider = "BART")
+mta <- feeds(provider = "MTA New York")
 
 # Search with filters
 canadian_transit <- mobdb_search(

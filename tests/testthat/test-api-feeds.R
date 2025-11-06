@@ -1,32 +1,32 @@
 # Tests for API feeds functions
 # Using httptest2 for mocking HTTP requests
 
-test_that("mobdb_feeds() works without data_type (returns all types)", {
+test_that("feeds() works without data_type (returns all types)", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
 
   httptest2::with_mock_dir("feeds_all", {
-    result <- mobdb_feeds(limit = 5)
+    result <- feeds(limit = 5)
     expect_s3_class(result, "tbl_df")
     expect_true(nrow(result) <= 5)
   })
 })
 
-test_that("mobdb_feeds() validates data_type parameter", {
+test_that("feeds() validates data_type parameter", {
   skip_if_not_installed("httptest2")
 
   expect_error(
-    mobdb_feeds(data_type = "invalid"),
+    feeds(data_type = "invalid"),
     "should be one of"  # match.arg error message
   )
 })
 
-test_that("mobdb_feeds() works with valid data_type", {
+test_that("feeds() works with valid data_type", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
 
   httptest2::with_mock_dir("feeds_gtfs", {
-    result <- mobdb_feeds(data_type = "gtfs", limit = 5)
+    result <- feeds(data_type = "gtfs", limit = 5)
 
     expect_s3_class(result, "tbl_df")
     expect_true(nrow(result) <= 5)
@@ -36,31 +36,31 @@ test_that("mobdb_feeds() works with valid data_type", {
   })
 })
 
-test_that("mobdb_feeds() respects limit parameter", {
+test_that("feeds() respects limit parameter", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
 
   httptest2::with_mock_dir("feeds_limit", {
-    result <- mobdb_feeds(data_type = "gtfs", limit = 3)
+    result <- feeds(data_type = "gtfs", limit = 3)
     expect_true(nrow(result) <= 3)
   })
 })
 
-test_that("mobdb_feeds() filters by location require data_type", {
+test_that("feeds() filters by location require data_type", {
   skip_if_not_installed("httptest2")
 
   expect_error(
-    mobdb_feeds(country_code = "US"),
+    feeds(country_code = "US"),
     "Location filters require.*data_type"
   )
 })
 
-test_that("mobdb_feeds() works with location filters", {
+test_that("feeds() works with location filters", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
 
   httptest2::with_mock_dir("feeds_us", {
-    result <- mobdb_feeds(
+    result <- feeds(
       data_type = "gtfs",
       country_code = "US",
       limit = 5
@@ -77,12 +77,12 @@ test_that("mobdb_feeds() works with location filters", {
   })
 })
 
-test_that("mobdb_feeds() works with provider filter", {
+test_that("feeds() works with provider filter", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
 
   httptest2::with_mock_dir("feeds_provider", {
-    result <- mobdb_feeds(
+    result <- feeds(
       data_type = "gtfs",
       provider = "TransLink"
     )
@@ -94,12 +94,12 @@ test_that("mobdb_feeds() works with provider filter", {
   })
 })
 
-test_that("mobdb_feeds() works with status filter", {
+test_that("feeds() works with status filter", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
 
   httptest2::with_mock_dir("feeds_active", {
-    result <- mobdb_feeds(
+    result <- feeds(
       data_type = "gtfs",
       status = "active",
       limit = 5

@@ -5,7 +5,7 @@
 #'
 #' **Note:** The `/search` endpoint has known issues with relevance ranking.
 #' Results may not match your search query well. For better results when searching
-#' by provider name, use [mobdb_feeds()] with the `provider` parameter instead.
+#' by provider name, use [feeds()] with the `provider` parameter instead.
 #'
 #' @param query Character. Search query string. Searches across provider names,
 #'   feed names, and locations.
@@ -14,7 +14,7 @@
 #' @param limit Integer. Maximum number of results (default: 50).
 #'
 #' @return A tibble of matching feeds. Note that search results include additional
-#'   fields compared to [mobdb_feeds()]:
+#'   fields compared to [feeds()]:
 #'   * `locations` - List of data frames with geographical information
 #'   * `latest_dataset` - Data frame with most recent dataset details and validation
 #'   * Core fields (`id`, `provider`, `data_type`, `status`, `source_info`) are the same
@@ -24,9 +24,9 @@
 #' # Search for transit agencies (Note: results may not be well-ranked)
 #' results <- mobdb_search("transit")
 #'
-#' # Better approach: use mobdb_feeds() with provider filter
-#' bart <- mobdb_feeds(provider = "BART")
-#' mta <- mobdb_feeds(provider = "MTA New York")
+#' # Better approach: use feeds() with provider filter
+#' bart <- feeds(provider = "BART")
+#' mta <- feeds(provider = "MTA New York")
 #'
 #' # Search with filters
 #' canadian_transit <- mobdb_search(

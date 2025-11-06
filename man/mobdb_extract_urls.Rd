@@ -7,7 +7,7 @@
 mobdb_extract_urls(feeds)
 }
 \arguments{
-\item{feeds}{A tibble returned by \code{\link[=mobdb_feeds]{mobdb_feeds()}} or \code{\link[=mobdb_search]{mobdb_search()}}.}
+\item{feeds}{A tibble returned by \code{\link[=feeds]{feeds()}} or \code{\link[=mobdb_search]{mobdb_search()}}.}
 }
 \value{
 A character vector of download URLs, with the same length as the
@@ -15,7 +15,7 @@ input tibble. Returns \code{NA} for feeds without a URL.
 }
 \description{
 Helper function to extract producer URLs from a tibble of feeds returned
-by \code{\link[=mobdb_feeds]{mobdb_feeds()}} or \code{\link[=mobdb_search]{mobdb_search()}}. This is useful when you want to
+by \code{\link[=feeds]{feeds()}} or \code{\link[=mobdb_search]{mobdb_search()}}. This is useful when you want to
 get all the download URLs from a set of search results.
 }
 \examples{
@@ -25,7 +25,7 @@ feeds <- mobdb_search("California")
 urls <- mobdb_extract_urls(feeds)
 
 # Filter and get URLs
-ca_gtfs <- mobdb_feeds(subdivision_name = "California", data_type = "gtfs")
+ca_gtfs <- feeds(subdivision_name = "California", data_type = "gtfs")
 ca_urls <- mobdb_extract_urls(ca_gtfs)
 }
 

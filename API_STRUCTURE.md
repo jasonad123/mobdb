@@ -6,7 +6,7 @@ This document describes the actual structure of responses from the Mobility Data
 
 The API has two main discovery endpoints with different response structures:
 
-### `mobdb_feeds()` - Basic feed listing
+### `feeds()` - Basic feed listing
 - Returns core feed information
 - Simpler structure, faster queries
 - Good for filtering by specific criteria
@@ -18,9 +18,9 @@ The API has two main discovery endpoints with different response structures:
 - Better for exploration and quality checking
 - Slower but more comprehensive
 
-## Feed Object Structure (from mobdb_feeds)
+## Feed Object Structure (from feeds)
 
-When you call `mobdb_feeds()` or `mobdb_search()`, you get a tibble with these columns:
+When you call `feeds()` or `mobdb_search()`, you get a tibble with these columns:
 
 ### Top-Level Fields
 
@@ -76,7 +76,7 @@ Related URLs (usually empty list)
 ### Method 1: Extract from search results
 
 ```r
-feeds <- mobdb_feeds(country_code = "US", limit = 5)
+feeds <- feeds(country_code = "US", limit = 5)
 
 # Get first feed's URL
 url <- feeds$source_info$producer_url[1]
@@ -116,7 +116,7 @@ library(dplyr)
 mobdb_set_key("your_refresh_token")
 
 # Search for California transit
-ca_feeds <- mobdb_feeds(
+ca_feeds <- feeds(
   subdivision_name = "California",
   data_type = "gtfs",
   status = "active"
@@ -265,7 +265,7 @@ datasets |>
 ### Filter active GTFS feeds
 
 ```r
-active_gtfs <- mobdb_feeds(
+active_gtfs <- feeds(
   data_type = "gtfs",
   status = "active"
 )
@@ -282,7 +282,7 @@ results <- mobdb_search("metro") |>
 ### Get URLs for batch download
 
 ```r
-feeds <- mobdb_feeds(country_code = "US", limit = 100)
+feeds <- feeds(country_code = "US", limit = 100)
 urls <- mobdb_extract_urls(feeds)
 
 # Download all (be respectful of rate limits!)

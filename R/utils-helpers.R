@@ -2,10 +2,10 @@
 #'
 #' @description
 #' Helper function to extract producer URLs from a tibble of feeds returned
-#' by [mobdb_feeds()] or [mobdb_search()]. This is useful when you want to
+#' by [feeds()] or [mobdb_search()]. This is useful when you want to
 #' get all the download URLs from a set of search results.
 #'
-#' @param feeds A tibble returned by [mobdb_feeds()] or [mobdb_search()].
+#' @param feeds A tibble returned by [feeds()] or [mobdb_search()].
 #'
 #' @return A character vector of download URLs, with the same length as the
 #'   input tibble. Returns `NA` for feeds without a URL.
@@ -17,7 +17,7 @@
 #' urls <- mobdb_extract_urls(feeds)
 #'
 #' # Filter and get URLs
-#' ca_gtfs <- mobdb_feeds(subdivision_name = "California", data_type = "gtfs")
+#' ca_gtfs <- feeds(subdivision_name = "California", data_type = "gtfs")
 #' ca_urls <- mobdb_extract_urls(ca_gtfs)
 #' }
 #'
@@ -35,7 +35,7 @@ mobdb_extract_urls <- function(feeds) {
   if (!"source_info" %in% names(feeds)) {
     cli::cli_abort(
       "Column {.field source_info} not found in {.arg feeds}.",
-      "i" = "Ensure you're passing a tibble from {.fn mobdb_feeds} or {.fn mobdb_search}."
+      "i" = "Ensure you're passing a tibble from {.fn feeds} or {.fn mobdb_search}."
     )
   }
   

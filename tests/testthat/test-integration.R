@@ -16,16 +16,16 @@ skip_if_no_fixtures <- function(fixture_dir) {
   }
 }
 
-test_that("mobdb_download_feed() requires feed identifier", {
+test_that("download_feed() requires feed identifier", {
   skip_if_not_installed("httptest2")
 
   expect_error(
-    mobdb_download_feed(),
+    download_feed(),
     "Must provide either.*feed_id.*or search parameters"
   )
 })
 
-test_that("mobdb_download_feed() works with feed_id", {
+test_that("download_feed() works with feed_id", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
   skip_if_not_installed("tidytransit")
@@ -38,13 +38,13 @@ test_that("mobdb_download_feed() works with feed_id", {
     # This test will need actual GTFS data or mocking
     # For now, just test that it doesn't error on API call
     expect_error(
-      mobdb_download_feed("mdb-1"),
+      download_feed("mdb-1"),
       NA  # Should not error (though download might fail)
     )
   }, simplify = FALSE)
 })
 
-test_that("mobdb_download_feed() works with provider search", {
+test_that("download_feed() works with provider search", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
   skip_if_not_installed("tidytransit")
@@ -56,13 +56,13 @@ test_that("mobdb_download_feed() works with provider search", {
   httptest2::with_mock_dir("download_feed_search", {
     # Test that search with multiple results gives helpful error
     expect_error(
-      mobdb_download_feed(provider = "TransLink", search = TRUE),
+      download_feed(provider = "TransLink", search = TRUE),
       "Multiple feeds found"
     )
   }, simplify = FALSE)
 })
 
-test_that("mobdb_download_feed() validates exclude_flex parameter", {
+test_that("download_feed() validates exclude_flex parameter", {
   skip_if_not_installed("httptest2")
 
   # Skip - function doesn't validate exclude_flex type (R coerces it)
@@ -71,12 +71,12 @@ test_that("mobdb_download_feed() validates exclude_flex parameter", {
 
   # This test doesn't need API calls - just validates parameter
   expect_error(
-    mobdb_download_feed("mdb-1", exclude_flex = "invalid"),
+    download_feed("mdb-1", exclude_flex = "invalid"),
     "exclude_flex.*logical"
   )
 })
 
-test_that("mobdb_download_feed() handles feeds with empty feed_name", {
+test_that("download_feed() handles feeds with empty feed_name", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
 
@@ -88,12 +88,12 @@ test_that("mobdb_download_feed() handles feeds with empty feed_name", {
     # Test edge case: feed with NULL or empty feed_name
     # Should use provider name or id as fallback
     expect_no_error(
-      mobdb_download_feed("mdb-1")
+      download_feed("mdb-1")
     )
   }, simplify = FALSE)
 })
 
-test_that("mobdb_download_feed() handles feeds with NULL producer_url", {
+test_that("download_feed() handles feeds with NULL producer_url", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
 
@@ -105,7 +105,7 @@ test_that("mobdb_download_feed() handles feeds with NULL producer_url", {
     # Test edge case: feed with NULL source_info$producer_url
     # Should provide helpful error message
     expect_error(
-      mobdb_download_feed("mdb-nonexistent"),
+      download_feed("mdb-nonexistent"),
       "URL.*not found|feed.*not found"
     )
   }, simplify = FALSE)

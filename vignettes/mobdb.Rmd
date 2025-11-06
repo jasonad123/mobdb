@@ -65,13 +65,13 @@ usethis::edit_r_environ()
 
 ## Basic Workflow: Discovery → Download → Analysis
 
-### Step 1: Discover Feeds
+### Step 1: Discover feeds
 
 Find GTFS feeds using various search criteria:
 
 ```{r discover-feeds}
 # Find all feeds in California
-ca_feeds <- mobdb_feeds(
+ca_feeds <- feeds(
   country_code = "US",
   subdivision_name = "California",
   data_type = "gtfs"
@@ -83,20 +83,20 @@ head(ca_feeds)
 #>   id       data_type status provider     feed_name location...
 
 # Search by provider name
-bart_feeds <- mobdb_feeds("BART")
+bart_feeds <- feeds("BART")
 bart_feeds
 ```
 
-### Step 2: Download Feeds
+### Step 2: Download feeds
 
 Download a specific feed by ID or search term:
 
 ```{r download-feed}
 # Download by feed ID (Bay Area Rapid Transit)
-bart <- mobdb_download_feed("mdb-53")
+bart <- download_feed("mdb-53")
 
 # Or search and download in one step (use full name for better results)
-bart <- mobdb_download_feed(provider = "Bay Area Rapid Transit")
+bart <- download_feed(provider = "Bay Area Rapid Transit")
 
 # The result is a gtfs object (from tidytransit)
 class(bart)
@@ -106,7 +106,7 @@ names(bart)
 #> [1] "agency" "calendar" "calendar_attributes" "calendar_dates" "directions" ...
 ```
 
-### Step 3: Analyze Feeds with tidytransit
+### Step 3: Analyze feeds with tidytransit
 
 Now that you have the feed, use tidytransit for analysis:
 
@@ -130,41 +130,23 @@ bart_sf <- gtfs_as_sf(bart)
 plot(bart_sf$stops)
 ```
 
-## Common Use Cases
+## Common use cases
 
 ### Finding Feeds by Location
 
 ```{r location-search}
 # Find feeds in a specific municipality
-seattle_feeds <- mobdb_feeds(municipality = "Seattle", data_type = "gtfs")
+seattle_feeds <- feeds(municipality = "Seattle", data_type = "gtfs")
 
 # Find feeds in a country
-canada_feeds <- mobdb_feeds(country_code = "CA", data_type = "gtfs")
+canada_feeds <- feeds(country_code = "CA", data_type = "gtfs")
 
 # Combine filters
-bc_feeds <- mobdb_feeds(
+bc_feeds <- feeds(
   country_code = "CA",
   subdivision_name = "British Columbia",
   status = "active",
   data_type = "gtfs"
-)
-```
-
-### Downloading with GTFS-Flex Filtering
-
-By default, `mobdb_download_feed()` includes only core GTFS Schedule files. You can control GTFS-Flex inclusion:
-
-```{r flex-filtering}
-# Include all files (including Flex if present)
-gtfs_with_flex <- mobdb_download_feed(
-  provider = "Cape Cod",
-  exclude_flex = FALSE
-)
-
-# Exclude Flex files (default)
-gtfs_no_flex <- mobdb_download_feed(
-  provider = "Cape Cod",
-  exclude_flex = TRUE
 )
 ```
 
@@ -174,9 +156,9 @@ gtfs_no_flex <- mobdb_download_feed(
 # Get feeds for several cities
 agencies <- c("TriMet", "King County Metro", "TransLink Vancouver")
 feeds_list <- lapply(agencies, function(agency) {
-  feeds <- mobdb_feeds(provider = agency, data_type = "gtfs")
+  feeds <- feeds(provider = agency, data_type = "gtfs")
   if (nrow(feeds) > 0) {
-    mobdb_download_feed(feeds$id[1])
+    download_feed(feeds$id[1])
   }
 })
 
@@ -187,7 +169,25 @@ frequencies <- lapply(feeds_list, function(gtfs) {
 })
 ```
 
+## Advanced cases
 
+### Downloading with GTFS-Flex Filtering
+
+By default, `download_feed()` includes only core GTFS Schedule files. You can control GTFS-Flex inclusion:
+
+```{r flex-filtering}
+# Include all files (including Flex if present)
+gtfs_with_flex <- download_feed(
+  provider = "Cape Cod",
+  exclude_flex = FALSE
+)
+
+# Exclude Flex files (default)
+gtfs_no_flex <- download_feed(
+  provider = "Cape Cod",
+  exclude_flex = TRUE
+)
+```
 ## Complete Example Workflow
 
 Here's a complete example from discovery to analysis:
@@ -199,14 +199,14 @@ library(ggplot2)
 library(tidyverse)
 
 # 1. DISCOVER: Find feeds in Vancouver, BC, Canada
-vancouver_feeds <- mobdb_feeds(
+vancouver_feeds <- feeds(
   municipality = "Vancouver",
   country_code = "CA",
   data_type = "gtfs"
 )
 
 # 2. DOWNLOAD: Get the sixth feed (TransLink)
-translink <- mobdb_download_feed(vancouver_feeds$id[6])
+translink <- download_feed(vancouver_feeds$id[6])
 
 # 3. VALIDATE: Check feed quality (tidytransit)
 validation <- validate_gtfs(translink)

@@ -8,7 +8,7 @@ mobdb_read_gtfs(feed_id, dataset_id = NULL, ...)
 }
 \arguments{
 \item{feed_id}{Character. The unique identifier for the feed, or a data frame
-with a single row from \code{\link[=mobdb_feeds]{mobdb_feeds()}} or \code{\link[=mobdb_search]{mobdb_search()}}.}
+with a single row from \code{\link[=feeds]{feeds()}} or \code{\link[=mobdb_search]{mobdb_search()}}.}
 
 \item{dataset_id}{Character. Optional specific dataset ID. If \code{NULL} (default),
 uses the current/latest feed URL.}
@@ -19,9 +19,9 @@ uses the current/latest feed URL.}
 A \code{gtfs} object as returned by \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.
 }
 \description{
-\strong{Note:} This function is superseded by \code{\link[=mobdb_download_feed]{mobdb_download_feed()}}, which provides
+\strong{Note:} This function is superseded by \code{\link[=download_feed]{download_feed()}}, which provides
 the same functionality plus integrated search, Flex filtering, and more control
-over data sources. New code should use \code{\link[=mobdb_download_feed]{mobdb_download_feed()}} instead.
+over data sources. New code should use \code{\link[=download_feed]{download_feed()}} instead.
 
 Convenience wrapper that fetches a feed's download URL from the Mobility
 Database and passes it to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}. Requires the tidytransit
@@ -33,7 +33,7 @@ package to be installed.
 gtfs <- mobdb_read_gtfs("mdb-53")
 
 # Read from search results
-feeds <- mobdb_feeds(provider = "TransLink", data_type = "gtfs")
+feeds <- feeds(provider = "TransLink", data_type = "gtfs")
 gtfs <- mobdb_read_gtfs(feeds[1, ])
 
 # Read specific historical dataset

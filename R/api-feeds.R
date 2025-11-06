@@ -1,8 +1,10 @@
 #' List and filter GTFS feeds
 #'
 #' @description
-#' Query the Mobility Database for transit feeds matching specified criteria.
+#' Query the Mobility Database for transit/bikeshare feeds matching specified criteria.
 #' Returns a tibble with feed metadata including download URLs.
+#' **Info:** This function was formerly called \code{mobdb_feeds()}.
+#' All functions are identical to that function.
 #'
 #' @param provider Character. Filter by provider/agency name (partial match).
 #' @param country_code Character. Two-letter ISO country code
@@ -46,7 +48,7 @@
 #' @examples
 #' \dontrun{
 #' # Get all active GTFS feeds in California
-#' ca_feeds <- mobdb_feeds(
+#' ca_feeds <- feeds(
 #'   country_code = "US",
 #'   subdivision_name = "California",
 #'   data_type = "gtfs",
@@ -54,15 +56,15 @@
 #' )
 #'
 #' # Search for a specific provider
-#' sf_muni <- mobdb_feeds(provider = "San Francisco")
+#' sf_muni <- feeds(provider = "San Francisco")
 #'
 #' # Get feeds with pagination
-#' first_100 <- mobdb_feeds(limit = 100, offset = 0)
-#' next_100 <- mobdb_feeds(limit = 100, offset = 100)
+#' first_100 <- feeds(limit = 100, offset = 0)
+#' next_100 <- feeds(limit = 100, offset = 100)
 #'
 #' }
 #' @export
-mobdb_feeds <- function(provider = NULL,
+feeds <- function(provider = NULL,
                         country_code = NULL,
                         subdivision_name = NULL,
                         municipality = NULL,
