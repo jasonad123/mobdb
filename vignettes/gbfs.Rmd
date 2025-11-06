@@ -1,0 +1,82 @@
+---
+title: "Working with GBFS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with GBFS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+## What is GBFS?
+
+GBFS or the [General Bikeshare Feed Specification](https://gbfs.org/) is the open data standard for shared mobility (which encompasses everything from bicycles to scooters and everything in between). Its goal is to have real-time data feeds in a uniform format publicly available online. Like GTFS, GBFS is maintained by [MobilityData](http://mobilitydata.org).
+
+## What's unique about GBFS?
+
+Because GBFS is intended to be a "real time", all the information is stored in JSON files, as
+opposed to the .txt files in a ZIP archive of GTFS Schedule. Some items end up being fairly
+static for the most part, while others are dynamic due to the nature of shared mobility.
+
+## GBFS basics with mobdb
+
+### Discovery
+
+As of version 0.1.1, `mobdb` supports basic discovery of GBFS feeds through the `mobdb_feeds()` function:
+
+```{r gbfs-basic-discovery}
+library(mobdb)
+
+pdx <- mobdb_feeds(provider = "portland", data_type = "gbfs")
+pdx
+# A tibble: 2 × 14
+#  id          data_type created_at external_ids provider feed_contact_email source_info$producer…¹ redirects
+#  <chr>       <chr>     <chr>      <list>       <chr>    <lgl>              <chr>                  <list>   
+# 1 gbfs-lime_… gbfs      2024-08-2… <df [1 × 2]> Lime Po… NA                 https://data.lime.bik… <list>   
+# 2 gbfs-bird-… gbfs      2024-08-2… <df [1 × 2]> Bird Po… NA                 https://mds.bird.co/g… <list>   
+# ℹ abbreviated name: ¹​source_info$producer_url
+# ℹ 10 more variables: source_info$authentication_type <int>, $authentication_info_url <lgl>,
+#   $api_key_parameter_name <lgl>, $license_url <chr>, locations <list>, system_id <chr>,
+#   provider_url <chr>, versions <list>, bounding_box <df[,4]>, bounding_box_generated_at <chr>
+```
+
+### Analysis with the gbfs package
+
+Once you've found the feeds you're interested in, you can analyze them. As with many things, there's an R package for that, and there's indeed a [gbfs](https://gbfs.netlify.app) R package. From here, you can connect the `producer_url` to the `city` field within many of the functions of the `gbfs` package.
+
+```{r gbfs-basic-interaction}
+library(gbfs)
+library(tidyverse)
+
+biketown <- mobdb_feeds(provider = "biketown")
+gbfs_url <- biketown$source_info[[1, "producer_url"]]
+biketown_station_info <- get_station_information(city = gbfs_url, output = "return")
+
+```
+
+## Advanced GBFS with mobdb
+
+As of version 0.1.3, `mobdb` includes a number of convenience functions for discovery and parsing
+of GBFS feeds 
+
+```{r gbfs-mobdb-search}
+library(tidyverse)
+
+# loads GBFS auto-discovery URL
+nyc <- mobdb_download_gbfs(provider = "Citi Bike")
+
+# Load Citi Bike station details and status
+nyc_stations <- mobdb_get_gbfs_stations(nyc)
+nyc_station_status <- mobdb_get_gbfs_station_status(nyc)
+
+# Then join them together by station ID
+nyc_station_overview <- left_join(nyc_stations, nyc_station_status, by = "station_id")
+
+```
