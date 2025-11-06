@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,7 +15,8 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/mobdb.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/jasonad123/mobdb/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
@@ -35,6 +36,17 @@
       <small>Source: <a href="https://github.com/jasonad123/mobdb/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.2" id="mobdb-012">mobdb 0.1.2<a class="anchor" aria-label="anchor" href="#mobdb-012"></a></h2>
+<ul><li>
+<code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> now accepts data frames from <code><a href="../reference/mobdb_feeds.html">mobdb_feeds()</a></code> or <code><a href="../reference/mobdb_search.html">mobdb_search()</a></code>
+</li>
+<li>Soft deprecation of <code><a href="../reference/mobdb_read_gtfs.html">mobdb_read_gtfs()</a></code> (still works; use <code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> for new code)</li>
+<li>Fixed documentation examples to use valid feed IDs</li>
+<li>Enhanced <code><a href="../reference/mobdb_search.html">mobdb_search()</a></code> docs to explain alphabetical sorting (API limitation)</li>
+<li>Added comprehensive test suite (65 passing tests)</li>
+<li>Clean <code>R CMD check</code>: 0 errors, 0 warnings</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="mobdb-011">mobdb 0.1.1<a class="anchor" aria-label="anchor" href="#mobdb-011"></a></h2>
 <ul><li>Added <code><a href="../reference/mobdb_download_feed.html">mobdb_download_feed()</a></code> for downloading GTFS Schedule feeds from MobilityData hosted URLs</li>
