@@ -16,7 +16,7 @@ download_feed(
   dataset_id = NULL,
   latest = TRUE,
   status = "active",
-  official = TRUE,
+  official = NULL,
   ...
 )
 }
@@ -51,17 +51,21 @@ but could differ from MobilityData's version.}
 
 \item{dataset_id}{A string. Optional specific dataset ID for historical versions
 (e.g., "mdb-53-202510250025"). If provided, downloads that specific dataset
-version instead of the latest. Cannot be used with \code{use_source_url = TRUE}.}
+version instead of the latest. Cannot be used with \code{use_source_url = TRUE}.
+If \code{dataset_id} is provided without \code{feed_id}, the feed ID will be automatically
+extracted from the dataset ID format.}
 
 \item{latest}{A logical. If \code{TRUE} (default), download the most recent dataset.
 If \code{FALSE}, returns information about all available datasets for the feed
-without downloading.}
+without downloading. Only works when \code{feed_id} is provided directly; cannot
+be used with search parameters like \code{provider} or \code{country_code}.}
 
 \item{status}{A string. Feed status filter: "active" (default), "deprecated",
 "inactive", "development", or "future". Only used when searching by provider/location.}
 
-\item{official}{A logical. If \code{TRUE} (default), only return official feeds when
-searching by provider/location. If \code{FALSE}, only return unofficial feeds.
+\item{official}{A logical. If \code{TRUE} (default), return official feeds and feeds
+with unknown official status (NA) when searching by provider/location.
+If \code{FALSE}, only return feeds explicitly marked as unofficial.
 If \code{NULL}, return all feeds regardless of official status.}
 
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
@@ -112,7 +116,10 @@ gtfs <- download_feed(provider = "TTC", official = NULL)
 # See all available versions for a feed
 versions <- download_feed("mdb-2862", latest = FALSE)
 
-# Download a specific historical version
+# Download a specific historical version (feed_id auto-extracted from dataset_id)
+historical <- download_feed(dataset_id = "mdb-53-202507240047")
+
+# Or specify both explicitly
 historical <- download_feed("mdb-53", dataset_id = "mdb-53-202507240047")
 }
 }

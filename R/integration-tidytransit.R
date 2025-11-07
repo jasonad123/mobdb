@@ -113,13 +113,17 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' @param dataset_id A string. Optional specific dataset ID for historical versions
 #'   (e.g., "mdb-53-202510250025"). If provided, downloads that specific dataset
 #'   version instead of the latest. Cannot be used with `use_source_url = TRUE`.
+#'   If `dataset_id` is provided without `feed_id`, the feed ID will be automatically
+#'   extracted from the dataset ID format.
 #' @param latest A logical. If `TRUE` (default), download the most recent dataset.
 #'   If `FALSE`, returns information about all available datasets for the feed
-#'   without downloading.
+#'   without downloading. Only works when `feed_id` is provided directly; cannot
+#'   be used with search parameters like `provider` or `country_code`.
 #' @param status A string. Feed status filter: "active" (default), "deprecated",
 #'   "inactive", "development", or "future". Only used when searching by provider/location.
-#' @param official A logical. If `TRUE` (default), only return official feeds when
-#'   searching by provider/location. If `FALSE`, only return unofficial feeds.
+#' @param official A logical. If `TRUE` (default), return official feeds and feeds
+#'   with unknown official status (NA) when searching by provider/location.
+#'   If `FALSE`, only return feeds explicitly marked as unofficial.
 #'   If `NULL`, return all feeds regardless of official status.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
@@ -157,7 +161,10 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' # See all available versions for a feed
 #' versions <- download_feed("mdb-2862", latest = FALSE)
 #'
-#' # Download a specific historical version
+#' # Download a specific historical version (feed_id auto-extracted from dataset_id)
+#' historical <- download_feed(dataset_id = "mdb-53-202507240047")
+#'
+#' # Or specify both explicitly
 #' historical <- download_feed("mdb-53", dataset_id = "mdb-53-202507240047")
 #' }
 #' @seealso
@@ -178,7 +185,7 @@ download_feed <- function(feed_id = NULL,
                           dataset_id = NULL,
                           latest = TRUE,
                           status = "active",
-                          official = TRUE,
+                          official = NULL,
                           ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
@@ -193,6 +200,18 @@ download_feed <- function(feed_id = NULL,
       "Cannot use {.arg dataset_id} with {.arg use_source_url = TRUE}.",
       "i" = "Historical datasets are only available from MobilityData's hosted URLs.",
       "i" = "Set {.code use_source_url = FALSE} to download a specific dataset version."
+    ))
+  }
+
+  # Check if search parameters are being used with latest = FALSE
+  search_params_check <- !is.null(provider) || !is.null(country_code) ||
+    !is.null(subdivision_name) || !is.null(municipality)
+
+  if (search_params_check && !latest) {
+    cli::cli_abort(c(
+      "{.arg latest = FALSE} cannot be used with search parameters.",
+      "x" = "The {.arg latest} parameter only works when specifying {.arg feed_id} directly.",
+      "i" = "First find the feed ID you want, then use {.code download_feed(feed_id = \"mdb-XXX\", latest = FALSE)}."
     ))
   }
 
@@ -228,7 +247,24 @@ download_feed <- function(feed_id = NULL,
   search_params_provided <- !is.null(provider) || !is.null(country_code) ||
     !is.null(subdivision_name) || !is.null(municipality)
 
-  # Case 1: feed_id provided directly
+  # Extract feed_id from dataset_id if dataset_id provided but feed_id is not
+  # Format: mdb-NNN-TIMESTAMP (e.g., "mdb-482-202402080041")
+  # Feed ID is everything before the second delimiter
+  if (is.null(feed_id) && !is.null(dataset_id)) {
+    parts <- strsplit(dataset_id, "-")[[1]]
+    if (length(parts) >= 3 && parts[1] == "mdb") {
+      feed_id <- paste(parts[1:2], collapse = "-")
+      cli::cli_inform("Extracted feed ID from dataset: {.val {feed_id}}")
+    } else {
+      cli::cli_abort(c(
+        "Invalid {.arg dataset_id} format: {.val {dataset_id}}",
+        "i" = "Expected format: {.code mdb-NNN-TIMESTAMP} (e.g., {.code mdb-482-202402080041})",
+        "i" = "Or provide {.arg feed_id} separately."
+      ))
+    }
+  }
+
+  # Case 1: feed_id provided directly (or extracted from dataset_id)
   if (!is.null(feed_id)) {
     if (search_params_provided) {
       cli::cli_warn(c(
@@ -244,6 +280,10 @@ download_feed <- function(feed_id = NULL,
     cli::cli_inform("Searching for GTFS Schedule feeds...")
 
     # Query feeds with provided filters
+    # Note: When official=TRUE, we pass NULL to API and post-filter ourselves
+    # This is because the API filters out NA values, but we want to include them
+    api_official_param <- if (!is.null(official) && official) NULL else official
+
     feeds <- feeds(
       provider = provider,
       country_code = country_code,
@@ -251,17 +291,19 @@ download_feed <- function(feed_id = NULL,
       municipality = municipality,
       data_type = "gtfs",  # GTFS Schedule only
       status = status,
-      official = official,
+      official = api_official_param,
       limit = 100
     )
 
-    # Post-filter for official status if needed (API may return NA values)
+    # Post-filter for official status if needed
     if (!is.null(official)) {
       if (official) {
-        # Keep only feeds where official is TRUE (exclude NA and FALSE)
-        feeds <- feeds[!is.na(feeds$official) & feeds$official == TRUE, ]
+        # Keep feeds where official is TRUE or NA (NA = not yet classified)
+        # Only exclude feeds explicitly marked as FALSE
+        feeds <- feeds[is.na(feeds$official) | feeds$official == TRUE, ]
       } else {
-        # Keep only feeds where official is FALSE (exclude NA and TRUE)
+        # Keep only feeds where official is explicitly FALSE
+        # Exclude TRUE and NA
         feeds <- feeds[!is.na(feeds$official) & feeds$official == FALSE, ]
       }
     }

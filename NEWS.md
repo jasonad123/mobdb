@@ -16,7 +16,8 @@
 
 ## Bug fixes
 
-* `download_feed()` now validates feed status when searching by provider/location,
+* `download_feed()` now validates feed status when searching by provider/location
+* `download_feed()` correctly filters official feed status
 * `feeds()` status validation now correctly accepts all five API statuses: "active", "deprecated", "inactive", "development", and "future"
 * `mobdb_search()` now correctly performs searches
 

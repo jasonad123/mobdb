@@ -31,7 +31,7 @@ or "gbfs".}
 searching by provider/location. If \code{FALSE}, only return unofficial feeds.
 If \code{NULL} (default), return all feeds regardless of official status.}
 
-\item{status}{A string. Feed status filter: "active" (default), "deprecated",
+\item{status}{A string. Feed status filter: "active", "deprecated",
 "inactive", "development", or "future".}
 
 \item{gtfs_feature}{A character vector. Filter feeds by their GTFS features. Only valid
