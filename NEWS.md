@@ -51,14 +51,14 @@
 
 Added comprehensive support for General Bikeshare Feed Specification (GBFS) feeds:
 
-* `mobdb_download_gbfs()` - Get GBFS auto-discovery feed URLs
-* `mobdb_get_gbfs_stations()` - Fetch station locations and metadata
-* `mobdb_get_gbfs_station_status()` - Get real-time bike/dock availability
-* `mobdb_get_gbfs_system_information()` - System metadata (name, operator, timezone)
-* `mobdb_get_gbfs_vehicle_types()` - Vehicle type information (bikes, e-bikes, scooters)
-* `mobdb_get_gbfs_system_regions()` - Geographic service regions
-* `mobdb_get_gbfs_system_pricing_plans()` - Pricing information
-* `mobdb_get_gbfs_system_calendar()` - Service calendar dates
+* `download_gbfs()` - Get GBFS auto-discovery feed URLs
+* `get_gbfs_stations()` - Fetch station locations and metadata
+* `get_gbfs_station_status()` - Get real-time bike/dock availability
+* `get_gbfs_system_information()` - System metadata (name, operator, timezone)
+* `get_gbfs_vehicle_types()` - Vehicle type information (bikes, e-bikes, scooters)
+* `get_gbfs_system_regions()` - Geographic service regions
+* `get_gbfs_system_pricing_plans()` - Pricing information
+* `get_gbfs_system_calendar()` - Service calendar dates
 
 All GBFS functions support:
 

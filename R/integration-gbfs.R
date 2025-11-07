@@ -14,7 +14,7 @@
 #'
 #' @param system_id Character or data frame. The unique identifier for the
 #'   GBFS system (e.g., "lyft_nyc", "Mobibikes_CA_Vancouver"), or a single-row
-#'   data frame from [mobdb_feeds()] or [mobdb_search()]. If a data frame is
+#'   data frame from [feeds()] or [mobdb_search()]. If a data frame is
 #'   provided, the system ID will be extracted automatically. If provided, all
 #'   other search parameters are ignored.
 #' @param provider Character. Filter by provider/agency name (partial match).
@@ -35,17 +35,17 @@
 #' @examples
 #' \dontrun{
 #' # Get URL by system ID
-#' url <- mobdb_download_gbfs("gbfs-bcycle_lametro")
+#' url <- download_gbfs("gbfs-bcycle_lametro")
 #'
 #' # Get URL from search results
-#' feeds <- mobdb_feeds(data_type = "gbfs", limit = 10)
-#' url <- mobdb_download_gbfs(feeds[1, ])
+#' feeds <- feeds(data_type = "gbfs", limit = 10)
+#' url <- download_gbfs(feeds[1, ])
 #'
 #' # Search and get URL by provider name
-#' url <- mobdb_download_gbfs(provider = "Metro Bike Share")
+#' url <- download_gbfs(provider = "Metro Bike Share")
 #'
 #' # Filter by location (may return multiple - add provider to narrow down)
-#' url <- mobdb_download_gbfs(
+#' url <- download_gbfs(
 #'   country_code = "US",
 #'   subdivision_name = "California",
 #'   provider = "Bay Wheels"
@@ -53,7 +53,7 @@
 #' }
 #'
 #' @export
-mobdb_download_gbfs <- function(system_id = NULL,
+download_gbfs <- function(system_id = NULL,
                                  provider = NULL,
                                  country_code = NULL,
                                  subdivision_name = NULL,
@@ -74,7 +74,7 @@ mobdb_download_gbfs <- function(system_id = NULL,
     if (!"id" %in% names(system_id)) {
       cli::cli_abort(c(
         "{.arg system_id} data frame must have an {.field id} column.",
-        "i" = "Pass a data frame from {.fn mobdb_feeds} or {.fn mobdb_search}."
+        "i" = "Pass a data frame from {.fn feeds} or {.fn mobdb_search}."
       ))
     }
 
@@ -103,7 +103,7 @@ mobdb_download_gbfs <- function(system_id = NULL,
     cli::cli_inform("Searching for GBFS feeds...")
 
     # Query feeds with provided filters
-    feeds <- mobdb_feeds(
+    feeds <- feeds(
       provider = provider,
       country_code = country_code,
       subdivision_name = subdivision_name,
@@ -154,7 +154,7 @@ mobdb_download_gbfs <- function(system_id = NULL,
       cli::cli_abort(c(
         "x" = "Multiple feeds found. Please specify which one to use.",
         "i" = paste0(
-          "Use {.code mobdb_download_gbfs(system_id = ...)} ",
+          "Use {.code download_gbfs(system_id = ...)} ",
           "with one of the IDs above."
         ),
         "i" = "Or refine your search with {.arg provider} or {.arg feed_name}."
@@ -202,9 +202,9 @@ mobdb_download_gbfs <- function(system_id = NULL,
 #' This includes station locations, names, capacities, and other metadata.
 #'
 #' @param system_id Character or data frame. The unique identifier for the
-#'   GBFS system, or a single-row data frame from [mobdb_feeds()] or
+#'   GBFS system, or a single-row data frame from [feeds()] or
 #'   [mobdb_search()]. Can also be a GBFS auto-discovery URL.
-#' @param ... Additional parameters passed to [mobdb_download_gbfs()] when
+#' @param ... Additional parameters passed to [download_gbfs()] when
 #'   searching for feeds (e.g., provider, country_code, etc.).
 #'
 #' @return A tibble containing station information with columns such as
@@ -220,19 +220,19 @@ mobdb_download_gbfs <- function(system_id = NULL,
 #' stations <- mobdb_get_gbfs_stations("gbfs-bcycle_lametro")
 #'
 #' # Get stations from search results
-#' feeds <- mobdb_feeds(data_type = "gbfs", limit = 10)
+#' feeds <- feeds(data_type = "gbfs", limit = 10)
 #' stations <- mobdb_get_gbfs_stations(feeds[1, ])
 #' }
 #'
 #' @export
-mobdb_get_gbfs_stations <- function(system_id = NULL, ...) {
+get_gbfs_stations <- function(system_id = NULL, ...) {
   # Get the GBFS auto-discovery URL
   if (is.character(system_id) && grepl("^https?://", system_id)) {
     # Already a URL
     gbfs_url <- system_id
   } else {
-    # Get URL using mobdb_download_gbfs
-    gbfs_url <- mobdb_download_gbfs(system_id = system_id, ...)
+    # Get URL using download_gbfs
+    gbfs_url <- download_gbfs(system_id = system_id, ...)
   }
 
   # Fetch the auto-discovery feed
@@ -314,9 +314,9 @@ mobdb_get_gbfs_stations <- function(system_id = NULL, ...) {
 #' station operational status, and last update times.
 #'
 #' @param system_id Character or data frame. The unique identifier for the
-#'   GBFS system, or a single-row data frame from [mobdb_feeds()] or
+#'   GBFS system, or a single-row data frame from [feeds()] or
 #'   [mobdb_search()]. Can also be a GBFS auto-discovery URL.
-#' @param ... Additional parameters passed to [mobdb_download_gbfs()] when
+#' @param ... Additional parameters passed to [download_gbfs()] when
 #'   searching for feeds (e.g., provider, country_code, etc.).
 #'
 #' @return A tibble containing real-time station status with columns such as
@@ -333,7 +333,7 @@ mobdb_get_gbfs_stations <- function(system_id = NULL, ...) {
 #' status <- mobdb_get_gbfs_station_status("gbfs-bcycle_lametro")
 #'
 #' # Get status from search results
-#' feeds <- mobdb_feeds(data_type = "gbfs", limit = 10)
+#' feeds <- feeds(data_type = "gbfs", limit = 10)
 #' status <- mobdb_get_gbfs_station_status(feeds[1, ])
 #'
 #' # Join with station information for full details
@@ -343,14 +343,14 @@ mobdb_get_gbfs_stations <- function(system_id = NULL, ...) {
 #' }
 #'
 #' @export
-mobdb_get_gbfs_station_status <- function(system_id = NULL, ...) {
+get_gbfs_station_status <- function(system_id = NULL, ...) {
   # Get the GBFS auto-discovery URL
   if (is.character(system_id) && grepl("^https?://", system_id)) {
     # Already a URL
     gbfs_url <- system_id
   } else {
-    # Get URL using mobdb_download_gbfs
-    gbfs_url <- mobdb_download_gbfs(system_id = system_id, ...)
+    # Get URL using download_gbfs
+    gbfs_url <- download_gbfs(system_id = system_id, ...)
   }
 
   # Fetch the auto-discovery feed
@@ -431,9 +431,9 @@ mobdb_get_gbfs_station_status <- function(system_id = NULL, ...) {
 #' the system such as name, operator, timezone, language, and URLs.
 #'
 #' @param system_id Character or data frame. The unique identifier for the
-#'   GBFS system, or a single-row data frame from [mobdb_feeds()] or
+#'   GBFS system, or a single-row data frame from [feeds()] or
 #'   [mobdb_search()]. Can also be a GBFS auto-discovery URL.
-#' @param ... Additional parameters passed to [mobdb_download_gbfs()] when
+#' @param ... Additional parameters passed to [download_gbfs()] when
 #'   searching for feeds (e.g., provider, country_code, etc.).
 #'
 #' @return A list containing system information fields such as system_id,
@@ -449,7 +449,7 @@ mobdb_get_gbfs_station_status <- function(system_id = NULL, ...) {
 #' }
 #'
 #' @export
-mobdb_get_gbfs_system_information <- function(system_id = NULL, ...) {
+get_gbfs_system_information <- function(system_id = NULL, ...) {
   feed_data <- get_gbfs_feed_data(system_id, "system_information", ...)
   cli::cli_inform("Retrieved system information.")
   feed_data$data
@@ -462,9 +462,9 @@ mobdb_get_gbfs_system_information <- function(system_id = NULL, ...) {
 #' scooters, etc.) including their capabilities and features.
 #'
 #' @param system_id Character or data frame. The unique identifier for the
-#'   GBFS system, or a single-row data frame from [mobdb_feeds()] or
+#'   GBFS system, or a single-row data frame from [feeds()] or
 #'   [mobdb_search()]. Can also be a GBFS auto-discovery URL.
-#' @param ... Additional parameters passed to [mobdb_download_gbfs()] when
+#' @param ... Additional parameters passed to [download_gbfs()] when
 #'   searching for feeds (e.g., provider, country_code, etc.).
 #'
 #' @return A tibble containing vehicle type information with columns such as
@@ -477,7 +477,7 @@ mobdb_get_gbfs_system_information <- function(system_id = NULL, ...) {
 #' }
 #'
 #' @export
-mobdb_get_gbfs_vehicle_types <- function(system_id = NULL, ...) {
+get_gbfs_vehicle_types <- function(system_id = NULL, ...) {
   feed_data <- get_gbfs_feed_data(system_id, "vehicle_types", ...)
 
   if (!"vehicle_types" %in% names(feed_data$data)) {
@@ -495,9 +495,9 @@ mobdb_get_gbfs_vehicle_types <- function(system_id = NULL, ...) {
 #' Fetches geographic regions that the system operates in.
 #'
 #' @param system_id Character or data frame. The unique identifier for the
-#'   GBFS system, or a single-row data frame from [mobdb_feeds()] or
+#'   GBFS system, or a single-row data frame from [feeds()] or
 #'   [mobdb_search()]. Can also be a GBFS auto-discovery URL.
-#' @param ... Additional parameters passed to [mobdb_download_gbfs()] when
+#' @param ... Additional parameters passed to [download_gbfs()] when
 #'   searching for feeds (e.g., provider, country_code, etc.).
 #'
 #' @return A tibble containing region information with columns such as
@@ -510,7 +510,7 @@ mobdb_get_gbfs_vehicle_types <- function(system_id = NULL, ...) {
 #' }
 #'
 #' @export
-mobdb_get_gbfs_system_regions <- function(system_id = NULL, ...) {
+get_gbfs_system_regions <- function(system_id = NULL, ...) {
   feed_data <- get_gbfs_feed_data(system_id, "system_regions", ...)
 
   if (!"regions" %in% names(feed_data$data)) {
@@ -528,9 +528,9 @@ mobdb_get_gbfs_system_regions <- function(system_id = NULL, ...) {
 #' Fetches pricing plan information for the system.
 #'
 #' @param system_id Character or data frame. The unique identifier for the
-#'   GBFS system, or a single-row data frame from [mobdb_feeds()] or
+#'   GBFS system, or a single-row data frame from [feeds()] or
 #'   [mobdb_search()]. Can also be a GBFS auto-discovery URL.
-#' @param ... Additional parameters passed to [mobdb_download_gbfs()] when
+#' @param ... Additional parameters passed to [download_gbfs()] when
 #'   searching for feeds (e.g., provider, country_code, etc.).
 #'
 #' @return A tibble containing pricing plan information with columns such as
@@ -543,7 +543,7 @@ mobdb_get_gbfs_system_regions <- function(system_id = NULL, ...) {
 #' }
 #'
 #' @export
-mobdb_get_gbfs_system_pricing_plans <- function(system_id = NULL, ...) {
+get_gbfs_system_pricing_plans <- function(system_id = NULL, ...) {
   feed_data <- get_gbfs_feed_data(system_id, "system_pricing_plans", ...)
 
   if (!"plans" %in% names(feed_data$data)) {
@@ -561,9 +561,9 @@ mobdb_get_gbfs_system_pricing_plans <- function(system_id = NULL, ...) {
 #' Fetches system calendar information showing service availability dates.
 #'
 #' @param system_id Character or data frame. The unique identifier for the
-#'   GBFS system, or a single-row data frame from [mobdb_feeds()] or
+#'   GBFS system, or a single-row data frame from [feeds()] or
 #'   [mobdb_search()]. Can also be a GBFS auto-discovery URL.
-#' @param ... Additional parameters passed to [mobdb_download_gbfs()] when
+#' @param ... Additional parameters passed to [download_gbfs()] when
 #'   searching for feeds (e.g., provider, country_code, etc.).
 #'
 #' @return A tibble containing calendar information with columns such as
@@ -576,7 +576,7 @@ mobdb_get_gbfs_system_pricing_plans <- function(system_id = NULL, ...) {
 #' }
 #'
 #' @export
-mobdb_get_gbfs_system_calendar <- function(system_id = NULL, ...) {
+get_gbfs_system_calendar <- function(system_id = NULL, ...) {
   feed_data <- get_gbfs_feed_data(system_id, "system_calendar", ...)
 
   if (!"calendars" %in% names(feed_data$data)) {
@@ -594,7 +594,7 @@ get_gbfs_feed_data <- function(system_id, feed_name, ...) {
   if (is.character(system_id) && grepl("^https?://", system_id)) {
     gbfs_url <- system_id
   } else {
-    gbfs_url <- mobdb_download_gbfs(system_id = system_id, ...)
+    gbfs_url <- download_gbfs(system_id = system_id, ...)
   }
 
   # Fetch the auto-discovery feed

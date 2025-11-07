@@ -29,12 +29,12 @@ static for the most part, while others are dynamic due to the nature of shared m
 
 ### Discovery
 
-As of version 0.1.1, `mobdb` supports basic discovery of GBFS feeds through the `mobdb_feeds()` function:
+As of version 0.1.1, `mobdb` supports basic discovery of GBFS feeds through the `feeds()` function:
 
 ```{r gbfs-basic-discovery}
 library(mobdb)
 
-pdx <- mobdb_feeds(provider = "portland", data_type = "gbfs")
+pdx <- feeds(provider = "portland", data_type = "gbfs")
 pdx
 # A tibble: 2 × 14
 #  id          data_type created_at external_ids provider feed_contact_email source_info$producer…¹ redirects
@@ -55,7 +55,7 @@ Once you've found the feeds you're interested in, you can analyze them. As with 
 library(gbfs)
 library(tidyverse)
 
-biketown <- mobdb_feeds(provider = "biketown")
+biketown <- feeds(provider = "biketown")
 gbfs_url <- biketown$source_info[[1, "producer_url"]]
 biketown_station_info <- get_station_information(city = gbfs_url, output = "return")
 
@@ -63,18 +63,18 @@ biketown_station_info <- get_station_information(city = gbfs_url, output = "retu
 
 ## Advanced GBFS with mobdb
 
-As of version 0.1.3, `mobdb` includes a number of convenience functions for discovery and parsing
+As of version 0.1.4, `mobdb` includes a number of convenience functions for discovery and parsing
 of GBFS feeds 
 
 ```{r gbfs-mobdb-search}
 library(tidyverse)
 
 # loads GBFS auto-discovery URL
-nyc <- mobdb_download_gbfs(provider = "Citi Bike")
+nyc <- download_gbfs(provider = "Citi Bike")
 
 # Load Citi Bike station details and status
-nyc_stations <- mobdb_get_gbfs_stations(nyc)
-nyc_station_status <- mobdb_get_gbfs_station_status(nyc)
+nyc_stations <- get_gbfs_stations(nyc)
+nyc_station_status <- get_gbfs_station_status(nyc)
 
 # Then join them together by station ID
 nyc_station_overview <- left_join(nyc_stations, nyc_station_status, by = "station_id")
