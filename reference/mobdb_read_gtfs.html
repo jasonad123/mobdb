@@ -21,7 +21,7 @@ package to be installed."><meta property="og:image" content="https://jasonad123.
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,8 +52,8 @@ package to be installed."><meta property="og:image" content="https://jasonad123.
     </div>
 
     <div class="ref-description section level2">
-    <p><a href="https://lifecycle.r-lib.org/articles/stages.html#superseded" class="external-link"><img src="figures/lifecycle-superseded.svg" alt="[Superseded]"></a>
-<strong>Note:</strong> This function is superseded by <code><a href="download_feed.html">download_feed()</a></code>, which provides
+    <p><a href="https://lifecycle.r-lib.org/articles/stages.html#superseded" class="external-link"><img src="figures/lifecycle-superseded.svg" alt="[Superseded]"></a></p>
+<p><strong>Note:</strong> This function is superseded by <code><a href="download_feed.html">download_feed()</a></code>, which provides
 the same functionality plus integrated search, Flex filtering, and more control
 over data sources. New code should use <code><a href="download_feed.html">download_feed()</a></code> instead. This function
 may be deprecated in the future once <code><a href="download_feed.html">download_feed()</a></code> supports historical datasets.</p>
@@ -72,12 +72,12 @@ package to be installed.</p>
 
 
 <dl><dt id="arg-feed-id">feed_id<a class="anchor" aria-label="anchor" href="#arg-feed-id"></a></dt>
-<dd><p>Character. The unique identifier for the feed, or a data frame
+<dd><p>A string. The unique identifier for the feed, or a data frame
 with a single row from <code><a href="feeds.html">feeds()</a></code> or <code><a href="mobdb_search.html">mobdb_search()</a></code>.</p></dd>
 
 
 <dt id="arg-dataset-id">dataset_id<a class="anchor" aria-label="anchor" href="#arg-dataset-id"></a></dt>
-<dd><p>Character. Optional specific dataset ID. If <code>NULL</code> (default),
+<dd><p>A string. Optional specific dataset ID. If <code>NULL</code> (default),
 uses the current/latest feed URL.</p></dd>
 
 
@@ -103,7 +103,6 @@ uses the current/latest feed URL.</p></dd>
 <span class="r-in"><span><span class="co"># Read specific historical dataset</span></span></span>
 <span class="r-in"><span><span class="va">gtfs_historical</span> <span class="op">&lt;-</span> <span class="fu">mobdb_read_gtfs</span><span class="op">(</span><span class="st">"mdb-53"</span>, dataset_id <span class="op">=</span> <span class="st">"mdb-53-202510250025"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -115,7 +114,7 @@ uses the current/latest feed URL.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

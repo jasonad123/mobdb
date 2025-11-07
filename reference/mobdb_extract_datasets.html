@@ -11,7 +11,7 @@ about the most recent dataset, including validation results."><meta property="og
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,9 +69,17 @@ about the most recent dataset, including validation results.</p>
 <li><p><code>hash</code> - Dataset file hash</p></li>
 <li><p><code>service_date_range_start</code> - Start of service dates</p></li>
 <li><p><code>service_date_range_end</code> - End of service dates</p></li>
-<li><p><code>total_error</code> - Number of validation errors</p></li>
-<li><p><code>total_warning</code> - Number of validation warnings</p></li>
+<li><p><code>total_error</code> - Number of validation errors (if available)</p></li>
+<li><p><code>total_warning</code> - Number of validation warnings (if available)</p></li>
+<li><p>Note: Report URLs (html_report, json_report) are only available when
+using <code><a href="mobdb_datasets.html">mobdb_datasets()</a></code>, not from search results</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="get_validation_report.html">get_validation_report()</a></code> to get full validation details with report URLs,
+<code><a href="mobdb_search.html">mobdb_search()</a></code> to search for feeds,
+<code><a href="mobdb_datasets.html">mobdb_datasets()</a></code> to get dataset information directly</p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -85,7 +93,6 @@ about the most recent dataset, including validation results.</p>
 <span class="r-in"><span><span class="co"># Filter for feeds with no errors</span></span></span>
 <span class="r-in"><span><span class="va">clean_feeds</span> <span class="op">&lt;-</span> <span class="va">datasets</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">total_error</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -97,7 +104,7 @@ about the most recent dataset, including validation results.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

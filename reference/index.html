@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,12 +36,64 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="get-started">Get started<a class="anchor" aria-label="anchor" href="#get-started"></a></h2>
+
+      <div class="section-desc"><p>Essential functions to begin using mobdb</p></div>
+
+      <dl></dl></div><div class="section level2">
 
 
 
 
-    </div><div class="section level2">
+      <dl><dt>
+
+          <code><a href="mobdb_has_key.html">mobdb_has_key()</a></code>
+
+        </dt>
+        <dd>Check if Mobility Database API token is configured</dd>
+
+        <dt>
+
+          <code><a href="mobdb_set_key.html">mobdb_set_key()</a></code>
+
+        </dt>
+        <dd>Set Mobility Database API refresh token</dd>
+
+        <dt>
+
+          <code><a href="mobdb_browse.html">mobdb_browse()</a></code>
+
+        </dt>
+        <dd>Load the Mobility Database in browser</dd>
+      </dl></div><div class="section level2">
+      <h2 id="discover-feeds">Discover feeds<a class="anchor" aria-label="anchor" href="#discover-feeds"></a></h2>
+
+      <div class="section-desc"><p>Search and explore available transit feeds</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="mobdb_search.html">mobdb_search()</a></code>
+          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+        </dt>
+        <dd>Search for feeds across the Mobility Database</dd>
+
+        <dt>
+
+          <code><a href="feeds.html">feeds()</a></code>
+
+        </dt>
+        <dd>List and filter feeds</dd>
+      </dl></div><div class="section level2">
+      <h2 id="download-feeds">Download feeds<a class="anchor" aria-label="anchor" href="#download-feeds"></a></h2>
+
+      <div class="section-desc"><p>Download feeds for analysis</p></div>
+
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -52,86 +104,113 @@
 
         </dt>
         <dd>Download GTFS Schedule feed</dd>
-      </dl><dl><dt>
 
-          <code><a href="feeds.html">feeds()</a></code>
-
-        </dt>
-        <dd>List and filter GTFS feeds</dd>
-      </dl><dl><dt>
-
-          <code><a href="mobdb_datasets.html">mobdb_datasets()</a></code>
-
-        </dt>
-        <dd>Get datasets for a feed</dd>
-      </dl><dl><dt>
-
-          <code><a href="mobdb_extract_datasets.html">mobdb_extract_datasets()</a></code>
-
-        </dt>
-        <dd>Extract latest dataset information from search results</dd>
-      </dl><dl><dt>
-
-          <code><a href="mobdb_extract_locations.html">mobdb_extract_locations()</a></code>
-
-        </dt>
-        <dd>Extract location information from search results</dd>
-      </dl><dl><dt>
-
-          <code><a href="mobdb_extract_urls.html">mobdb_extract_urls()</a></code>
-
-        </dt>
-        <dd>Extract download URLs from feed results</dd>
-      </dl><dl><dt>
-
-          <code><a href="mobdb_feed_url.html">mobdb_feed_url()</a></code>
-
-        </dt>
-        <dd>Get download URL for a feed</dd>
-      </dl><dl><dt>
-
-          <code><a href="mobdb_get_dataset.html">mobdb_get_dataset()</a></code>
-
-        </dt>
-        <dd>Get details for a specific dataset</dd>
-      </dl><dl><dt>
-
-          <code><a href="mobdb_get_feed.html">mobdb_get_feed()</a></code>
-
-        </dt>
-        <dd>Get details for a specific feed</dd>
-      </dl><dl><dt>
-
-          <code><a href="mobdb_has_key.html">mobdb_has_key()</a></code>
-
-        </dt>
-        <dd>Check if authentication is configured</dd>
-      </dl><dl><dt>
-
-          <code><a href="mobdb_metadata.html">mobdb_metadata()</a></code>
-
-        </dt>
-        <dd>Get Mobility Database API metadata</dd>
-      </dl><dl><dt>
+        <dt>
 
           <code><a href="mobdb_read_gtfs.html">mobdb_read_gtfs()</a></code>
           <span class="badge lifecycle lifecycle-superseded">superseded</span>
         </dt>
         <dd>Read GTFS feed directly from Mobility Database</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="assess-feed-quality">Assess feed quality<a class="anchor" aria-label="anchor" href="#assess-feed-quality"></a></h2>
 
-          <code><a href="mobdb_search.html">mobdb_search()</a></code>
-          <span class="badge lifecycle lifecycle-experimental">experimental</span>
+      <div class="section-desc"><p>Evaluate feed quality using MobilityData validation reports</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="filter_by_validation.html">filter_by_validation()</a></code>
+
         </dt>
-        <dd>Search for feeds across the Mobility Database</dd>
-      </dl><dl><dt>
+        <dd>Filter feeds or datasets by validation quality</dd>
 
-          <code><a href="mobdb_set_key.html">mobdb_set_key()</a></code>
+        <dt>
+
+          <code><a href="get_validation_report.html">get_validation_report()</a></code>
 
         </dt>
-        <dd>Set Mobility Database API refresh token</dd>
+        <dd>Get validation report for feeds or datasets</dd>
+
+        <dt>
+
+          <code><a href="view_validation_report.html">view_validation_report()</a></code>
+
+        </dt>
+        <dd>View validation report in browser</dd>
+      </dl></div><div class="section level2">
+      <h2 id="historical-datasets">Historical datasets<a class="anchor" aria-label="anchor" href="#historical-datasets"></a></h2>
+
+      <div class="section-desc"><p>Access and explore historical feed versions</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="mobdb_datasets.html">mobdb_datasets()</a></code>
+
+        </dt>
+        <dd>Get datasets for a feed</dd>
+
+        <dt>
+
+          <code><a href="mobdb_get_dataset.html">mobdb_get_dataset()</a></code>
+
+        </dt>
+        <dd>Get details for a specific dataset</dd>
+      </dl></div><div class="section level2">
+      <h2 id="work-with-feed-metadata">Work with feed metadata<a class="anchor" aria-label="anchor" href="#work-with-feed-metadata"></a></h2>
+
+      <div class="section-desc"><p>Extract and manipulate feed information</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="mobdb_extract_datasets.html">mobdb_extract_datasets()</a></code>
+
+        </dt>
+        <dd>Extract latest dataset information from search results</dd>
+
+        <dt>
+
+          <code><a href="mobdb_extract_locations.html">mobdb_extract_locations()</a></code>
+
+        </dt>
+        <dd>Extract location information from search results</dd>
+
+        <dt>
+
+          <code><a href="mobdb_extract_urls.html">mobdb_extract_urls()</a></code>
+
+        </dt>
+        <dd>Extract download URLs from feed results</dd>
+
+        <dt>
+
+          <code><a href="mobdb_get_feed.html">mobdb_get_feed()</a></code>
+
+        </dt>
+        <dd>Get details for a specific feed</dd>
+
+        <dt>
+
+          <code><a href="mobdb_feed_url.html">mobdb_feed_url()</a></code>
+
+        </dt>
+        <dd>Get download URL for a feed</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
@@ -139,7 +218,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

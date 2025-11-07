@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +36,40 @@
       <small>Source: <a href="https://github.com/jasonad123/mobdb/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.4" id="mobdb-014">mobdb 0.1.4<a class="anchor" aria-label="anchor" href="#mobdb-014"></a></h2>
+<div class="section level3">
+<h3 id="major-changes-0-1-4">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-0-1-4"></a></h3>
+<ul><li>
+<code><a href="../reference/download_feed.html">download_feed()</a></code> now supports downloading specific historical dataset versions via the <code>dataset_id</code> parameter</li>
+<li>
+<strong>New!</strong> <code><a href="../reference/get_validation_report.html">get_validation_report()</a></code> function extracts MobilityData validation summaries to help assess feed quality before downloading</li>
+<li>
+<strong>New!</strong> <code><a href="../reference/view_validation_report.html">view_validation_report()</a></code> function opens MobilityData validation reports in your browser</li>
+<li>
+<strong>New!</strong> <code><a href="../reference/filter_by_validation.html">filter_by_validation()</a></code> function filters feeds/datasets by quality thresholds (max errors/warnings)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes-0-1-4">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-1-4"></a></h3>
+<ul><li>
+<code><a href="../reference/mobdb_extract_datasets.html">mobdb_extract_datasets()</a></code> now includes <code>html_report</code> and <code>json_report</code> URLs in output</li>
+<li>
+<code>download_feed(latest = FALSE)</code> returns all available historical versions without downloading</li>
+<li>
+<code><a href="../reference/mobdb_search.html">mobdb_search()</a></code> now supports various parameters.</li>
+<li>
+<strong>New!</strong> <code><a href="../reference/mobdb_browse.html">mobdb_browse()</a></code> function opens the Mobility Database in your browser</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-1-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-1-4"></a></h3>
+<ul><li>
+<code><a href="../reference/download_feed.html">download_feed()</a></code> now validates feed status when searching by provider/location,</li>
+<li>
+<code><a href="../reference/feeds.html">feeds()</a></code> status validation now correctly accepts all five API statuses: “active”, “deprecated”, “inactive”, “development”, and “future”</li>
+<li>
+<code><a href="../reference/mobdb_search.html">mobdb_search()</a></code> now correctly performs searches</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.3" id="mobdb-013">mobdb 0.1.3<a class="anchor" aria-label="anchor" href="#mobdb-013"></a></h2>
 <div class="section level3">
@@ -102,7 +136,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

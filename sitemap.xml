@@ -9,8 +9,11 @@
 <url><loc>https://jasonad123.github.io/mobdb/news/index.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/download_feed.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/feeds.html</loc></url>
+<url><loc>https://jasonad123.github.io/mobdb/reference/filter_by_validation.html</loc></url>
+<url><loc>https://jasonad123.github.io/mobdb/reference/get_validation_report.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/index.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb-package.html</loc></url>
+<url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_browse.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_datasets.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_extract_datasets.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_extract_locations.html</loc></url>
@@ -19,9 +22,9 @@
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_get_dataset.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_get_feed.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_has_key.html</loc></url>
-<url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_metadata.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_read_gtfs.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_search.html</loc></url>
 <url><loc>https://jasonad123.github.io/mobdb/reference/mobdb_set_key.html</loc></url>
+<url><loc>https://jasonad123.github.io/mobdb/reference/view_validation_report.html</loc></url>
 </urlset>
 
