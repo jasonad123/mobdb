@@ -34,7 +34,9 @@
 ### Bug fixes
 
 - [`download_feed()`](https://jasonad123.github.io/mobdb/reference/download_feed.md)
-  now validates feed status when searching by provider/location,
+  now validates feed status when searching by provider/location
+- [`download_feed()`](https://jasonad123.github.io/mobdb/reference/download_feed.md)
+  correctly filters official feed status
 - [`feeds()`](https://jasonad123.github.io/mobdb/reference/feeds.md)
   status validation now correctly accepts all five API statuses:
   “active”, “deprecated”, “inactive”, “development”, and “future”

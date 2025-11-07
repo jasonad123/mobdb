@@ -45,7 +45,7 @@ All functions are identical to that function.'><meta property="og:image" content
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Download GTFS Schedule feed</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jasonad123/mobdb/blob/v0.1.4/R/integration-tidytransit.R" class="external-link"><code>R/integration-tidytransit.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jasonad123/mobdb/blob/main/R/integration-tidytransit.R" class="external-link"><code>R/integration-tidytransit.R</code></a></small>
       <div class="d-none name"><code>download_feed.Rd</code></div>
     </div>
 
@@ -73,7 +73,7 @@ All functions are identical to that function.</em></p>
 <span>  dataset_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  latest <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  status <span class="op">=</span> <span class="st">"active"</span>,</span>
-<span>  official <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  official <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -129,13 +129,16 @@ but could differ from MobilityData's version.</p></dd>
 <dt id="arg-dataset-id">dataset_id<a class="anchor" aria-label="anchor" href="#arg-dataset-id"></a></dt>
 <dd><p>A string. Optional specific dataset ID for historical versions
 (e.g., "mdb-53-202510250025"). If provided, downloads that specific dataset
-version instead of the latest. Cannot be used with <code>use_source_url = TRUE</code>.</p></dd>
+version instead of the latest. Cannot be used with <code>use_source_url = TRUE</code>.
+If <code>dataset_id</code> is provided without <code>feed_id</code>, the feed ID will be automatically
+extracted from the dataset ID format.</p></dd>
 
 
 <dt id="arg-latest">latest<a class="anchor" aria-label="anchor" href="#arg-latest"></a></dt>
 <dd><p>A logical. If <code>TRUE</code> (default), download the most recent dataset.
 If <code>FALSE</code>, returns information about all available datasets for the feed
-without downloading.</p></dd>
+without downloading. Only works when <code>feed_id</code> is provided directly; cannot
+be used with search parameters like <code>provider</code> or <code>country_code</code>.</p></dd>
 
 
 <dt id="arg-status">status<a class="anchor" aria-label="anchor" href="#arg-status"></a></dt>
@@ -144,8 +147,9 @@ without downloading.</p></dd>
 
 
 <dt id="arg-official">official<a class="anchor" aria-label="anchor" href="#arg-official"></a></dt>
-<dd><p>A logical. If <code>TRUE</code> (default), only return official feeds when
-searching by provider/location. If <code>FALSE</code>, only return unofficial feeds.
+<dd><p>A logical. If <code>TRUE</code> (default), return official feeds and feeds
+with unknown official status (NA) when searching by provider/location.
+If <code>FALSE</code>, only return feeds explicitly marked as unofficial.
 If <code>NULL</code>, return all feeds regardless of official status.</p></dd>
 
 
@@ -198,7 +202,10 @@ If <code>latest = FALSE</code>, a tibble of all available datasets with their me
 <span class="r-in"><span><span class="co"># See all available versions for a feed</span></span></span>
 <span class="r-in"><span><span class="va">versions</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span><span class="st">"mdb-2862"</span>, latest <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Download a specific historical version</span></span></span>
+<span class="r-in"><span><span class="co"># Download a specific historical version (feed_id auto-extracted from dataset_id)</span></span></span>
+<span class="r-in"><span><span class="va">historical</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span>dataset_id <span class="op">=</span> <span class="st">"mdb-53-202507240047"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or specify both explicitly</span></span></span>
 <span class="r-in"><span><span class="va">historical</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span><span class="st">"mdb-53"</span>, dataset_id <span class="op">=</span> <span class="st">"mdb-53-202507240047"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>

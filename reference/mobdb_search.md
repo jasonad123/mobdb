@@ -55,8 +55,8 @@ mobdb_search(
 
 - status:
 
-  A string. Feed status filter: "active" (default), "deprecated",
-  "inactive", "development", or "future".
+  A string. Feed status filter: "active", "deprecated", "inactive",
+  "development", or "future".
 
 - gtfs_feature:
 

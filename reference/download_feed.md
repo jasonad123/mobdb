@@ -27,7 +27,7 @@ download_feed(
   dataset_id = NULL,
   latest = TRUE,
   status = "active",
-  official = TRUE,
+  official = NULL,
   ...
 )
 ```
@@ -85,13 +85,17 @@ download_feed(
   A string. Optional specific dataset ID for historical versions (e.g.,
   "mdb-53-202510250025"). If provided, downloads that specific dataset
   version instead of the latest. Cannot be used with
-  `use_source_url = TRUE`.
+  `use_source_url = TRUE`. If `dataset_id` is provided without
+  `feed_id`, the feed ID will be automatically extracted from the
+  dataset ID format.
 
 - latest:
 
   A logical. If `TRUE` (default), download the most recent dataset. If
   `FALSE`, returns information about all available datasets for the feed
-  without downloading.
+  without downloading. Only works when `feed_id` is provided directly;
+  cannot be used with search parameters like `provider` or
+  `country_code`.
 
 - status:
 
@@ -101,9 +105,10 @@ download_feed(
 
 - official:
 
-  A logical. If `TRUE` (default), only return official feeds when
-  searching by provider/location. If `FALSE`, only return unofficial
-  feeds. If `NULL`, return all feeds regardless of official status.
+  A logical. If `TRUE` (default), return official feeds and feeds with
+  unknown official status (NA) when searching by provider/location. If
+  `FALSE`, only return feeds explicitly marked as unofficial. If `NULL`,
+  return all feeds regardless of official status.
 
 - ...:
 
@@ -161,7 +166,10 @@ gtfs <- download_feed(provider = "TTC", official = NULL)
 # See all available versions for a feed
 versions <- download_feed("mdb-2862", latest = FALSE)
 
-# Download a specific historical version
+# Download a specific historical version (feed_id auto-extracted from dataset_id)
+historical <- download_feed(dataset_id = "mdb-53-202507240047")
+
+# Or specify both explicitly
 historical <- download_feed("mdb-53", dataset_id = "mdb-53-202507240047")
 } # }
 ```
