@@ -20,6 +20,7 @@ station_id, name, lat, lon, capacity, etc. The exact columns depend on
 the GBFS version and what the provider includes.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Fetches station information from a GBFS feed and returns it as a data frame.
 This includes station locations, names, capacities, and other metadata.
 }

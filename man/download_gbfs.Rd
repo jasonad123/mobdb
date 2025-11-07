@@ -45,6 +45,7 @@ or "deprecated". Only used when searching by provider/location.}
 A character string containing the GBFS feed URL.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 A convenience function for retrieving GBFS auto-discovery feed
 URLs from the Mobility Database. This can search for feeds by provider
 or location and return the source URL in a single call,

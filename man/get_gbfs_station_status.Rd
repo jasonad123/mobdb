@@ -21,6 +21,7 @@ is_returning, is_installed, last_reported, etc. The exact columns depend
 on the GBFS version and what the provider includes.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Fetches real-time station status from a GBFS feed and returns it as a
 data frame. This includes current availability of bikes and docks,
 station operational status, and last update times.

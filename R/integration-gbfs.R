@@ -1,6 +1,7 @@
 #' Get GBFS feed URL
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
 #' A convenience function for retrieving GBFS auto-discovery feed
 #' URLs from the Mobility Database. This can search for feeds by provider
 #' or location and return the source URL in a single call,
@@ -198,6 +199,7 @@ download_gbfs <- function(system_id = NULL,
 #' Get GBFS station information
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
 #' Fetches station information from a GBFS feed and returns it as a data frame.
 #' This includes station locations, names, capacities, and other metadata.
 #'
@@ -309,6 +311,7 @@ get_gbfs_stations <- function(system_id = NULL, ...) {
 #' Get GBFS station status
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
 #' Fetches real-time station status from a GBFS feed and returns it as a
 #' data frame. This includes current availability of bikes and docks,
 #' station operational status, and last update times.
@@ -427,6 +430,7 @@ get_gbfs_station_status <- function(system_id = NULL, ...) {
 #' Get GBFS system information
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
 #' Fetches system information from a GBFS feed. This includes metadata about
 #' the system such as name, operator, timezone, language, and URLs.
 #'
@@ -525,6 +529,7 @@ get_gbfs_system_regions <- function(system_id = NULL, ...) {
 #' Get GBFS system pricing plans
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
 #' Fetches pricing plan information for the system.
 #'
 #' @param system_id Character or data frame. The unique identifier for the
@@ -558,6 +563,7 @@ get_gbfs_system_pricing_plans <- function(system_id = NULL, ...) {
 #' Get GBFS system calendar
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
 #' Fetches system calendar information showing service availability dates.
 #'
 #' @param system_id Character or data frame. The unique identifier for the

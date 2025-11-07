@@ -19,6 +19,7 @@ A tibble containing calendar information with columns such as
 start_month, start_day, end_month, end_day.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Fetches system calendar information showing service availability dates.
 }
 \examples{

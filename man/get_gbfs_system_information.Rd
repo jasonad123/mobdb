@@ -19,6 +19,7 @@ A list containing system information fields such as system_id,
 name, operator, timezone, language, url, purchase_url, start_date, etc.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Fetches system information from a GBFS feed. This includes metadata about
 the system such as name, operator, timezone, language, and URLs.
 }

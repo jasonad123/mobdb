@@ -19,6 +19,7 @@ A tibble containing pricing plan information with columns such as
 plan_id, name, currency, price, description, is_taxable.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Fetches pricing plan information for the system.
 }
 \examples{

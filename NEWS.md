@@ -1,3 +1,25 @@
+# mobdb 0.2.0
+
+## Major changes
+
+This version adds experimental support for General Bikeshare Feed Specification (GBFS) feeds:
+
+* `download_gbfs()` - Get GBFS auto-discovery feed URLs
+* `get_gbfs_stations()` - Fetch station locations and metadata
+* `get_gbfs_station_status()` - Get real-time bike/dock availability
+* `get_gbfs_system_information()` - System metadata (name, operator, timezone)
+* `get_gbfs_vehicle_types()` - Vehicle type information (bikes, e-bikes, scooters)
+* `get_gbfs_system_regions()` - Geographic service regions
+* `get_gbfs_system_pricing_plans()` - Pricing information
+* `get_gbfs_system_calendar()` - Service calendar dates
+
+All GBFS functions support:
+
+* Provider name search
+* System ID lookup
+* Direct URL input
+* Data frame input from search results
+
 # mobdb 0.1.5
 
 ## Major changes
@@ -12,7 +34,7 @@
 
 ## Minor changes
 
-* **New!** Vignette: "Working with GTFS-Realtime and GBFS" 
+* **New!** Vignette: "Working with GTFS-Realtime and GBFS"
 * `feeds_bbox()` supports both numeric vectors and sf bbox objects
 * Added `sf` to Suggests for bbox object support
 
@@ -47,25 +69,6 @@
 
 * `mobdb_feeds()` is now called `feeds()`. This is a **breaking change** and requires all code that uses this function to be updated to use the new function name.
 
-## New GBFS Support
-
-Added comprehensive support for General Bikeshare Feed Specification (GBFS) feeds:
-
-* `download_gbfs()` - Get GBFS auto-discovery feed URLs
-* `get_gbfs_stations()` - Fetch station locations and metadata
-* `get_gbfs_station_status()` - Get real-time bike/dock availability
-* `get_gbfs_system_information()` - System metadata (name, operator, timezone)
-* `get_gbfs_vehicle_types()` - Vehicle type information (bikes, e-bikes, scooters)
-* `get_gbfs_system_regions()` - Geographic service regions
-* `get_gbfs_system_pricing_plans()` - Pricing information
-* `get_gbfs_system_calendar()` - Service calendar dates
-
-All GBFS functions support:
-
-* Provider name search
-* System ID lookup
-* Direct URL input
-* Data frame input from search results
 
 ## Minor changes
 
