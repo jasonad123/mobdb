@@ -16,7 +16,7 @@ input tibble. Returns \code{NA} for feeds without a URL.
 \description{
 Helper function to extract producer URLs from a tibble of feeds returned
 by \code{\link[=feeds]{feeds()}} or \code{\link[=mobdb_search]{mobdb_search()}}. This is useful when you want to
-get all the download URLs from a set of search results.
+get all the source URLs from a set of search results.
 }
 \examples{
 \dontrun{
@@ -28,5 +28,4 @@ urls <- mobdb_extract_urls(feeds)
 ca_gtfs <- feeds(subdivision_name = "California", data_type = "gtfs")
 ca_urls <- mobdb_extract_urls(ca_gtfs)
 }
-
 }

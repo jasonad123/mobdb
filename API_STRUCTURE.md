@@ -29,7 +29,7 @@ When you call `feeds()` or `mobdb_search()`, you get a tibble with these columns
 | `id` | character | Unique feed identifier (e.g., "mdb-195") |
 | `data_type` | character | Feed type: "gtfs" or "gtfs_rt" |
 | `provider` | character | Transit agency/provider name |
-| `status` | character | "active", "inactive", or "deprecated" |
+| `status` | character | "active", "deprecated", "inactive", "development", or "future" |
 | `created_at` | character | ISO timestamp of when feed was added |
 | `feed_contact_email` | character | Contact email (may be empty) |
 | `official` | logical | Whether feed is officially maintained |

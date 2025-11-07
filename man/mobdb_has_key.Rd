@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-auth.R
 \name{mobdb_has_key}
 \alias{mobdb_has_key}
-\title{Check if authentication is configured}
+\title{Check if Mobility Database API token is configured}
 \usage{
 mobdb_has_key()
 }
@@ -17,5 +17,5 @@ is available in the environment.
 \dontrun{
 mobdb_has_key()
 }
-
 }
+\concept{authentication}

@@ -7,10 +7,10 @@
 mobdb_read_gtfs(feed_id, dataset_id = NULL, ...)
 }
 \arguments{
-\item{feed_id}{Character. The unique identifier for the feed, or a data frame
+\item{feed_id}{A string. The unique identifier for the feed, or a data frame
 with a single row from \code{\link[=feeds]{feeds()}} or \code{\link[=mobdb_search]{mobdb_search()}}.}
 
-\item{dataset_id}{Character. Optional specific dataset ID. If \code{NULL} (default),
+\item{dataset_id}{A string. Optional specific dataset ID. If \code{NULL} (default),
 uses the current/latest feed URL.}
 
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
@@ -20,6 +20,7 @@ A \code{gtfs} object as returned by \code{\link[tidytransit:read_gtfs]{tidytrans
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
 \strong{Note:} This function is superseded by \code{\link[=download_feed]{download_feed()}}, which provides
 the same functionality plus integrated search, Flex filtering, and more control
 over data sources. New code should use \code{\link[=download_feed]{download_feed()}} instead. This function
@@ -41,5 +42,4 @@ gtfs <- mobdb_read_gtfs(feeds[1, ])
 # Read specific historical dataset
 gtfs_historical <- mobdb_read_gtfs("mdb-53", dataset_id = "mdb-53-202510250025")
 }
-
 }

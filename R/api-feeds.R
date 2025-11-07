@@ -1,29 +1,30 @@
-#' List and filter GTFS feeds
+#' List and filter feeds
 #'
 #' @description
 #' Query the Mobility Database for transit/bikeshare feeds matching specified criteria.
 #' Returns a tibble with feed metadata including download URLs.
-#' **Info:** This function was formerly called \code{mobdb_feeds()}.
-#' All functions are identical to that function.
 #'
-#' @param provider Character. Filter by provider/agency name (partial match).
-#' @param country_code Character. Two-letter ISO country code
+#' *This function was formerly called \code{mobdb_feeds()}.
+#' All functions are identical to that function.*
+#'
+#' @param provider A string. Filter by provider/agency name (partial match).
+#' @param country_code A string. Two-letter ISO country code
 #'   (e.g., "US", "CA"). **Note:** Location filters (`country_code`,
 #'   `subdivision_name`, `municipality`) require `data_type` to be specified.
-#' @param subdivision_name Character. State, province, or region name.
+#' @param subdivision_name A string. State, province, or region name.
 #'   Requires `data_type` to be specified.
-#' @param municipality Character. City or municipality name.
+#' @param municipality A string. City or municipality name.
 #'   Requires `data_type` to be specified.
-#' @param data_type Character. Type of feed: "gtfs" (schedule),
+#' @param data_type A string. Type of feed: "gtfs" (schedule),
 #'   "gtfs_rt" (realtime), or "gbfs" (bike share). Required when using
 #'   location filters.
-#' @param status Character. Feed status: "active", "deprecated",
-#'   "inactive", "development", or "future". 
-#' @param official Logical. If `TRUE`, only return official feeds.
+#' @param status A string. Feed status: "active", "deprecated",
+#'   "inactive", "development", or "future".
+#' @param official A logical. If `TRUE`, only return official feeds.
 #'   If `FALSE`, only return unofficial feeds. If `NULL` (default),
 #'   return all feeds regardless of official status.
-#' @param limit Integer. Maximum number of results to return (default: 100).
-#' @param offset Integer. Number of results to skip for pagination
+#' @param limit An integer. Maximum number of results to return (default: 100).
+#' @param offset An integer. Number of results to skip for pagination
 #'   (default: 0).
 #'
 #' @return A tibble containing feed information with columns including:
@@ -61,18 +62,17 @@
 #' # Get feeds with pagination
 #' first_100 <- feeds(limit = 100, offset = 0)
 #' next_100 <- feeds(limit = 100, offset = 100)
-#'
 #' }
 #' @export
 feeds <- function(provider = NULL,
-                        country_code = NULL,
-                        subdivision_name = NULL,
-                        municipality = NULL,
-                        data_type = NULL,
-                        status = NULL,
-                        official = NULL,
-                        limit = 100,
-                        offset = 0) {
+                  country_code = NULL,
+                  subdivision_name = NULL,
+                  municipality = NULL,
+                  data_type = NULL,
+                  status = NULL,
+                  official = NULL,
+                  limit = 100,
+                  offset = 0) {
 
   # Validate data_type if provided
   if (!is.null(data_type)) {
@@ -81,7 +81,7 @@ feeds <- function(provider = NULL,
 
   # Validate status if provided
   if (!is.null(status)) {
-    status <- match.arg(status, c("active", "inactive", "deprecated"))
+    status <- match.arg(status, c("active", "deprecated", "inactive", "development", "future"))
   }
 
   # Location filters require specific endpoints (data_type must be set)
@@ -153,7 +153,7 @@ feeds <- function(provider = NULL,
 #' @description
 #' Retrieve detailed information about a single feed by its ID.
 #'
-#' @param feed_id Character. The unique identifier for the feed.
+#' @param feed_id A string. The unique identifier for the feed.
 #'
 #' @return A list containing detailed feed information.
 #'
@@ -161,7 +161,6 @@ feeds <- function(provider = NULL,
 #' \dontrun{
 #' # Get details for a specific feed
 #' feed_details <- mobdb_get_feed("mdb-53")
-#'
 #' }
 #' @export
 mobdb_get_feed <- function(feed_id) {
@@ -185,9 +184,9 @@ mobdb_get_feed <- function(feed_id) {
 #' This is useful for passing to tidytransit::read_gtfs() or similar
 #' functions.
 #'
-#' @param feed_id Character. The unique identifier for the feed.
+#' @param feed_id A string. The unique identifier for the feed.
 #'
-#' @return Character. The direct download URL, or `NULL` if not available.
+#' @return A string. The direct download URL, or `NULL` if not available.
 #'
 #' @examples
 #' \dontrun{
@@ -197,7 +196,6 @@ mobdb_get_feed <- function(feed_id) {
 #' # Use with tidytransit
 #' library(tidytransit)
 #' gtfs <- read_gtfs(url)
-#'
 #' }
 #' @export
 mobdb_feed_url <- function(feed_id) {

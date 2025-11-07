@@ -5,7 +5,7 @@
 [![R-CMD-check](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-**mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule, GTFS Realtime, and GBFS (General Bikeshare Feed Specification) feeds from transit agencies worldwide.
+**mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule, GTFS Realtime, and GBFS (General Bikeshare Feed Specification) feeds from organizations worldwide.
 
 ## Installation
 
@@ -17,7 +17,7 @@ You can install the development version of mobdb from GitHub:
 pak::pak("jasonad123/mobdb")
 
 # Or using remotes
-# install.packages("pak")
+# install.packages("remotes")
 remotes::install_github("jasonad123/mobdb")
 ```
 
@@ -56,11 +56,12 @@ on_feeds <- feeds(
   data_type = "gtfs"
 )
 
-# Search for a specific provider
-translink_yvr <- feeds(provider = "TransLink Vancouver")
+# Or search generically
+toronto <- mobdb_search(provider = "toronto")
 
-# Note: mobdb_search() uses the /search endpoint which has known issues
-# with relevance ranking. Use feeds() with filters for better results.
+# Note: mobdb_search() has known issues with relevance ranking. 
+# Use feeds() with filters for more precise results.
+
 ```
 
 ### Download GTFS Schedule feeds
@@ -81,7 +82,7 @@ bart_gtfs <- download_feed(provider = "BART")
 dc_bus <- download_feed(provider = "WMATA", feed_name = "Bus")
 
 # Download from agency source URL instead of MobilityData hosted version
-gtfs <- download_feed(provider = "SFMTA", use_source_url = TRUE)
+gtfs <- download_feed(provider = "King County", use_source_url = TRUE)
 
 # Filter by location
 on_gtfs <- download_feed(
@@ -92,28 +93,28 @@ on_gtfs <- download_feed(
 # Export as GTFS zip file
 export_gtfs(stm_montreal, "data/gtfs/stm_montreal.zip")
 
+# Check exported file contents
 zip::zip_list("data/gtfs/stm_montreal.zip")$filename
-[1] "agency.txt"         "calendar.txt"       "calendar_dates.txt" "feed_info.txt"      "routes.txt"         "shapes.txt"
-[7] "stops.txt"          "stop_times.txt"     "trips.txt"
+#> [1] "agency.txt"         "calendar.txt"       "calendar_dates.txt"
+#> [4] "feed_info.txt"      "routes.txt"         "shapes.txt"
+#> [7] "stops.txt"          "stop_times.txt"     "trips.txt"
 ```
 
 **Note:** When multiple feeds match your search criteria, the function displays a table of options and prompts you to specify which feed to download using its feed ID.
 
 ```r
-> gtfs <- download_feed(provider = "San Francisco")
-Searching for GTFS Schedule feeds...
-! Found 2 matching feeds:
-  
-# A tibble: 2 × 4
-  id     provider                                                               feed_name status
-  <chr>  <chr>                                                                  <chr>     <chr> 
-1 mdb-62 San Francisco Bay Area Water Emergency Transportation Authority (WETA) ""        active
-2 mdb-50 San Francisco Municipal Transportation Agency (SFMTA, Muni)            ""        inact…
-Error in `download_feed()`:
-Multiple feeds found. Please specify which one to download.
-Use `download_feed(feed_id = "mdb-XXX")` with one of the IDs above.
-Or refine your search with the `provider` or `feed_name` parameters.
-
+gtfs <- download_feed(provider = "San Francisco")
+#> Searching for GTFS Schedule feeds...
+#> ! Found 2 matching feeds:
+#>
+#> # A tibble: 2 × 4
+#>   id     provider                                          feed_name status
+#>   <chr>  <chr>                                             <chr>     <chr>
+#> 1 mdb-62 San Francisco Bay Area Water Emergency Transp... ""        active
+#> 2 mdb-50 San Francisco Municipal Transportation Agency ... ""        inactive
+#>
+#> Error: Multiple feeds found. Please specify which one to download.
+#> Use `download_feed(feed_id = "mdb-XXX")` with one of the IDs above.
 ```
 
 ### Get feed details
@@ -130,14 +131,46 @@ feeds <- feeds(country_code = "US", data_type = "gtfs", limit = 10)
 urls <- mobdb_extract_urls(feeds)
 ```
 
+### Check feed quality before downloading
+
+MobilityData validates all GTFS Schedule feeds through the canonical GTFS validator. You can check validation results before downloading:
+
+```r
+# Get validation report for a feed
+datasets <- mobdb_datasets("mdb-482")  # Alexandria DASH
+validation <- get_validation_report(datasets)
+validation
+#> # A tibble: 1 × 12
+#>   dataset_id    feed_id total_error total_warning total_info html_report
+#>   <chr>         <chr>         <int>         <int>      <int> <chr>
+#> 1 mdb-482-2025… mdb-482           0            38          0 https://...
+
+# View detailed validation report in browser
+view_validation_report("mdb-482")
+
+# Check feed quality, then download if clean
+if (validation$total_error == 0) {
+  gtfs <- download_feed("mdb-482")
+}
+```
+
 ### Access historical datasets
 
 ```r
-# Get the latest dataset for a feed (only works with GTFS schedule feeds)
-latest <- mobdb_datasets("mdb-247", latest = TRUE)
+# List all available versions for a feed
+versions <- download_feed("mdb-53", latest = FALSE)  # BART
+nrow(versions)
+#> [1] 29
 
-# Get all historical versions
-all_versions <- mobdb_datasets("mdb-247", latest = FALSE)
+# Download a specific historical version
+historical <- download_feed("mdb-53", dataset_id = "mdb-53-202507240047")
+
+# Compare validation across versions
+recent_versions <- versions[1:3, ]
+sapply(1:3, function(i) {
+  get_validation_report(recent_versions[i, ])$total_error
+})
+#> [1]   2 266   2
 ```
 
 ### Using with tidytransit
@@ -182,14 +215,6 @@ page1 <- feeds(limit = 100, offset = 0)
 page2 <- feeds(limit = 100, offset = 100)
 ```
 
-## Project Status
-
-**What works:** Core API access (feeds, datasets, metadata), direct downloads, authentication, all filters. R CMD check: 0/0/0.
-
-**Experimental:** tidytransit integration (`mobdb_read_gtfs()`) - implemented but needs more testing.
-
-**Pipeline:** Unit tests with mocked responses, vignettes, batch downloads, caching, pkgdown site.
-
 ## API Endpoints
 
 The package provides access to the following Mobility Database API endpoints:
@@ -197,7 +222,6 @@ The package provides access to the following Mobility Database API endpoints:
 - **Feeds** (`feeds()`, `mobdb_get_feed()`) - Search and retrieve feed information
 - **Search** (`mobdb_search()`) - Full-text search across feeds
 - **Datasets** (`mobdb_datasets()`, `mobdb_get_dataset()`) - Access historical feed versions
-- **Metadata** (`mobdb_metadata()`) - Get API version and status information
 
 ## Related Packages
 

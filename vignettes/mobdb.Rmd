@@ -17,9 +17,10 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-**mobdb** is your first stop to analyzing transit in R. It helps you **find** and **download** GTFS feeds from the [Mobility Database](https://mobilitydatabase.org/), which contains information about 4000+ transit feeds worldwide.
+**mobdb** is your first stop to analyzing transit in R. It helps you **find** and **download** GTFS feeds from the [Mobility Database](https://mobilitydatabase.org/), which contains information for 
+about 4000+ transit and shared mobility feeds worldwide.
 
-After discovering and downloading feeds with mobdb, you can:
+After discovering and downloading feeds with `mobdb`, you can:
 
 -   **Analyze** feeds with [tidytransit](https://r-transit.github.io/tidytransit/) - calculate frequencies, travel times, and visualize routes
 -   **Edit** feeds with [gtfstools](https://ipeagit.github.io/gtfstools/) - filter, merge, and validate feeds
@@ -47,6 +48,9 @@ The Mobility Database API requires authentication. You'll need to:
 ```{r auth-setup}
 library(mobdb)
 
+# Shortcut to launch the Mobility Database in your browser
+mobdb_browse()
+
 # Set your API refresh token (do this once)
 # mobdb_set_key("your-refresh-token-here")
 
@@ -57,7 +61,7 @@ mobdb_has_key()
 
 **Tip:** Store your token in your `.Renviron` file to avoid entering it each session:
 
-``` r
+``` {r auth-storage}
 usethis::edit_r_environ()
 # Add this line:
 # MOBDB_REFRESH_TOKEN=your-refresh-token-here
@@ -100,7 +104,7 @@ bart <- download_feed(provider = "Bay Area Rapid Transit")
 
 # The result is a gtfs object (from tidytransit)
 class(bart)
-#> [1] "tidygtfs" "gtfs"     "list"    
+#> [1] "tidygtfs" "gtfs"     "list"
 
 names(bart)
 #> [1] "agency" "calendar" "calendar_attributes" "calendar_dates" "directions" ...
@@ -169,25 +173,6 @@ frequencies <- lapply(feeds_list, function(gtfs) {
 })
 ```
 
-## Advanced cases
-
-### Downloading with GTFS-Flex Filtering
-
-By default, `download_feed()` includes only core GTFS Schedule files. You can control GTFS-Flex inclusion:
-
-```{r flex-filtering}
-# Include all files (including Flex if present)
-gtfs_with_flex <- download_feed(
-  provider = "Cape Cod",
-  exclude_flex = FALSE
-)
-
-# Exclude Flex files (default)
-gtfs_no_flex <- download_feed(
-  provider = "Cape Cod",
-  exclude_flex = TRUE
-)
-```
 ## Complete Example Workflow
 
 Here's a complete example from discovery to analysis:
@@ -197,28 +182,31 @@ library(mobdb)
 library(tidytransit)
 library(ggplot2)
 library(tidyverse)
+library(sf)
 
 # 1. DISCOVER: Find feeds in Vancouver, BC, Canada
 vancouver_feeds <- feeds(
+  provider = "TransLink",
   municipality = "Vancouver",
   country_code = "CA",
   data_type = "gtfs"
 )
 
 # 2. DOWNLOAD: Get the sixth feed (TransLink)
-translink <- download_feed(vancouver_feeds$id[6])
+translink <- download_feed(vancouver_feeds$id[1])
 
 # 3. VALIDATE: Check feed quality (tidytransit)
 validation <- validate_gtfs(translink)
 print(validation)
 
 # 3a. VALIDATE (another way): Check feed quality (using the MobilityData report)
-feed_report <- vancouver_feeds$latest_dataset[6, ]
+vancouver_datasets <- mobdb_datasets(vancouver_feeds$id[1])
+feed_report <- get_validation_report(vancouver_datasets)
 print(feed_report)
 
 # 4. ANALYZE: Calculate AM route frequencies (tidytransit)
-am_route_freq <- get_route_frequency(translink, 
-                                     start_time = 6*3600, end_time = 10*3600) 
+am_route_freq <- get_route_frequency(translink,
+                                     start_time = 6 * 3600, end_time = 10 * 3600)
 head(am_route_freq) %>%
   knitr::kable()
 
@@ -226,26 +214,26 @@ head(am_route_freq) %>%
 translink <- gtfs_as_sf(translink)
 routes_sf <- get_route_geometry(translink)
 
-routes_sf <- routes_sf %>% 
+routes_sf <- routes_sf %>%
   inner_join(am_route_freq, by = "route_id")
 
 # 5. VISUALIZE: Plot routes with (tidytransit + ggplot2)
 # convert to an appropriate coordinate reference system
 routes_sf_crs <- sf::st_transform(routes_sf, 26910)
 
-routes_sf_crs %>% 
-  filter(median_headways < 10*60) %>%
-  ggplot() + 
-  geom_sf(aes(colour=as.factor(median_headways))) + 
+routes_sf_crs %>%
+  filter(median_headways < 10 * 60) %>%
+  ggplot() +
+  geom_sf(aes(colour = as.factor(median_headways))) +
   labs(color = "Headways") +
-  geom_sf_text(aes(label=route_id)) +
+  geom_sf_text(aes(label = route_id)) +
   theme_bw()
 
-routes_sf_buffer <- st_buffer(routes_sf, dist = routes_sf$total_departures/1e6)
+routes_sf_buffer <- st_buffer(routes_sf, dist = routes_sf$total_departures / 1e6)
 
-routes_sf_buffer %>% 
-  ggplot() + 
-  geom_sf(colour = alpha("white", 0), fill = alpha("blue",0.5)) +
+routes_sf_buffer %>%
+  ggplot() +
+  geom_sf(colour = alpha("white", 0), fill = alpha("blue", 0.5)) +
   theme_bw()
 ```
 

@@ -7,11 +7,11 @@
 mobdb_set_key(refresh_token, install = FALSE)
 }
 \arguments{
-\item{refresh_token}{Character. Your Mobility Database API refresh token.
+\item{refresh_token}{A string. Your Mobility Database API refresh token.
 Obtain this by signing up at https://mobilitydatabase.org and navigating
 to your account details page.}
 
-\item{install}{Logical. If \code{TRUE}, will set the token in \code{.Renviron} for use
+\item{install}{A logical. If \code{TRUE}, will set the token in \code{.Renviron} for use
 across sessions. If \code{FALSE} (default), token is only set for the current session.}
 }
 \value{
@@ -29,5 +29,5 @@ mobdb_set_key("your_refresh_token_here")
 # Set token permanently in .Renviron
 mobdb_set_key("your_refresh_token_here", install = TRUE)
 }
-
 }
+\concept{authentication}

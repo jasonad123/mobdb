@@ -5,8 +5,8 @@
 #' a specific feed. Each dataset represents a snapshot of the feed at a
 #' particular point in time.
 #'
-#' @param feed_id Character. The unique identifier for the feed.
-#' @param latest Logical. If `TRUE` (default), return only the most recent dataset.
+#' @param feed_id A string. The unique identifier for the feed.
+#' @param latest A logical. If `TRUE` (default), return only the most recent dataset.
 #'   If `FALSE`, return all available datasets.
 #'
 #' @return A tibble containing dataset information including:
@@ -24,14 +24,20 @@
 #'
 #' # Get all historical datasets
 #' all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
-#'
 #' }
+#'
+#' @seealso
+#' [download_feed()] to download specific historical versions,
+#' [get_validation_report()] to extract validation data from datasets,
+#' [mobdb_get_dataset()] to get details for a specific dataset
+#'
+#' @concept datasets
 #' @export
 mobdb_datasets <- function(feed_id, latest = TRUE) {
   if (!is.character(feed_id) || length(feed_id) != 1) {
     cli::cli_abort("{.arg feed_id} must be a single character string.")
   }
-  
+
   # Build query parameters
   query_params <- build_query(
     latest = if (latest) "true" else NULL
@@ -64,7 +70,7 @@ mobdb_datasets <- function(feed_id, latest = TRUE) {
 #' @description
 #' Retrieve detailed information about a single dataset by its ID.
 #'
-#' @param dataset_id Character. The unique identifier for the dataset.
+#' @param dataset_id A string. The unique identifier for the dataset.
 #'
 #' @return A list containing detailed dataset information.
 #'
@@ -72,8 +78,8 @@ mobdb_datasets <- function(feed_id, latest = TRUE) {
 #' \dontrun{
 #' # Get details for a specific dataset
 #' dataset_info <- mobdb_get_dataset("mdb-53-202510250025")
-#'
 #' }
+#' @concept datasets
 #' @export
 mobdb_get_dataset <- function(dataset_id) {
   if (!is.character(dataset_id) || length(dataset_id) != 1) {

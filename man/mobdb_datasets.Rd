@@ -7,9 +7,9 @@
 mobdb_datasets(feed_id, latest = TRUE)
 }
 \arguments{
-\item{feed_id}{Character. The unique identifier for the feed.}
+\item{feed_id}{A string. The unique identifier for the feed.}
 
-\item{latest}{Logical. If \code{TRUE} (default), return only the most recent dataset.
+\item{latest}{A logical. If \code{TRUE} (default), return only the most recent dataset.
 If \code{FALSE}, return all available datasets.}
 }
 \value{
@@ -35,6 +35,12 @@ latest <- mobdb_datasets("mdb-53")
 
 # Get all historical datasets
 all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
+}
 
 }
+\seealso{
+\code{\link[=download_feed]{download_feed()}} to download specific historical versions,
+\code{\link[=get_validation_report]{get_validation_report()}} to extract validation data from datasets,
+\code{\link[=mobdb_get_dataset]{mobdb_get_dataset()}} to get details for a specific dataset
 }
+\concept{datasets}

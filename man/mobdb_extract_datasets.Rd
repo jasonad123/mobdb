@@ -19,8 +19,10 @@ A tibble with one row per feed, containing key dataset information:
 \item \code{hash} - Dataset file hash
 \item \code{service_date_range_start} - Start of service dates
 \item \code{service_date_range_end} - End of service dates
-\item \code{total_error} - Number of validation errors
-\item \code{total_warning} - Number of validation warnings
+\item \code{total_error} - Number of validation errors (if available)
+\item \code{total_warning} - Number of validation warnings (if available)
+\item Note: Report URLs (html_report, json_report) are only available when
+using \code{\link[=mobdb_datasets]{mobdb_datasets()}}, not from search results
 }
 }
 \description{
@@ -39,5 +41,9 @@ datasets <- mobdb_extract_datasets(results)
 # Filter for feeds with no errors
 clean_feeds <- datasets |> filter(total_error == 0)
 }
-
+}
+\seealso{
+\code{\link[=get_validation_report]{get_validation_report()}} to get full validation details with report URLs,
+\code{\link[=mobdb_search]{mobdb_search()}} to search for feeds,
+\code{\link[=mobdb_datasets]{mobdb_datasets()}} to get dataset information directly
 }

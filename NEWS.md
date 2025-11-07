@@ -1,3 +1,25 @@
+# mobdb 0.1.4
+
+## Major changes
+
+* `download_feed()` now supports downloading specific historical dataset versions via the `dataset_id` parameter
+* **New!** `get_validation_report()` function extracts MobilityData validation summaries to help assess feed quality before downloading
+* **New!** `view_validation_report()` function opens MobilityData validation reports in your browser
+* **New!** `filter_by_validation()` function filters feeds/datasets by quality thresholds (max errors/warnings)
+
+## Minor changes
+
+* `mobdb_extract_datasets()` now includes `html_report` and `json_report` URLs in output
+* `download_feed(latest = FALSE)` returns all available historical versions without downloading
+* `mobdb_search()` now supports various parameters.
+* **New!** `mobdb_browse()` function opens the Mobility Database in your browser
+
+## Bug fixes
+
+* `download_feed()` now validates feed status when searching by provider/location,
+* `feeds()` status validation now correctly accepts all five API statuses: "active", "deprecated", "inactive", "development", and "future"
+* `mobdb_search()` now correctly performs searches
+
 # mobdb 0.1.3
 
 ## Major changes

@@ -33,5 +33,4 @@ locations <- mobdb_extract_locations(results)
 # Get summary (one row per feed)
 location_summary <- mobdb_extract_locations(results, unnest = FALSE)
 }
-
 }

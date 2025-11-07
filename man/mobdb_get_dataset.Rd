@@ -7,7 +7,7 @@
 mobdb_get_dataset(dataset_id)
 }
 \arguments{
-\item{dataset_id}{Character. The unique identifier for the dataset.}
+\item{dataset_id}{A string. The unique identifier for the dataset.}
 }
 \value{
 A list containing detailed dataset information.
@@ -19,6 +19,6 @@ Retrieve detailed information about a single dataset by its ID.
 \dontrun{
 # Get details for a specific dataset
 dataset_info <- mobdb_get_dataset("mdb-53-202510250025")
-
 }
 }
+\concept{datasets}

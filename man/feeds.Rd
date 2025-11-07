@@ -2,7 +2,7 @@
 % Please edit documentation in R/api-feeds.R
 \name{feeds}
 \alias{feeds}
-\title{List and filter GTFS feeds}
+\title{List and filter feeds}
 \usage{
 feeds(
   provider = NULL,
@@ -17,32 +17,32 @@ feeds(
 )
 }
 \arguments{
-\item{provider}{Character. Filter by provider/agency name (partial match).}
+\item{provider}{A string. Filter by provider/agency name (partial match).}
 
-\item{country_code}{Character. Two-letter ISO country code
+\item{country_code}{A string. Two-letter ISO country code
 (e.g., "US", "CA"). \strong{Note:} Location filters (\code{country_code},
 \code{subdivision_name}, \code{municipality}) require \code{data_type} to be specified.}
 
-\item{subdivision_name}{Character. State, province, or region name.
+\item{subdivision_name}{A string. State, province, or region name.
 Requires \code{data_type} to be specified.}
 
-\item{municipality}{Character. City or municipality name.
+\item{municipality}{A string. City or municipality name.
 Requires \code{data_type} to be specified.}
 
-\item{data_type}{Character. Type of feed: "gtfs" (schedule),
+\item{data_type}{A string. Type of feed: "gtfs" (schedule),
 "gtfs_rt" (realtime), or "gbfs" (bike share). Required when using
 location filters.}
 
-\item{status}{Character. Feed status: "active", "deprecated",
+\item{status}{A string. Feed status: "active", "deprecated",
 "inactive", "development", or "future".}
 
-\item{official}{Logical. If \code{TRUE}, only return official feeds.
+\item{official}{A logical. If \code{TRUE}, only return official feeds.
 If \code{FALSE}, only return unofficial feeds. If \code{NULL} (default),
 return all feeds regardless of official status.}
 
-\item{limit}{Integer. Maximum number of results to return (default: 100).}
+\item{limit}{An integer. Maximum number of results to return (default: 100).}
 
-\item{offset}{Integer. Number of results to skip for pagination
+\item{offset}{An integer. Number of results to skip for pagination
 (default: 0).}
 }
 \value{
@@ -72,8 +72,9 @@ A tibble containing feed information with columns including:
 \description{
 Query the Mobility Database for transit/bikeshare feeds matching specified criteria.
 Returns a tibble with feed metadata including download URLs.
-\strong{Info:} This function was formerly called \code{mobdb_feeds()}.
-All functions are identical to that function.
+
+\emph{This function was formerly called \code{mobdb_feeds()}.
+All functions are identical to that function.}
 }
 \examples{
 \dontrun{
@@ -91,6 +92,5 @@ sf_muni <- feeds(provider = "San Francisco")
 # Get feeds with pagination
 first_100 <- feeds(limit = 100, offset = 0)
 next_100 <- feeds(limit = 100, offset = 100)
-
 }
 }

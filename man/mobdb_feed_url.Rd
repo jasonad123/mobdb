@@ -7,10 +7,10 @@
 mobdb_feed_url(feed_id)
 }
 \arguments{
-\item{feed_id}{Character. The unique identifier for the feed.}
+\item{feed_id}{A string. The unique identifier for the feed.}
 }
 \value{
-Character. The direct download URL, or \code{NULL} if not available.
+A string. The direct download URL, or \code{NULL} if not available.
 }
 \description{
 Convenience function to quickly get the direct download URL for a feed.
@@ -25,6 +25,5 @@ url <- mobdb_feed_url("mdb-53")
 # Use with tidytransit
 library(tidytransit)
 gtfs <- read_gtfs(url)
-
 }
 }

@@ -1,23 +1,17 @@
 #' Get Mobility Database API metadata
 #'
 #' @description
-#' Retrieve information about the API itself, including version, status,
-#' and available data types.
+#' Retrieve information about the API itself, including version and commit hash.
+#' This is primarily useful for debugging and reporting issues.
 #'
-#' @return A list containing API metadata.
+#' @return A list containing API metadata including `version` and `commit_hash`.
 #'
-#' @examples
-#' \dontrun{
-#' # Check API metadata
-#' meta <- mobdb_metadata()
-#' print(meta$version)
-#'
-#' }
-#' @export
+#' @keywords internal
+#' @noRd
 mobdb_metadata <- function() {
   req <- mobdb_request("metadata")
-  
+
   resp <- httr2::req_perform(req)
-  
+
   httr2::resp_body_json(resp)
 }

@@ -7,7 +7,7 @@
 mobdb_get_feed(feed_id)
 }
 \arguments{
-\item{feed_id}{Character. The unique identifier for the feed.}
+\item{feed_id}{A string. The unique identifier for the feed.}
 }
 \value{
 A list containing detailed feed information.
@@ -19,6 +19,5 @@ Retrieve detailed information about a single feed by its ID.
 \dontrun{
 # Get details for a specific feed
 feed_details <- mobdb_get_feed("mdb-53")
-
 }
 }

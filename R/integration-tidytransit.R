@@ -1,19 +1,20 @@
 #' Read GTFS feed directly from Mobility Database
 #'
 #' @description
-  #' `r lifecycle::badge('superseded')`
+#' `r lifecycle::badge('superseded')`
+#'
 #' **Note:** This function is superseded by [download_feed()], which provides
 #' the same functionality plus integrated search, Flex filtering, and more control
 #' over data sources. New code should use [download_feed()] instead. This function
 #' may be deprecated in the future once [download_feed()] supports historical datasets.
-#' 
+#'
 #' Convenience wrapper that fetches a feed's download URL from the Mobility
 #' Database and passes it to [tidytransit::read_gtfs()]. Requires the tidytransit
 #' package to be installed.
 #'
-#' @param feed_id Character. The unique identifier for the feed, or a data frame
+#' @param feed_id A string. The unique identifier for the feed, or a data frame
 #'   with a single row from [feeds()] or [mobdb_search()].
-#' @param dataset_id Character. Optional specific dataset ID. If `NULL` (default),
+#' @param dataset_id A string. Optional specific dataset ID. If `NULL` (default),
 #'   uses the current/latest feed URL.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
@@ -31,7 +32,6 @@
 #' # Read specific historical dataset
 #' gtfs_historical <- mobdb_read_gtfs("mdb-53", dataset_id = "mdb-53-202510250025")
 #' }
-#'
 #' @export
 mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
@@ -40,17 +40,15 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
       "i" = "Install it with {.code install.packages('tidytransit')}."
     ))
   }
-  
   # Handle data frame input
   if (is.data.frame(feed_id)) {
     if (nrow(feed_id) != 1) {
       cli::cli_abort("{.arg feed_id} data frame must have exactly one row.")
     }
-    
     # Try to extract URL directly if available from actual API structure
-    if ("source_info" %in% names(feed_id) && 
-        is.data.frame(feed_id$source_info) &&
-        "producer_url" %in% names(feed_id$source_info)) {
+    if ("source_info" %in% names(feed_id) &&
+          is.data.frame(feed_id$source_info) &&
+          "producer_url" %in% names(feed_id$source_info)) {
       url <- feed_id$source_info$producer_url[1]
     } else if ("urls.direct_download" %in% names(feed_id)) {
       url <- feed_id$urls.direct_download
@@ -65,7 +63,6 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
     if (!is.null(dataset_id)) {
       dataset <- mobdb_get_dataset(dataset_id)
       url <- dataset$download_url %||% dataset$hosted_url
-      
       if (is.null(url)) {
         cli::cli_abort("No download URL found for dataset {.val {dataset_id}}.")
       }
@@ -73,54 +70,55 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
       url <- mobdb_feed_url(feed_id)
     }
   }
-  
   if (is.null(url)) {
     cli::cli_abort("Could not determine download URL.")
   }
-  
   cli::cli_inform("Downloading GTFS feed from: {.url {url}}")
-  
   tidytransit::read_gtfs(url, ...)
 }
 
 #' Download GTFS Schedule feed
 #'
 #' @description
-#' A convenience function for downloading GTFS Schedule feeds from the Mobility Database. This is a
-#' "one-stop-shop" that can search for feeds by provider/location and download
+#' A convenience function for downloading GTFS Schedule feeds from the Mobility Database.
+#' This is a "one-stop-shop" that can search for feeds by provider/location and download
 #' them in a single call, or download a specific feed by ID.
 #'
 #' **Note:** This function is specifically designed for GTFS Schedule feeds only.
-#' GTFS Realtime feeds use a different data model (streaming endpoints rather
-#' than downloadable archives) and are not supported by this function.
-#' **Info:** This function was formerly called \code{mobdb_download_feed()}.
-#' All functions are identical to that function.
+#' GTFS Realtime and GBFS feeds use a different data model and are not supported by this function.
 #'
-#' @param feed_id Character or data frame. The unique identifier for the feed
+#' *This function was formerly called \code{mobdb_download_feed()}.
+#' All functions are identical to that function.*
+#'
+#' @param feed_id A string or data frame. The unique identifier for the feed
 #'   (e.g., "mdb-2862"), or a single-row data frame from [feeds()] or
 #'   [mobdb_search()]. If a data frame is provided, the feed ID will be extracted
 #'   automatically. If provided, all other search parameters are ignored.
-#' @param provider Character. Filter by provider/agency name (partial match).
+#' @param provider A string. Filter by provider/agency name (partial match).
 #'   Use this to search for feeds without knowing the feed_id.
-#' @param country_code Character. Two-letter ISO country code (e.g., "US", "CA").
-#' @param subdivision_name Character. State, province, or region name.
-#' @param municipality Character. City or municipality name.
-#' @param exclude_flex Logical. If `TRUE` (default), automatically exclude feeds
+#' @param country_code A string. Two-letter ISO country code (e.g., "US", "CA").
+#' @param subdivision_name A string. State, province, or region name.
+#' @param municipality A string. City or municipality name.
+#' @param exclude_flex A logical. If `TRUE` (default), automatically exclude feeds
 #'   with "flex" in the feed name (case-insensitive). GTFS-Flex feeds are an extension of
 #'   the GTFS Schedule specification and may contain files that have unique schemas
 #'   that may not work with standard GTFS tools.
-#' @param feed_name Character. Optional filter for feed name. If provided, only
+#' @param feed_name A string. Optional filter for feed name. If provided, only
 #'   feeds whose `feed_name` contains this string (case-insensitive) will be
 #'   considered. Use `NULL` (default) to skip this filter.
-#' @param use_source_url Logical. If `FALSE` (default), uses MobilityData's
+#' @param use_source_url A logical. If `FALSE` (default), uses MobilityData's
 #'   hosted/archived URL which ensures you get the exact version in their database.
 #'   If `TRUE`, uses the provider's direct source URL which may be more current
 #'   but could differ from MobilityData's version.
-#' @param latest Logical. If `TRUE` (default), download the most recent dataset.
-#'   If `FALSE`, returns information about all available datasets for the feed.
-#' @param status Character. Feed status filter: "active" (default), "deprecated",
-#'   "inactive", "deprecated", or "future". Only used when searching by provider/location.
-#' @param official Logical. If `TRUE` (default), only return official feeds when
+#' @param dataset_id A string. Optional specific dataset ID for historical versions
+#'   (e.g., "mdb-53-202510250025"). If provided, downloads that specific dataset
+#'   version instead of the latest. Cannot be used with `use_source_url = TRUE`.
+#' @param latest A logical. If `TRUE` (default), download the most recent dataset.
+#'   If `FALSE`, returns information about all available datasets for the feed
+#'   without downloading.
+#' @param status A string. Feed status filter: "active" (default), "deprecated",
+#'   "inactive", "development", or "future". Only used when searching by provider/location.
+#' @param official A logical. If `TRUE` (default), only return official feeds when
 #'   searching by provider/location. If `FALSE`, only return unofficial feeds.
 #'   If `NULL`, return all feeds regardless of official status.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
@@ -158,25 +156,50 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'
 #' # See all available versions for a feed
 #' versions <- download_feed("mdb-2862", latest = FALSE)
+#'
+#' # Download a specific historical version
+#' historical <- download_feed("mdb-53", dataset_id = "mdb-53-202507240047")
 #' }
+#' @seealso
+#' [mobdb_datasets()] to list all available historical versions,
+#' [get_validation_report()] to check feed quality before downloading,
+#' [feeds()] to search for feeds,
+#' [mobdb_read_gtfs()] for more flexible GTFS reading
 #'
 #' @export
 download_feed <- function(feed_id = NULL,
-                                 provider = NULL,
-                                 country_code = NULL,
-                                 subdivision_name = NULL,
-                                 municipality = NULL,
-                                 exclude_flex = TRUE,
-                                 feed_name = NULL,
-                                 use_source_url = FALSE,
-                                 latest = TRUE,
-                                 status = "active",
-                                 official = TRUE,
-                                 ...) {
+                          provider = NULL,
+                          country_code = NULL,
+                          subdivision_name = NULL,
+                          municipality = NULL,
+                          exclude_flex = TRUE,
+                          feed_name = NULL,
+                          use_source_url = FALSE,
+                          dataset_id = NULL,
+                          latest = TRUE,
+                          status = "active",
+                          official = TRUE,
+                          ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
       "The {.pkg tidytransit} package is required to use this function.",
       "i" = "Install it with {.code install.packages('tidytransit')}."
+    ))
+  }
+
+  # Validate parameter combinations
+  if (!is.null(dataset_id) && use_source_url) {
+    cli::cli_abort(c(
+      "Cannot use {.arg dataset_id} with {.arg use_source_url = TRUE}.",
+      "i" = "Historical datasets are only available from MobilityData's hosted URLs.",
+      "i" = "Set {.code use_source_url = FALSE} to download a specific dataset version."
+    ))
+  }
+
+  if (!is.null(dataset_id) && !latest) {
+    cli::cli_warn(c(
+      "Both {.arg dataset_id} and {.arg latest = FALSE} provided.",
+      "i" = "Ignoring {.arg latest} parameter since {.arg dataset_id} is specified."
     ))
   }
 
@@ -216,7 +239,7 @@ download_feed <- function(feed_id = NULL,
 
     selected_feed_id <- feed_id
 
-  # Case 2: Search for feed using provider/location filters
+    # Case 2: Search for feed using provider/location filters
   } else if (search_params_provided) {
     cli::cli_inform("Searching for GTFS Schedule feeds...")
 
@@ -303,7 +326,7 @@ download_feed <- function(feed_id = NULL,
     selected_feed_id <- feeds$id[1]
     cli::cli_inform("Found feed: {.val {feeds$provider[1]}} - {.val {feeds$feed_name[1]}} ({.val {selected_feed_id}})")
 
-  # Case 3: No feed_id or search parameters
+    # Case 3: No feed_id or search parameters
   } else {
     cli::cli_abort(c(
       "Must provide either {.arg feed_id} or search parameters.",
@@ -311,15 +334,45 @@ download_feed <- function(feed_id = NULL,
     ))
   }
 
-  # Get dataset(s) for the feed
-  datasets <- mobdb_datasets(selected_feed_id, latest = latest)
+  # Validate feed status if search was performed with status filter
+  if (search_params_provided && !is.null(status)) {
+    feed_details <- mobdb_get_feed(selected_feed_id)
+    actual_status <- feed_details$status
 
-  if (!latest) {
-    # Return all datasets for user to choose from
-    return(datasets)
+    if (!is.null(actual_status) && actual_status != status) {
+      cli::cli_abort(c(
+        "Feed {.val {selected_feed_id}} has status {.val {actual_status}}, not {.val {status}}.",
+        "i" = "The feed's status may have changed since being indexed.",
+        "i" = "Set {.code status = \"{actual_status}\"} to download anyway, or choose a different feed."
+      ))
+    }
   }
 
-  # Get the hosted URL from the latest dataset
+  # Get dataset(s) for the feed
+  if (!is.null(dataset_id)) {
+    # Get specific dataset by ID
+    dataset <- mobdb_get_dataset(dataset_id)
+
+    # Convert to tibble format matching mobdb_datasets output
+    datasets <- tibble::tibble(
+      id = dataset$id,
+      feed_id = dataset$feed_id,
+      hosted_url = dataset$hosted_url,
+      downloaded_at = dataset$downloaded_at,
+      hash = dataset$hash
+    )
+
+    cli::cli_inform("Using historical dataset: {.val {dataset_id}}")
+  } else {
+    datasets <- mobdb_datasets(selected_feed_id, latest = latest)
+
+    if (!latest) {
+      # Return all datasets for user to choose from
+      return(datasets)
+    }
+  }
+
+  # Get the hosted URL from the dataset
   if (nrow(datasets) == 0) {
     cli::cli_abort("No datasets found for feed {.val {selected_feed_id}}.")
   }

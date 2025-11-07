@@ -4,17 +4,46 @@
 \alias{mobdb_search}
 \title{Search for feeds across the Mobility Database}
 \usage{
-mobdb_search(query, data_type = NULL, country_code = NULL, limit = 50)
+mobdb_search(
+  query,
+  feed_id = NULL,
+  data_type = NULL,
+  official = NULL,
+  status = NULL,
+  gtfs_feature = NULL,
+  gbfs_version = NULL,
+  limit = 50,
+  offset = 0
+)
 }
 \arguments{
-\item{query}{Character. Search query string. Searches across provider names,
+\item{query}{A string. Search query string. Searches across provider names,
 feed names, and locations.}
 
-\item{data_type}{Character. Optional filter by data type: "gtfs" or "gtfs_rt".}
+\item{feed_id}{A string. The unique identifier for the feed (e.g. "mdb-696",
+"mdb-1707", "gbfs-lime_vancouver_bc"). When provided, searches only for
+this specific feed and all other filter parameters must be omitted.}
 
-\item{country_code}{Character. Optional filter by two-letter ISO country code.}
+\item{data_type}{A string. Optional filter by data type: "gtfs", "gtfs_rt",
+or "gbfs".}
 
-\item{limit}{Integer. Maximum number of results (default: 50).}
+\item{official}{A logical. If \code{TRUE}, only return official feeds when
+searching by provider/location. If \code{FALSE}, only return unofficial feeds.
+If \code{NULL} (default), return all feeds regardless of official status.}
+
+\item{status}{A string. Feed status filter: "active" (default), "deprecated",
+"inactive", "development", or "future".}
+
+\item{gtfs_feature}{A character vector. Filter feeds by their GTFS features. Only valid
+for GTFS Schedule feeds.
+\href{https://gtfs.org/getting-started/features/overview/}{GTFS features definitions are defined here.}}
+
+\item{gbfs_version}{A character vector. Comma-separated list of GBFS versions to filter by.
+Only valid for GBFS feeds. \href{https://github.com/MobilityData/gbfs/blob/master/README.md}{GBFS version notes are defined here}}
+
+\item{limit}{An integer. Maximum number of results (default: 50).}
+
+\item{offset}{An integer. Number of results to skip for pagination (default: 0).}
 }
 \value{
 A tibble of matching feeds. Note that search results include additional
@@ -27,11 +56,16 @@ fields compared to \code{\link[=feeds]{feeds()}}:
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Perform a text search across feed names, providers, and locations.
 
-\strong{Note:} The \verb{/search} endpoint has known issues with relevance ranking.
-Results may not match your search query well. For better results when searching
-by provider name, use \code{\link[=feeds]{feeds()}} with the \code{provider} parameter instead.
+\strong{Note:} Search is performed on English words and is case insensitive.
+Word order is not relevant for matching. For example \verb{New York City Transit} will
+be parsed as \code{new & york & city & transit}
+
+The endpoint used has known issues with relevance ranking.
+For better results when searching by provider name,
+consider using \code{\link[=feeds]{feeds()}} with the \code{provider} parameter.
 }
 \examples{
 \dontrun{
@@ -43,11 +77,25 @@ bart <- feeds(provider = "BART")
 mta <- feeds(provider = "MTA New York")
 
 # Search with filters
-canadian_transit <- mobdb_search(
+gtfs_feeds <- mobdb_search(
   "transit",
-  country_code = "CA",
-  data_type = "gtfs"
+  data_type = "gtfs",
+  official = TRUE
 )
 
+# Search with pagination
+first_50 <- mobdb_search("train", limit = 50, offset = 0)
+next_50 <- mobdb_search("train", limit = 50, offset = 50)
+
+# Search for official GTFS feeds only
+official_feeds <- mobdb_search("metro", official = TRUE, data_type = "gtfs")
+
+# Note: For location-specific searches (state/province/city), use feeds() instead:
+ontario_transit <- feeds(
+  provider = "transit",
+  country_code = "CA",
+  subdivision_name = "Ontario",
+  data_type = "gtfs"
+)
 }
 }
