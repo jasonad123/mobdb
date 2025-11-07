@@ -1,10 +1,12 @@
 #' Read GTFS feed directly from Mobility Database
 #'
 #' @description
+  #' `r lifecycle::badge('superseded')`
 #' **Note:** This function is superseded by [download_feed()], which provides
 #' the same functionality plus integrated search, Flex filtering, and more control
-#' over data sources. New code should use [download_feed()] instead.
-#'
+#' over data sources. New code should use [download_feed()] instead. This function
+#' may be deprecated in the future once [download_feed()] supports historical datasets.
+#' 
 #' Convenience wrapper that fetches a feed's download URL from the Mobility
 #' Database and passes it to [tidytransit::read_gtfs()]. Requires the tidytransit
 #' package to be installed.

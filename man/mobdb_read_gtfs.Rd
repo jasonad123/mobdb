@@ -19,9 +19,11 @@ uses the current/latest feed URL.}
 A \code{gtfs} object as returned by \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 \strong{Note:} This function is superseded by \code{\link[=download_feed]{download_feed()}}, which provides
 the same functionality plus integrated search, Flex filtering, and more control
-over data sources. New code should use \code{\link[=download_feed]{download_feed()}} instead.
+over data sources. New code should use \code{\link[=download_feed]{download_feed()}} instead. This function
+may be deprecated in the future once \code{\link[=download_feed]{download_feed()}} supports historical datasets.
 
 Convenience wrapper that fetches a feed's download URL from the Mobility
 Database and passes it to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}. Requires the tidytransit

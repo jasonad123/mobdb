@@ -2,9 +2,10 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom tibble tibble as_tibble
-#' @importFrom rlang .data abort warn inform %||%
 #' @importFrom cli cli_abort cli_warn cli_inform
+#' @importFrom lifecycle deprecated
+#' @importFrom rlang .data abort warn inform %||%
+#' @importFrom tibble tibble as_tibble
 ## usethis namespace: end
 NULL
 

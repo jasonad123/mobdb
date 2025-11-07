@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Provides functions to search and access transit feed data from the Mobility Database (mobilitydata.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GTFS Realtime feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with the tidytransit and gtfstools packages for subsequent feed analysis.
+Provides functions to search and access transit feed data from the Mobility Database (mobilitydata.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GBFS feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with the tidytransit and gtfstools packages for subsequent feed analysis.
 }
 \seealso{
 Useful links:

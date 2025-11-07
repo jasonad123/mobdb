@@ -16,3 +16,4 @@
 .archived_tests
 ^doc$
 ^Meta$
+^tests/testthat/[^/]+/

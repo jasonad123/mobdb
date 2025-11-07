@@ -26,6 +26,7 @@ fields compared to \code{\link[=feeds]{feeds()}}:
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Perform a text search across feed names, providers, and locations.
 
 \strong{Note:} The \verb{/search} endpoint has known issues with relevance ranking.

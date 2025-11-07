@@ -1,6 +1,7 @@
 #' Search for feeds across the Mobility Database
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
 #' Perform a text search across feed names, providers, and locations.
 #'
 #' **Note:** The `/search` endpoint has known issues with relevance ranking.
