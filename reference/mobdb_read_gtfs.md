@@ -3,12 +3,12 @@
 **\[superseded\]**
 
 **Note:** This function is superseded by
-[`download_feed()`](https://jasonad123.github.io/mobdb/reference/download_feed.md),
+[`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md),
 which provides the same functionality plus integrated search, Flex
 filtering, and more control over data sources. New code should use
-[`download_feed()`](https://jasonad123.github.io/mobdb/reference/download_feed.md)
+[`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
 instead. This function may be deprecated in the future once
-[`download_feed()`](https://jasonad123.github.io/mobdb/reference/download_feed.md)
+[`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
 supports historical datasets.
 
 Convenience wrapper that fetches a feed's download URL from the Mobility
@@ -28,8 +28,8 @@ mobdb_read_gtfs(feed_id, dataset_id = NULL, ...)
 
   A string. The unique identifier for the feed, or a data frame with a
   single row from
-  [`feeds()`](https://jasonad123.github.io/mobdb/reference/feeds.md) or
-  [`mobdb_search()`](https://jasonad123.github.io/mobdb/reference/mobdb_search.md).
+  [`feeds()`](https://mobdb.pages.dev/reference/feeds.md) or
+  [`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md).
 
 - dataset_id:
 

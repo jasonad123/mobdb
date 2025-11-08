@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   mobdb: mobdb.html
-last_built: 2025-11-08T06:13Z
+last_built: 2025-11-08T07:07Z
 urls:
-  reference: https://jasonad123.github.io/mobdb/reference
-  article: https://jasonad123.github.io/mobdb/articles
+  reference: https://mobdb.pages.dev/reference
+  article: https://mobdb.pages.dev/articles
