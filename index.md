@@ -67,7 +67,7 @@ toronto <- mobdb_search(provider = "toronto")
 ### Download GTFS Schedule feeds
 
 The
-[`download_feed()`](https://jasonad123.github.io/mobdb/reference/download_feed.md)
+[`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
 function downloads GTFS Schedule feeds by feed ID or by searching for
 providers/locations.
 
@@ -184,10 +184,10 @@ sapply(1:3, function(i) {
 The package provides two functions for working with
 [tidytransit](https://github.com/r-transit/tidytransit):
 
-- **[`download_feed()`](https://jasonad123.github.io/mobdb/reference/download_feed.md)** -
+- **[`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)** -
   Download GTFS Schedule feeds with provider/location search
   (recommended)
-- **[`mobdb_read_gtfs()`](https://jasonad123.github.io/mobdb/reference/mobdb_read_gtfs.md)** -
+- **[`mobdb_read_gtfs()`](https://mobdb.pages.dev/reference/mobdb_read_gtfs.md)** -
   More flexible reader that works with any GTFS feed type
 
 ``` r
@@ -230,16 +230,15 @@ page2 <- feeds(limit = 100, offset = 100)
 The package provides access to the following Mobility Database API
 endpoints:
 
-- **Feeds**
-  ([`feeds()`](https://jasonad123.github.io/mobdb/reference/feeds.md),
-  [`mobdb_get_feed()`](https://jasonad123.github.io/mobdb/reference/mobdb_get_feed.md)) -
+- **Feeds** ([`feeds()`](https://mobdb.pages.dev/reference/feeds.md),
+  [`mobdb_get_feed()`](https://mobdb.pages.dev/reference/mobdb_get_feed.md)) -
   Search and retrieve feed information
 - **Search**
-  ([`mobdb_search()`](https://jasonad123.github.io/mobdb/reference/mobdb_search.md)) -
+  ([`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md)) -
   Full-text search across feeds
 - **Datasets**
-  ([`mobdb_datasets()`](https://jasonad123.github.io/mobdb/reference/mobdb_datasets.md),
-  [`mobdb_get_dataset()`](https://jasonad123.github.io/mobdb/reference/mobdb_get_dataset.md)) -
+  ([`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md),
+  [`mobdb_get_dataset()`](https://mobdb.pages.dev/reference/mobdb_get_dataset.md)) -
   Access historical feed versions
 
 ## Related Packages

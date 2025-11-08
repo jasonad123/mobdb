@@ -17,9 +17,9 @@ view_validation_report(data, format = "html")
   One of:
 
   - A single-row tibble from
-    [`mobdb_datasets()`](https://jasonad123.github.io/mobdb/reference/mobdb_datasets.md)
+    [`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md)
     or
-    [`mobdb_search()`](https://jasonad123.github.io/mobdb/reference/mobdb_search.md)
+    [`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md)
 
   - A character string feed_id (e.g., "mdb-482")
 
@@ -35,11 +35,11 @@ Invisibly returns the URL that was opened.
 
 ## See also
 
-[`get_validation_report()`](https://jasonad123.github.io/mobdb/reference/get_validation_report.md)
+[`get_validation_report()`](https://mobdb.pages.dev/reference/get_validation_report.md)
 to extract validation data as a tibble,
-[`filter_by_validation()`](https://jasonad123.github.io/mobdb/reference/filter_by_validation.md)
+[`filter_by_validation()`](https://mobdb.pages.dev/reference/filter_by_validation.md)
 to filter by quality thresholds,
-[`mobdb_datasets()`](https://jasonad123.github.io/mobdb/reference/mobdb_datasets.md)
+[`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md)
 to get dataset information with validation reports
 
 ## Examples

@@ -15,7 +15,7 @@ mobdb_extract_datasets(results)
 - results:
 
   A tibble returned by
-  [`mobdb_search()`](https://jasonad123.github.io/mobdb/reference/mobdb_search.md).
+  [`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md).
 
 ## Value
 
@@ -41,16 +41,16 @@ A tibble with one row per feed, containing key dataset information:
 
 - Note: Report URLs (html_report, json_report) are only available when
   using
-  [`mobdb_datasets()`](https://jasonad123.github.io/mobdb/reference/mobdb_datasets.md),
+  [`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md),
   not from search results
 
 ## See also
 
-[`get_validation_report()`](https://jasonad123.github.io/mobdb/reference/get_validation_report.md)
+[`get_validation_report()`](https://mobdb.pages.dev/reference/get_validation_report.md)
 to get full validation details with report URLs,
-[`mobdb_search()`](https://jasonad123.github.io/mobdb/reference/mobdb_search.md)
-to search for feeds,
-[`mobdb_datasets()`](https://jasonad123.github.io/mobdb/reference/mobdb_datasets.md)
+[`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md) to
+search for feeds,
+[`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md)
 to get dataset information directly
 
 ## Examples

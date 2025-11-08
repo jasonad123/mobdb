@@ -15,7 +15,7 @@ mobdb_extract_locations(results, unnest = TRUE)
 - results:
 
   A tibble returned by
-  [`mobdb_search()`](https://jasonad123.github.io/mobdb/reference/mobdb_search.md).
+  [`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md).
 
 - unnest:
 

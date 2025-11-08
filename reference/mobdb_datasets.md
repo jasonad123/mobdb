@@ -39,11 +39,11 @@ A tibble containing dataset information including:
 
 ## See also
 
-[`download_feed()`](https://jasonad123.github.io/mobdb/reference/download_feed.md)
+[`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
 to download specific historical versions,
-[`get_validation_report()`](https://jasonad123.github.io/mobdb/reference/get_validation_report.md)
+[`get_validation_report()`](https://mobdb.pages.dev/reference/get_validation_report.md)
 to extract validation data from datasets,
-[`mobdb_get_dataset()`](https://jasonad123.github.io/mobdb/reference/mobdb_get_dataset.md)
+[`mobdb_get_dataset()`](https://mobdb.pages.dev/reference/mobdb_get_dataset.md)
 to get details for a specific dataset
 
 ## Examples

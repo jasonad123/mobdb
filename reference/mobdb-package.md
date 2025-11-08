@@ -13,7 +13,7 @@ Useful links:
 
 - <https://github.com/jasonad123/mobdb>
 
-- <https://jasonad123.github.io/mobdb/>
+- <https://mobdb.pages.dev>
 
 - Report bugs at <https://github.com/jasonad123/mobdb/issues>
 

@@ -24,9 +24,8 @@ structures:
 
 ## Feed Object Structure (from feeds)
 
-When you call
-[`feeds()`](https://jasonad123.github.io/mobdb/reference/feeds.md) or
-[`mobdb_search()`](https://jasonad123.github.io/mobdb/reference/mobdb_search.md),
+When you call [`feeds()`](https://mobdb.pages.dev/reference/feeds.md) or
+[`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md),
 you get a tibble with these columns:
 
 ### Top-Level Fields
@@ -157,7 +156,7 @@ if (nrow(sf_muni) > 0) {
 ## Dataset Object Structure
 
 When you call
-[`mobdb_datasets()`](https://jasonad123.github.io/mobdb/reference/mobdb_datasets.md):
+[`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md):
 
 | Field           | Type      | Description                    |
 |-----------------|-----------|--------------------------------|
