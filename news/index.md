@@ -1,5 +1,31 @@
 # Changelog
 
+## mobdb 0.1.5
+
+### Major changes
+
+- **New!**
+  [`feeds_bbox()`](https://mobdb.pages.dev/reference/feeds_bbox.md)
+  function for discovering GTFS Schedule feeds by bounding box
+- **New!** API responses are now cached. Used the following fucntions to
+  manage the cache:
+  - [`mobdb_cache_path()`](https://mobdb.pages.dev/reference/mobdb_cache_path.md) -
+    configure cache location
+  - [`mobdb_cache_info()`](https://mobdb.pages.dev/reference/mobdb_cache_info.md) -
+    view cache status
+  - [`mobdb_cache_list()`](https://mobdb.pages.dev/reference/mobdb_cache_list.md) -
+    list cached files
+  - [`mobdb_cache_clear()`](https://mobdb.pages.dev/reference/mobdb_cache_clear.md) -
+    clear cache
+- All API functions now support caching via `use_cache` parameter
+
+### Minor changes
+
+- **New!** Vignette: “Working with GTFS-Realtime and GBFS”
+- [`feeds_bbox()`](https://mobdb.pages.dev/reference/feeds_bbox.md)
+  supports both numeric vectors and sf bbox objects
+- Added `sf` to Suggests for bbox object support
+
 ## mobdb 0.1.4
 
 ### Major changes

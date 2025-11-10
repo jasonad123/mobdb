@@ -44,7 +44,7 @@ variable in your `.Renviron` file.
 
 ## Usage
 
-### Search for transit feeds
+### Search for feeds
 
 ``` r
 # Search by provider name
@@ -85,7 +85,7 @@ bart_gtfs <- download_feed(provider = "BART")
 dc_bus <- download_feed(provider = "WMATA", feed_name = "Bus")
 
 # Download from agency source URL instead of MobilityData hosted version
-gtfs <- download_feed(provider = "King County", use_source_url = TRUE)
+kcm_gtfs <- download_feed(provider = "King County", use_source_url = TRUE)
 
 # Filter by location
 on_gtfs <- download_feed(
@@ -94,10 +94,11 @@ on_gtfs <- download_feed(
 )
 
 # Export as GTFS zip file
-export_gtfs(stm_montreal, "data/gtfs/stm_montreal.zip")
+pdx_gtfs <- download_feed("mdb-247")
+export_gtfs(stm_montreal, "data/gtfs/trimet.zip")
 
 # Check exported file contents
-zip::zip_list("data/gtfs/stm_montreal.zip")$filename
+zip::zip_list("data/gtfs/trimet.zip")$filename
 #> [1] "agency.txt"         "calendar.txt"       "calendar_dates.txt"
 #> [4] "feed_info.txt"      "routes.txt"         "shapes.txt"
 #> [7] "stops.txt"          "stop_times.txt"     "trips.txt"
@@ -169,7 +170,7 @@ nrow(versions)
 #> [1] 29
 
 # Download a specific historical version
-historical <- download_feed("mdb-53", dataset_id = "mdb-53-202507240047")
+historical <- download_feed(dataset_id = "mdb-53-202507240047")
 
 # Compare validation across versions
 recent_versions <- versions[1:3, ]
@@ -224,22 +225,6 @@ page1 <- feeds(limit = 100, offset = 0)
 # Get next 100 results
 page2 <- feeds(limit = 100, offset = 100)
 ```
-
-## API Endpoints
-
-The package provides access to the following Mobility Database API
-endpoints:
-
-- **Feeds** ([`feeds()`](https://mobdb.pages.dev/reference/feeds.md),
-  [`mobdb_get_feed()`](https://mobdb.pages.dev/reference/mobdb_get_feed.md)) -
-  Search and retrieve feed information
-- **Search**
-  ([`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md)) -
-  Full-text search across feeds
-- **Datasets**
-  ([`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md),
-  [`mobdb_get_dataset()`](https://mobdb.pages.dev/reference/mobdb_get_dataset.md)) -
-  Access historical feed versions
 
 ## Related Packages
 

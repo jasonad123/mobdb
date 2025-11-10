@@ -1,4 +1,4 @@
-# Download GTFS Schedule feed
+# Download GTFS Schedule feeds
 
 A convenience function for downloading GTFS Schedule feeds from the
 Mobility Database. This is a "one-stop-shop" that can search for feeds
@@ -9,8 +9,7 @@ specific feed by ID.
 only. GTFS Realtime and GBFS feeds use a different data model and are
 not supported by this function.
 
-*This function was formerly called `mobdb_download_feed()`. All
-functions are identical to that function.*
+*This function was formerly called `mobdb_download_feed()`.*
 
 ## Usage
 

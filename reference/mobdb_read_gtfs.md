@@ -7,14 +7,12 @@
 which provides the same functionality plus integrated search, Flex
 filtering, and more control over data sources. New code should use
 [`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
-instead. This function may be deprecated in the future once
-[`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
-supports historical datasets.
+instead.
 
 Convenience wrapper that fetches a feed's download URL from the Mobility
 Database and passes it to
 [`tidytransit::read_gtfs()`](https://r-transit.github.io/tidytransit/reference/read_gtfs.html).
-Requires the tidytransit package to be installed.
+Requires the `tidytransit` package.
 
 ## Usage
 

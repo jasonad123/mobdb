@@ -2,18 +2,28 @@
 <url><loc>https://mobdb.pages.dev/404.html</loc></url>
 <url><loc>https://mobdb.pages.dev/API_STRUCTURE.html</loc></url>
 <url><loc>https://mobdb.pages.dev/LICENSE-text.html</loc></url>
+<url><loc>https://mobdb.pages.dev/articles/gbfs-and-gtfs-rt.html</loc></url>
 <url><loc>https://mobdb.pages.dev/articles/index.html</loc></url>
 <url><loc>https://mobdb.pages.dev/articles/mobdb.html</loc></url>
 <url><loc>https://mobdb.pages.dev/authors.html</loc></url>
 <url><loc>https://mobdb.pages.dev/index.html</loc></url>
 <url><loc>https://mobdb.pages.dev/news/index.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/download_feed.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/ensure_cache_dir.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/feeds.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/feeds_bbox.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/filter_by_validation.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/generate_cache_key.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/get_cache_ttl.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/get_mobdb_cache_path.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/get_validation_report.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/index.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/mobdb-package.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/mobdb_browse.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/mobdb_cache_clear.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/mobdb_cache_info.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/mobdb_cache_list.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/mobdb_cache_path.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/mobdb_datasets.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/mobdb_extract_datasets.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/mobdb_extract_locations.html</loc></url>
@@ -25,6 +35,8 @@
 <url><loc>https://mobdb.pages.dev/reference/mobdb_read_gtfs.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/mobdb_search.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/mobdb_set_key.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/read_from_cache.html</loc></url>
 <url><loc>https://mobdb.pages.dev/reference/view_validation_report.html</loc></url>
+<url><loc>https://mobdb.pages.dev/reference/write_to_cache.html</loc></url>
 </urlset>
 

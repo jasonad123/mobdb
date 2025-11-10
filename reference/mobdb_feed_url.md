@@ -1,8 +1,8 @@
 # Get download URL for a feed
 
-Convenience function to quickly get the direct download URL for a feed.
-This is useful for passing to tidytransit::read_gtfs() or similar
-functions.
+Convenience function to quickly get the direct download or source URL
+for a feed. This is useful for passing to tidytransit::read_gtfs() or
+similar functions.
 
 ## Usage
 

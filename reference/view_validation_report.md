@@ -1,8 +1,12 @@
-# View validation report in browser
+# View GTFS-Schedule validation report in browser
 
 Opens the MobilityData validation report for a feed or dataset in your
 default web browser. The report shows detailed validation results from
 the canonical GTFS validator.
+
+**Note:** This function does *not* support GBFS validation reports at
+this time as GBFS validation reports are located at a different endpoint
+and have a different validation criteria.
 
 ## Usage
 

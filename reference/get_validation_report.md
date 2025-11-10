@@ -1,9 +1,13 @@
-# Get validation report for feeds or datasets
+# Get GTFS-Schedule validation report for feeds or datasets
 
 Extract validation report summary from feed/dataset results.
 MobilityData runs all GTFS Schedule feeds through the canonical GTFS
 validator, and this function surfaces that validation data to help
 assess feed quality before downloading.
+
+**Note:** This function does *not* support GBFS validation reports at
+this time as GBFS validation reports are located at a different endpoint
+and have a different validation criteria.
 
 ## Usage
 
