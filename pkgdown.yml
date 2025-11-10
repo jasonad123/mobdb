@@ -2,8 +2,9 @@ pandoc: 3.1.11
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
+  gbfs-and-gtfs-rt: gbfs-and-gtfs-rt.html
   mobdb: mobdb.html
-last_built: 2025-11-08T07:07Z
+last_built: 2025-11-10T22:07Z
 urls:
   reference: https://mobdb.pages.dev/reference
   article: https://mobdb.pages.dev/articles

@@ -18,14 +18,16 @@ Search and explore available transit feeds
 - [`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md)
   **\[experimental\]** : Search for feeds across the Mobility Database
 - [`feeds()`](https://mobdb.pages.dev/reference/feeds.md) : List and
-  filter feeds
+  filter GTFS Schedule, GTFS-RT, and GBFS feeds
+- [`feeds_bbox()`](https://mobdb.pages.dev/reference/feeds_bbox.md) :
+  Find GTFS Schedule feeds by location
 
 ## Download feeds
 
 Download feeds for analysis
 
 - [`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
-  : Download GTFS Schedule feed
+  : Download GTFS Schedule feeds
 - [`mobdb_read_gtfs()`](https://mobdb.pages.dev/reference/mobdb_read_gtfs.md)
   **\[superseded\]** : Read GTFS feed directly from Mobility Database
 
@@ -36,9 +38,9 @@ Evaluate feed quality using MobilityData validation reports
 - [`filter_by_validation()`](https://mobdb.pages.dev/reference/filter_by_validation.md)
   : Filter feeds or datasets by validation quality
 - [`get_validation_report()`](https://mobdb.pages.dev/reference/get_validation_report.md)
-  : Get validation report for feeds or datasets
+  : Get GTFS-Schedule validation report for feeds or datasets
 - [`view_validation_report()`](https://mobdb.pages.dev/reference/view_validation_report.md)
-  : View validation report in browser
+  : View GTFS-Schedule validation report in browser
 
 ## Historical datasets
 
@@ -63,3 +65,14 @@ Extract and manipulate feed information
   : Get details for a specific feed
 - [`mobdb_feed_url()`](https://mobdb.pages.dev/reference/mobdb_feed_url.md)
   : Get download URL for a feed
+
+## Utilities
+
+- [`mobdb_cache_clear()`](https://mobdb.pages.dev/reference/mobdb_cache_clear.md)
+  : Clear mobdb cache
+- [`mobdb_cache_info()`](https://mobdb.pages.dev/reference/mobdb_cache_info.md)
+  : Show cache information
+- [`mobdb_cache_list()`](https://mobdb.pages.dev/reference/mobdb_cache_list.md)
+  : List cached files
+- [`mobdb_cache_path()`](https://mobdb.pages.dev/reference/mobdb_cache_path.md)
+  : Set or show mobdb cache directory

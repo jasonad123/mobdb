@@ -1,11 +1,10 @@
-# List and filter feeds
+# List and filter GTFS Schedule, GTFS-RT, and GBFS feeds
 
 Query the Mobility Database for transit/bikeshare feeds matching
 specified criteria. Returns a tibble with feed metadata including
 download URLs.
 
-*This function was formerly called `mobdb_feeds()`. All functions are
-identical to that function.*
+*This function was formerly called `mobdb_feeds()`.*
 
 ## Usage
 
@@ -19,7 +18,8 @@ feeds(
   status = NULL,
   official = NULL,
   limit = 100,
-  offset = 0
+  offset = 0,
+  use_cache = TRUE
 )
 ```
 
@@ -42,8 +42,8 @@ feeds(
 
 - municipality:
 
-  A string. City or municipality name. Requires `data_type` to be
-  specified.
+  A string. City, municipality, or jurisdiction name. Requires
+  `data_type` to be specified.
 
 - data_type:
 
@@ -68,6 +68,12 @@ feeds(
 - offset:
 
   An integer. Number of results to skip for pagination (default: 0).
+
+- use_cache:
+
+  A logical. If `TRUE` (default), use cached results if available. If
+  `FALSE`, always fetch fresh data from the API. Cached data expires
+  after 1 hour.
 
 ## Value
 

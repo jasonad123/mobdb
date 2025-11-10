@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,12 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="articles/mobdb.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/gbfs-and-gtfs-rt.html">Working with GTFS-Realtime and GBFS</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -103,7 +109,7 @@
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <div class="section level3">
-<h3 id="search-for-transit-feeds">Search for transit feeds<a class="anchor" aria-label="anchor" href="#search-for-transit-feeds"></a>
+<h3 id="search-for-feeds">Search for feeds<a class="anchor" aria-label="anchor" href="#search-for-feeds"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Search by provider name</span></span>
@@ -140,7 +146,7 @@
 <span><span class="va">dc_bus</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"WMATA"</span>, feed_name <span class="op">=</span> <span class="st">"Bus"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Download from agency source URL instead of MobilityData hosted version</span></span>
-<span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"King County"</span>, use_source_url <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">kcm_gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"King County"</span>, use_source_url <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Filter by location</span></span>
 <span><span class="va">on_gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span></span>
@@ -149,10 +155,11 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Export as GTFS zip file</span></span>
-<span><span class="fu"><a href="https://r-transit.github.io/gtfsio/reference/export_gtfs.html" class="external-link">export_gtfs</a></span><span class="op">(</span><span class="va">stm_montreal</span>, <span class="st">"data/gtfs/stm_montreal.zip"</span><span class="op">)</span></span>
+<span><span class="va">pdx_gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="st">"mdb-247"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://r-transit.github.io/gtfsio/reference/export_gtfs.html" class="external-link">export_gtfs</a></span><span class="op">(</span><span class="va">stm_montreal</span>, <span class="st">"data/gtfs/trimet.zip"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Check exported file contents</span></span>
-<span><span class="fu">zip</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/zip/reference/zip_list.html" class="external-link">zip_list</a></span><span class="op">(</span><span class="st">"data/gtfs/stm_montreal.zip"</span><span class="op">)</span><span class="op">$</span><span class="va">filename</span></span>
+<span><span class="fu">zip</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/zip/reference/zip_list.html" class="external-link">zip_list</a></span><span class="op">(</span><span class="st">"data/gtfs/trimet.zip"</span><span class="op">)</span><span class="op">$</span><span class="va">filename</span></span>
 <span><span class="co">#&gt; [1] "agency.txt"         "calendar.txt"       "calendar_dates.txt"</span></span>
 <span><span class="co">#&gt; [4] "feed_info.txt"      "routes.txt"         "shapes.txt"</span></span>
 <span><span class="co">#&gt; [7] "stops.txt"          "stop_times.txt"     "trips.txt"</span></span></code></pre></div>
@@ -217,7 +224,7 @@
 <span><span class="co">#&gt; [1] 29</span></span>
 <span></span>
 <span><span class="co"># Download a specific historical version</span></span>
-<span><span class="va">historical</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="st">"mdb-53"</span>, dataset_id <span class="op">=</span> <span class="st">"mdb-53-202507240047"</span><span class="op">)</span></span>
+<span><span class="va">historical</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span>dataset_id <span class="op">=</span> <span class="st">"mdb-53-202507240047"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Compare validation across versions</span></span>
 <span><span class="va">recent_versions</span> <span class="op">&lt;-</span> <span class="va">versions</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="op">]</span></span>
@@ -269,19 +276,6 @@
 <span><span class="co"># Get next 100 results</span></span>
 <span><span class="va">page2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">100</span>, offset <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="api-endpoints">API Endpoints<a class="anchor" aria-label="anchor" href="#api-endpoints"></a>
-</h2>
-<p>The package provides access to the following Mobility Database API endpoints:</p>
-<ul>
-<li>
-<strong>Feeds</strong> (<code><a href="reference/feeds.html">feeds()</a></code>, <code><a href="reference/mobdb_get_feed.html">mobdb_get_feed()</a></code>) - Search and retrieve feed information</li>
-<li>
-<strong>Search</strong> (<code><a href="reference/mobdb_search.html">mobdb_search()</a></code>) - Full-text search across feeds</li>
-<li>
-<strong>Datasets</strong> (<code><a href="reference/mobdb_datasets.html">mobdb_datasets()</a></code>, <code><a href="reference/mobdb_get_dataset.html">mobdb_get_dataset()</a></code>) - Access historical feed versions</li>
-</ul>
 </div>
 <div class="section level2">
 <h2 id="related-packages">Related Packages<a class="anchor" aria-label="anchor" href="#related-packages"></a>
@@ -345,6 +339,7 @@
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/jasonad123/mobdb" class="external-link"><img src="https://codecov.io/gh/jasonad123/mobdb/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 

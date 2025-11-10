@@ -7,7 +7,7 @@ particular point in time.
 ## Usage
 
 ``` r
-mobdb_datasets(feed_id, latest = TRUE)
+mobdb_datasets(feed_id, latest = TRUE, use_cache = TRUE)
 ```
 
 ## Arguments
@@ -20,6 +20,12 @@ mobdb_datasets(feed_id, latest = TRUE)
 
   A logical. If `TRUE` (default), return only the most recent dataset.
   If `FALSE`, return all available datasets.
+
+- use_cache:
+
+  A logical. If `TRUE` (default), use cached results if available. If
+  `FALSE`, always fetch fresh data from the API. Cached data expires
+  after 24 hours (datasets are immutable).
 
 ## Value
 

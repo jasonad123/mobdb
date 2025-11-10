@@ -6,6 +6,10 @@ a convenience wrapper around
 that returns the original data filtered to only include feeds/datasets
 meeting your quality criteria.
 
+**Note:** This function does *not* support GBFS validation reports at
+this time as GBFS validation reports are located at a different endpoint
+and have a different validation criteria.
+
 ## Usage
 
 ``` r
