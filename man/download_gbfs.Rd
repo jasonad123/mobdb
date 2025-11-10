@@ -38,8 +38,8 @@ be effective for GBFS. Use \code{NULL} (default) to skip this filter.}
 \item{version}{Character. Optional GBFS version filter (e.g., "2.3", "3.0").
 Uses semantic versioning comparison.}
 
-\item{status}{Character. Feed status filter: "active" (default), "inactive",
-or "deprecated". Only used when searching by provider/location.}
+\item{status}{Character. Feed status filter: "active" (default), "deprecated",
+"inactive", "development", or "future".}
 }
 \value{
 A character string containing the GBFS feed URL.

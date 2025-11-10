@@ -21,7 +21,8 @@ Imports:
     tibble (>= 3.0.0),
     dplyr (>= 1.0.0),
     lifecycle,
-    digest
+    digest,
+    jsonlite
 Suggests:
     testthat (>= 3.0.0),
     withr (>= 2.0.0),

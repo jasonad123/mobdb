@@ -4,6 +4,8 @@
 
 This version adds experimental support for General Bikeshare Feed Specification (GBFS) feeds:
 
+**GBFS data access (via auto-discovery feed parsing):**
+
 * `download_gbfs()` - Get GBFS auto-discovery feed URLs
 * `get_gbfs_stations()` - Fetch station locations and metadata
 * `get_gbfs_station_status()` - Get real-time bike/dock availability
@@ -12,6 +14,12 @@ This version adds experimental support for General Bikeshare Feed Specification 
 * `get_gbfs_system_regions()` - Geographic service regions
 * `get_gbfs_system_pricing_plans()` - Pricing information
 * `get_gbfs_system_calendar()` - Service calendar dates
+
+**GBFS version and endpoint discovery (via Mobility Database API):**
+
+* `gbfs_versions()` - Get version information including validation reports
+* `gbfs_endpoints()` - Get available endpoints for specific GBFS versions
+* `gbfs_get_endpoint()` - Fetch data from specific endpoints by name
 
 All GBFS functions support:
 
