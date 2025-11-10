@@ -9,7 +9,7 @@ skip_if_no_fixtures <- function(fixture_dir) {
   }
 
   has_fixtures <- dir.exists(fixture_path) &&
-                  length(list.files(fixture_path, recursive = TRUE)) > 0
+    length(list.files(fixture_path, recursive = TRUE)) > 0
 
   if (!has_fixtures) {
     skip("HTTP fixtures not found. Run tests with API key to record fixtures.")
@@ -50,7 +50,6 @@ test_that("download_feed() works with provider search", {
   skip_if_not_installed("tidytransit")
 
   # Skip this test - requires HTTP fixtures
-  # Provider search tested manually in V0.1.2_TESTING_NOTES.md (Tests 2, 3, 4)
   skip("Requires HTTP fixtures - provider search tested manually")
 
   httptest2::with_mock_dir("download_feed_search", {
@@ -128,8 +127,8 @@ test_that("mobdb_read_gtfs() works with feed_id", {
   skip_if_not_installed("tidytransit")
 
   # Skip this test - it requires full GTFS download and parsing
-  # Comprehensive manual testing in V0.1.2_TESTING_NOTES.md confirms this works
-  skip("Requires full GTFS download - tested manually")
+  # Review manual testing guidelines
+  skip("Requires full GTFS download - test manually")
 
   httptest2::with_mock_dir("read_gtfs_id", {
     # This would require actual GTFS data
@@ -147,8 +146,7 @@ test_that("mobdb_read_gtfs() passes extra args to tidytransit", {
   skip_if_not_installed("tidytransit")
 
   # Skip this test - it requires full GTFS download and parsing
-  # Comprehensive manual testing in V0.1.2_TESTING_NOTES.md confirms this works
-  skip("Requires full GTFS download - tested manually")
+  skip("Requires full GTFS download - test manually")
 
   httptest2::with_mock_dir("read_gtfs_args", {
     # Test that extra arguments are passed through

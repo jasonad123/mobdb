@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-helpers.R
 \name{view_validation_report}
 \alias{view_validation_report}
-\title{View validation report in browser}
+\title{View GTFS-Schedule validation report in browser}
 \usage{
 view_validation_report(data, format = "html")
 }
@@ -23,6 +23,10 @@ Invisibly returns the URL that was opened.
 Opens the MobilityData validation report for a feed or dataset in your
 default web browser. The report shows detailed validation results from
 the canonical GTFS validator.
+
+\strong{Note:} This function does \emph{not} support GBFS validation reports at this time as
+GBFS validation reports are located at a different endpoint and have a different
+validation criteria.
 }
 \examples{
 \dontrun{

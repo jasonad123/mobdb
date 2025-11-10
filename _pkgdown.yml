@@ -18,6 +18,7 @@ reference:
 - contents:
   - mobdb_search
   - feeds
+  - feeds_bbox
 
 - title: Download feeds
   desc: Download feeds for analysis
@@ -44,3 +45,7 @@ reference:
   - -has_concept("authentication")
   - -has_concept("validation")
   - -has_concept("datasets")
+
+- title: Utilities
+- contents:
+  - starts_with("mobdb_cache")

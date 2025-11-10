@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-helpers.R
 \name{get_validation_report}
 \alias{get_validation_report}
-\title{Get validation report for feeds or datasets}
+\title{Get GTFS-Schedule validation report for feeds or datasets}
 \usage{
 get_validation_report(data)
 }
@@ -26,6 +26,10 @@ Extract validation report summary from feed/dataset results. MobilityData
 runs all GTFS Schedule feeds through the canonical GTFS validator, and this
 function surfaces that validation data to help assess feed quality before
 downloading.
+
+\strong{Note:} This function does \emph{not} support GBFS validation reports at this time as
+GBFS validation reports are located at a different endpoint and have a different
+validation criteria.
 }
 \examples{
 \dontrun{

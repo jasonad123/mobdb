@@ -13,7 +13,7 @@ mobdb_feed_url(feed_id)
 A string. The direct download URL, or \code{NULL} if not available.
 }
 \description{
-Convenience function to quickly get the direct download URL for a feed.
+Convenience function to quickly get the direct download or source URL for a feed.
 This is useful for passing to tidytransit::read_gtfs() or similar
 functions.
 }

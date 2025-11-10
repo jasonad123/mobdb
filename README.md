@@ -3,6 +3,7 @@
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/jasonad123/mobdb/graph/badge.svg)](https://app.codecov.io/gh/jasonad123/mobdb)
 <!-- badges: end -->
 
 **mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule, GTFS Realtime, and GBFS (General Bikeshare Feed Specification) feeds from organizations worldwide.
@@ -43,7 +44,7 @@ Alternatively, you can set the `MOBDB_REFRESH_TOKEN` environment variable in you
 
 ## Usage
 
-### Search for transit feeds
+### Search for feeds
 
 ```r
 # Search by provider name
@@ -82,7 +83,7 @@ bart_gtfs <- download_feed(provider = "BART")
 dc_bus <- download_feed(provider = "WMATA", feed_name = "Bus")
 
 # Download from agency source URL instead of MobilityData hosted version
-gtfs <- download_feed(provider = "King County", use_source_url = TRUE)
+kcm_gtfs <- download_feed(provider = "King County", use_source_url = TRUE)
 
 # Filter by location
 on_gtfs <- download_feed(
@@ -91,10 +92,11 @@ on_gtfs <- download_feed(
 )
 
 # Export as GTFS zip file
-export_gtfs(stm_montreal, "data/gtfs/stm_montreal.zip")
+pdx_gtfs <- download_feed("mdb-247")
+export_gtfs(stm_montreal, "data/gtfs/trimet.zip")
 
 # Check exported file contents
-zip::zip_list("data/gtfs/stm_montreal.zip")$filename
+zip::zip_list("data/gtfs/trimet.zip")$filename
 #> [1] "agency.txt"         "calendar.txt"       "calendar_dates.txt"
 #> [4] "feed_info.txt"      "routes.txt"         "shapes.txt"
 #> [7] "stops.txt"          "stop_times.txt"     "trips.txt"
@@ -163,7 +165,7 @@ nrow(versions)
 #> [1] 29
 
 # Download a specific historical version
-historical <- download_feed("mdb-53", dataset_id = "mdb-53-202507240047")
+historical <- download_feed(dataset_id = "mdb-53-202507240047")
 
 # Compare validation across versions
 recent_versions <- versions[1:3, ]
@@ -214,14 +216,6 @@ page1 <- feeds(limit = 100, offset = 0)
 # Get next 100 results
 page2 <- feeds(limit = 100, offset = 100)
 ```
-
-## API Endpoints
-
-The package provides access to the following Mobility Database API endpoints:
-
-- **Feeds** (`feeds()`, `mobdb_get_feed()`) - Search and retrieve feed information
-- **Search** (`mobdb_search()`) - Full-text search across feeds
-- **Datasets** (`mobdb_datasets()`, `mobdb_get_dataset()`) - Access historical feed versions
 
 ## Related Packages
 

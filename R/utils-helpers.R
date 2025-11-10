@@ -227,13 +227,17 @@ mobdb_extract_datasets <- function(results) {
   dataset_info
 }
 
-#' Get validation report for feeds or datasets
+#' Get GTFS-Schedule validation report for feeds or datasets
 #'
 #' @description
 #' Extract validation report summary from feed/dataset results. MobilityData
 #' runs all GTFS Schedule feeds through the canonical GTFS validator, and this
 #' function surfaces that validation data to help assess feed quality before
 #' downloading.
+#'
+#' **Note:** This function does *not* support GBFS validation reports at this time as
+#' GBFS validation reports are located at a different endpoint and have a different
+#' validation criteria.
 #'
 #' @param data A tibble from [feeds()], [mobdb_datasets()], or [mobdb_search()].
 #'
@@ -344,13 +348,17 @@ get_validation_report <- function(data) {
   ))
 }
 
-#' View validation report in browser
+#' View GTFS-Schedule validation report in browser
 #'
 #' @description
 #' Opens the MobilityData validation report for a feed or dataset in your
 #' default web browser. The report shows detailed validation results from
 #' the canonical GTFS validator.
 #'
+#' **Note:** This function does *not* support GBFS validation reports at this time as
+#' GBFS validation reports are located at a different endpoint and have a different
+#' validation criteria.
+#' 
 #' @param data One of:
 #'   * A single-row tibble from [mobdb_datasets()] or [mobdb_search()]
 #'   * A character string feed_id (e.g., "mdb-482")
@@ -450,6 +458,10 @@ view_validation_report <- function(data, format = "html") {
 #' Filter feed or dataset results by validation quality thresholds. This is a
 #' convenience wrapper around [get_validation_report()] that returns the original
 #' data filtered to only include feeds/datasets meeting your quality criteria.
+#'
+#' **Note:** This function does *not* support GBFS validation reports at this time as
+#' GBFS validation reports are located at a different endpoint and have a different
+#' validation criteria.
 #'
 #' @param data A tibble from [feeds()], [mobdb_datasets()], or [mobdb_search()].
 #' @param max_errors Maximum number of validation errors allowed. Use `0` for

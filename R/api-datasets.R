@@ -8,6 +8,9 @@
 #' @param feed_id A string. The unique identifier for the feed.
 #' @param latest A logical. If `TRUE` (default), return only the most recent dataset.
 #'   If `FALSE`, return all available datasets.
+#' @param use_cache A logical. If `TRUE` (default), use cached results if available.
+#'   If `FALSE`, always fetch fresh data from the API. Cached data expires after 24 hours
+#'   (datasets are immutable).
 #'
 #' @return A tibble containing dataset information including:
 #'   * `id` - Dataset identifier
@@ -33,9 +36,20 @@
 #'
 #' @concept datasets
 #' @export
-mobdb_datasets <- function(feed_id, latest = TRUE) {
+mobdb_datasets <- function(feed_id, latest = TRUE, use_cache = TRUE) {
   if (!is.character(feed_id) || length(feed_id) != 1) {
     cli::cli_abort("{.arg feed_id} must be a single character string.")
+  }
+
+  # Check cache first
+  if (use_cache) {
+    cache_key <- generate_cache_key(
+      feed_id = feed_id,
+      latest = latest,
+      prefix = "datasets"
+    )
+    cached <- read_from_cache(cache_key, max_age = get_cache_ttl("datasets"))
+    if (!is.null(cached)) return(cached)
   }
 
   # Build query parameters
@@ -55,14 +69,21 @@ mobdb_datasets <- function(feed_id, latest = TRUE) {
   # Response is a list, convert to tibble
   body <- httr2::resp_body_json(resp, simplifyVector = TRUE)
 
-  if (is.data.frame(body)) {
-    return(tibble::as_tibble(body))
+  result <- if (is.data.frame(body)) {
+    tibble::as_tibble(body)
   } else if (is.list(body) && length(body) > 0) {
     # Convert list of lists to data frame
-    return(tibble::as_tibble(do.call(rbind.data.frame, lapply(body, as.data.frame))))
+    tibble::as_tibble(do.call(rbind.data.frame, lapply(body, as.data.frame)))
+  } else {
+    tibble::as_tibble(body)
   }
 
-  tibble::as_tibble(body)
+  # Write to cache
+  if (use_cache) {
+    write_to_cache(result, cache_key)
+  }
+
+  result
 }
 
 #' Get details for a specific dataset

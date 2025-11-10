@@ -1,11 +1,10 @@
-#' List and filter feeds
+#' List and filter GTFS Schedule, GTFS-RT, and GBFS feeds
 #'
 #' @description
 #' Query the Mobility Database for transit/bikeshare feeds matching specified criteria.
 #' Returns a tibble with feed metadata including download URLs.
 #'
-#' *This function was formerly called \code{mobdb_feeds()}.
-#' All functions are identical to that function.*
+#' *This function was formerly called \code{mobdb_feeds()}.*
 #'
 #' @param provider A string. Filter by provider/agency name (partial match).
 #' @param country_code A string. Two-letter ISO country code
@@ -13,7 +12,7 @@
 #'   `subdivision_name`, `municipality`) require `data_type` to be specified.
 #' @param subdivision_name A string. State, province, or region name.
 #'   Requires `data_type` to be specified.
-#' @param municipality A string. City or municipality name.
+#' @param municipality A string. City, municipality, or jurisdiction name.
 #'   Requires `data_type` to be specified.
 #' @param data_type A string. Type of feed: "gtfs" (schedule),
 #'   "gtfs_rt" (realtime), or "gbfs" (bike share). Required when using
@@ -26,6 +25,8 @@
 #' @param limit An integer. Maximum number of results to return (default: 100).
 #' @param offset An integer. Number of results to skip for pagination
 #'   (default: 0).
+#' @param use_cache A logical. If `TRUE` (default), use cached results if available.
+#'   If `FALSE`, always fetch fresh data from the API. Cached data expires after 1 hour.
 #'
 #' @return A tibble containing feed information with columns including:
 #'   * `id` - Unique feed identifier
@@ -72,7 +73,26 @@ feeds <- function(provider = NULL,
                   status = NULL,
                   official = NULL,
                   limit = 100,
-                  offset = 0) {
+                  offset = 0,
+                  use_cache = TRUE) {
+
+  # Check cache first
+  if (use_cache) {
+    cache_key <- generate_cache_key(
+      provider = provider,
+      country_code = country_code,
+      subdivision_name = subdivision_name,
+      municipality = municipality,
+      data_type = data_type,
+      status = status,
+      official = official,
+      limit = limit,
+      offset = offset,
+      prefix = "feeds"
+    )
+    cached <- read_from_cache(cache_key, max_age = get_cache_ttl("feeds"))
+    if (!is.null(cached)) return(cached)
+  }
 
   # Validate data_type if provided
   if (!is.null(data_type)) {
@@ -145,6 +165,11 @@ feeds <- function(provider = NULL,
     }
   }
 
+  # Write to cache
+  if (use_cache) {
+    write_to_cache(result, cache_key)
+  }
+
   result
 }
 
@@ -180,7 +205,7 @@ mobdb_get_feed <- function(feed_id) {
 #' Get download URL for a feed
 #'
 #' @description
-#' Convenience function to quickly get the direct download URL for a feed.
+#' Convenience function to quickly get the direct download or source URL for a feed.
 #' This is useful for passing to tidytransit::read_gtfs() or similar
 #' functions.
 #'

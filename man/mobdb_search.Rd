@@ -13,7 +13,8 @@ mobdb_search(
   gtfs_feature = NULL,
   gbfs_version = NULL,
   limit = 50,
-  offset = 0
+  offset = 0,
+  use_cache = TRUE
 )
 }
 \arguments{
@@ -44,6 +45,9 @@ Only valid for GBFS feeds. \href{https://github.com/MobilityData/gbfs/blob/maste
 \item{limit}{An integer. Maximum number of results (default: 50).}
 
 \item{offset}{An integer. Number of results to skip for pagination (default: 0).}
+
+\item{use_cache}{A logical. If \code{TRUE} (default), use cached results if available.
+If \code{FALSE}, always fetch fresh data from the API. Cached data expires after 1 hour.}
 }
 \value{
 A tibble of matching feeds. Note that search results include additional

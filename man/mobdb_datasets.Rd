@@ -4,13 +4,17 @@
 \alias{mobdb_datasets}
 \title{Get datasets for a feed}
 \usage{
-mobdb_datasets(feed_id, latest = TRUE)
+mobdb_datasets(feed_id, latest = TRUE, use_cache = TRUE)
 }
 \arguments{
 \item{feed_id}{A string. The unique identifier for the feed.}
 
 \item{latest}{A logical. If \code{TRUE} (default), return only the most recent dataset.
 If \code{FALSE}, return all available datasets.}
+
+\item{use_cache}{A logical. If \code{TRUE} (default), use cached results if available.
+If \code{FALSE}, always fetch fresh data from the API. Cached data expires after 24 hours
+(datasets are immutable).}
 }
 \value{
 A tibble containing dataset information including:

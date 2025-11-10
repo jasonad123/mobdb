@@ -2,7 +2,7 @@
 % Please edit documentation in R/integration-tidytransit.R
 \name{download_feed}
 \alias{download_feed}
-\title{Download GTFS Schedule feed}
+\title{Download GTFS Schedule feeds}
 \usage{
 download_feed(
   feed_id = NULL,
@@ -82,8 +82,7 @@ them in a single call, or download a specific feed by ID.
 \strong{Note:} This function is specifically designed for GTFS Schedule feeds only.
 GTFS Realtime and GBFS feeds use a different data model and are not supported by this function.
 
-\emph{This function was formerly called \code{mobdb_download_feed()}.
-All functions are identical to that function.}
+\emph{This function was formerly called \code{mobdb_download_feed()}.}
 }
 \examples{
 \dontrun{

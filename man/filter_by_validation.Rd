@@ -35,6 +35,10 @@ feeds/datasets that meet the specified quality criteria.
 Filter feed or dataset results by validation quality thresholds. This is a
 convenience wrapper around \code{\link[=get_validation_report]{get_validation_report()}} that returns the original
 data filtered to only include feeds/datasets meeting your quality criteria.
+
+\strong{Note:} This function does \emph{not} support GBFS validation reports at this time as
+GBFS validation reports are located at a different endpoint and have a different
+validation criteria.
 }
 \examples{
 \dontrun{

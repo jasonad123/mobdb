@@ -2,7 +2,7 @@
 % Please edit documentation in R/api-feeds.R
 \name{feeds}
 \alias{feeds}
-\title{List and filter feeds}
+\title{List and filter GTFS Schedule, GTFS-RT, and GBFS feeds}
 \usage{
 feeds(
   provider = NULL,
@@ -13,7 +13,8 @@ feeds(
   status = NULL,
   official = NULL,
   limit = 100,
-  offset = 0
+  offset = 0,
+  use_cache = TRUE
 )
 }
 \arguments{
@@ -26,7 +27,7 @@ feeds(
 \item{subdivision_name}{A string. State, province, or region name.
 Requires \code{data_type} to be specified.}
 
-\item{municipality}{A string. City or municipality name.
+\item{municipality}{A string. City, municipality, or jurisdiction name.
 Requires \code{data_type} to be specified.}
 
 \item{data_type}{A string. Type of feed: "gtfs" (schedule),
@@ -44,6 +45,9 @@ return all feeds regardless of official status.}
 
 \item{offset}{An integer. Number of results to skip for pagination
 (default: 0).}
+
+\item{use_cache}{A logical. If \code{TRUE} (default), use cached results if available.
+If \code{FALSE}, always fetch fresh data from the API. Cached data expires after 1 hour.}
 }
 \value{
 A tibble containing feed information with columns including:
@@ -73,8 +77,7 @@ A tibble containing feed information with columns including:
 Query the Mobility Database for transit/bikeshare feeds matching specified criteria.
 Returns a tibble with feed metadata including download URLs.
 
-\emph{This function was formerly called \code{mobdb_feeds()}.
-All functions are identical to that function.}
+\emph{This function was formerly called \code{mobdb_feeds()}.}
 }
 \examples{
 \dontrun{

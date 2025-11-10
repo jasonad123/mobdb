@@ -32,6 +32,8 @@
 #'   Only valid for GBFS feeds. [GBFS version notes are defined here](https://github.com/MobilityData/gbfs/blob/master/README.md)
 #' @param limit An integer. Maximum number of results (default: 50).
 #' @param offset An integer. Number of results to skip for pagination (default: 0).
+#' @param use_cache A logical. If `TRUE` (default), use cached results if available.
+#'   If `FALSE`, always fetch fresh data from the API. Cached data expires after 1 hour.
 #'
 #' @return A tibble of matching feeds. Note that search results include additional
 #'   fields compared to [feeds()]:
@@ -79,8 +81,26 @@ mobdb_search <- function(query,
                          gtfs_feature = NULL,
                          gbfs_version = NULL,
                          limit = 50,
-                         offset = 0) {
+                         offset = 0,
+                         use_cache = TRUE) {
 
+  # Check cache first
+  if (use_cache) {
+    cache_key <- generate_cache_key(
+      query = query,
+      feed_id = feed_id,
+      data_type = data_type,
+      official = official,
+      status = status,
+      gtfs_feature = gtfs_feature,
+      gbfs_version = gbfs_version,
+      limit = limit,
+      offset = offset,
+      prefix = "search"
+    )
+    cached <- read_from_cache(cache_key, max_age = get_cache_ttl("search"))
+    if (!is.null(cached)) return(cached)
+  }
 
   if (!is.character(query) || length(query) != 1 || nchar(query) == 0) {
     cli::cli_abort("{.arg query} must be a non-empty character string.")
@@ -143,8 +163,12 @@ mobdb_search <- function(query,
   resp <- httr2::req_perform(req)
   check_rate_limit(resp)
 
-  mobdb_parse_response(resp)
+  result <- mobdb_parse_response(resp)
 
+  # Write to cache
+  if (use_cache) {
+    write_to_cache(result, cache_key)
+  }
 
-
+  result
 }

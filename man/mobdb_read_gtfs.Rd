@@ -23,12 +23,11 @@ A \code{gtfs} object as returned by \code{\link[tidytransit:read_gtfs]{tidytrans
 
 \strong{Note:} This function is superseded by \code{\link[=download_feed]{download_feed()}}, which provides
 the same functionality plus integrated search, Flex filtering, and more control
-over data sources. New code should use \code{\link[=download_feed]{download_feed()}} instead. This function
-may be deprecated in the future once \code{\link[=download_feed]{download_feed()}} supports historical datasets.
+over data sources. New code should use \code{\link[=download_feed]{download_feed()}} instead.
 
 Convenience wrapper that fetches a feed's download URL from the Mobility
-Database and passes it to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}. Requires the tidytransit
-package to be installed.
+Database and passes it to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}. Requires the \code{tidytransit}
+package.
 }
 \examples{
 \dontrun{

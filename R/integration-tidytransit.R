@@ -5,12 +5,11 @@
 #'
 #' **Note:** This function is superseded by [download_feed()], which provides
 #' the same functionality plus integrated search, Flex filtering, and more control
-#' over data sources. New code should use [download_feed()] instead. This function
-#' may be deprecated in the future once [download_feed()] supports historical datasets.
+#' over data sources. New code should use [download_feed()] instead.
 #'
 #' Convenience wrapper that fetches a feed's download URL from the Mobility
-#' Database and passes it to [tidytransit::read_gtfs()]. Requires the tidytransit
-#' package to be installed.
+#' Database and passes it to [tidytransit::read_gtfs()]. Requires the `tidytransit`
+#' package.
 #'
 #' @param feed_id A string. The unique identifier for the feed, or a data frame
 #'   with a single row from [feeds()] or [mobdb_search()].
@@ -77,7 +76,7 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
   tidytransit::read_gtfs(url, ...)
 }
 
-#' Download GTFS Schedule feed
+#' Download GTFS Schedule feeds
 #'
 #' @description
 #' A convenience function for downloading GTFS Schedule feeds from the Mobility Database.
@@ -87,8 +86,7 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' **Note:** This function is specifically designed for GTFS Schedule feeds only.
 #' GTFS Realtime and GBFS feeds use a different data model and are not supported by this function.
 #'
-#' *This function was formerly called \code{mobdb_download_feed()}.
-#' All functions are identical to that function.*
+#' *This function was formerly called \code{mobdb_download_feed()}.*
 #'
 #' @param feed_id A string or data frame. The unique identifier for the feed
 #'   (e.g., "mdb-2862"), or a single-row data frame from [feeds()] or
@@ -377,6 +375,7 @@ download_feed <- function(feed_id = NULL,
   }
 
   # Validate feed status if search was performed with status filter
+  # TODO add interactive response - if single feed but inactive, ask to download
   if (search_params_provided && !is.null(status)) {
     feed_details <- mobdb_get_feed(selected_feed_id)
     actual_status <- feed_details$status
