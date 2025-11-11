@@ -7,7 +7,7 @@
 - **New!**
   [`feeds_bbox()`](https://mobdb.pages.dev/reference/feeds_bbox.md)
   function for discovering GTFS Schedule feeds by bounding box
-- **New!** API responses are now cached. Used the following fucntions to
+- **New!** API responses are now cached. Used the following functions to
   manage the cache:
   - [`mobdb_cache_path()`](https://mobdb.pages.dev/reference/mobdb_cache_path.md) -
     configure cache location
