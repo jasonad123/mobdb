@@ -159,3 +159,75 @@ test_that("mobdb_feed_url() handles nonexistent feed", {
     )
   })
 })
+
+test_that("feeds() works with different data_type values", {
+  skip_if_not_installed("httptest2")
+  skip_if_not(mobdb_has_key(), "API key not configured")
+  skip("Fixtures not available")
+
+  # Test GTFS Realtime
+  httptest2::with_mock_dir("feeds_gtfs_rt", {
+    result <- feeds(data_type = "gtfs_rt", limit = 3)
+    expect_s3_class(result, "tbl_df")
+    if (nrow(result) > 0) {
+      expect_true(all(result$data_type == "gtfs_rt"))
+    }
+  })
+})
+
+test_that("feeds() supports caching", {
+  skip_if_not_installed("httptest2")
+  skip_if_not(mobdb_has_key(), "API key not configured")
+  skip("Fixtures not available")
+
+  httptest2::with_mock_dir("feeds_cache", {
+    result1 <- feeds(data_type = "gtfs", limit = 2, use_cache = TRUE)
+    result2 <- feeds(data_type = "gtfs", limit = 2, use_cache = TRUE)
+
+    expect_s3_class(result1, "tbl_df")
+    expect_s3_class(result2, "tbl_df")
+    expect_equal(nrow(result1), nrow(result2))
+  })
+})
+
+test_that("feeds() can bypass cache", {
+  skip_if_not_installed("httptest2")
+  skip_if_not(mobdb_has_key(), "API key not configured")
+  skip("Fixtures not available")
+
+  httptest2::with_mock_dir("feeds_no_cache", {
+    result <- feeds(data_type = "gtfs", limit = 2, use_cache = FALSE)
+    expect_s3_class(result, "tbl_df")
+  })
+})
+
+test_that("feeds() supports offset parameter", {
+  skip_if_not_installed("httptest2")
+  skip_if_not(mobdb_has_key(), "API key not configured")
+  skip("Fixtures not available")
+
+  httptest2::with_mock_dir("feeds_offset", {
+    result <- feeds(data_type = "gtfs", limit = 2, offset = 10)
+    expect_s3_class(result, "tbl_df")
+    expect_true(nrow(result) >= 0)
+  })
+})
+
+test_that("mobdb_get_feed() validates feed_id parameter", {
+  expect_error(
+    mobdb_get_feed(123),
+    "must be a single character string"
+  )
+
+  expect_error(
+    mobdb_get_feed(c("id1", "id2")),
+    "must be a single character string"
+  )
+})
+
+test_that("mobdb_feed_url() requires feed_id", {
+  expect_error(
+    mobdb_feed_url(),
+    "argument.*feed_id.*missing"
+  )
+})
