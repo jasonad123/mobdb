@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   gbfs-and-gtfs-rt: gbfs-and-gtfs-rt.html
   mobdb: mobdb.html
-last_built: 2025-11-10T22:56Z
+last_built: 2025-11-11T04:15Z
 urls:
   reference: https://mobdb.pages.dev/reference
   article: https://mobdb.pages.dev/articles
