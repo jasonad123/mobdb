@@ -3,7 +3,7 @@
 ## Major changes
 
 * **New!** `feeds_bbox()` function for discovering GTFS Schedule feeds by bounding box
-* **New!** API responses are now cached. Used the following fucntions to manage the cache:
+* **New!** API responses are now cached. Used the following functions to manage the cache:
   * `mobdb_cache_path()` - configure cache location
   * `mobdb_cache_info()` - view cache status
   * `mobdb_cache_list()` - list cached files
