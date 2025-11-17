@@ -78,9 +78,8 @@ two formats:
 }
 
 Also accepts a value stored in \code{.Renviron} (.e.g Sys.getenv("AGENCY_API_KEY") stored in the same formats)
-Only valid when \code{use_source_url = TRUE}. If a feed requires authentication,
-you'll receive an error message with a link to obtain credentials. The
-authentication method (URL parameter or HTTP header) is determined
+Only valid when \code{use_source_url = TRUE}. If a feed requires authentication, you'll receive an error message with a link to obtain credentials.
+The authentication method (URL parameter or HTTP header) is determined
 automatically from the feed's metadata.}
 
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
@@ -108,39 +107,19 @@ gtfs <- download_feed("mdb-2862")
 feeds <- feeds(provider = "TransLink")
 gtfs <- download_feed(feeds[36, ])
 
-# Search and download by provider name (excludes Flex automatically)
+# Search and download by provider name
 gtfs <- download_feed(provider = "Arlington")
 
-# Download using agency's source URL instead of MobilityData hosted
+# Download using agency's source URL instead of MobilityData
 gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
 
 # Download from agency requiring API authentication
-# Method 1: Just provide the API key value
 gtfs <- download_feed(
   provider = "WMATA",
-  feed_name = "Rail"
+  feed_name = "Rail",
   use_source_url = TRUE,
   auth_args = "your_wmata_api_key"
 )
-
-# Method 2: Explicitly specify parameter name and value
-gtfs <- download_feed(
-  provider = "WMATA",
-  feed_name = "Rail"
-  use_source_url = TRUE,
-  auth_args = "api_key=your_wmata_api_key"
-)
-
-# Method 3(ish): Specify value stored in .Renviron
-gtfs <- download_feed(
-  provider = "WMATA",
-  feed_name = "Rail"
-  use_source_url = TRUE,
-  auth_args = Sys.getenv("WMATA_API_KEY")
-)
-
-# Include Flex feeds in search
-gtfs <- download_feed(provider = "Arlington", exclude_flex = FALSE)
 
 # Filter by location
 gtfs <- download_feed(
@@ -158,8 +137,6 @@ versions <- download_feed("mdb-2862", latest = FALSE)
 # Download a specific historical version (feed_id auto-extracted from dataset_id)
 historical <- download_feed(dataset_id = "mdb-53-202507240047")
 
-# Or specify both explicitly
-historical <- download_feed("mdb-53", dataset_id = "mdb-53-202507240047")
 }
 }
 \seealso{
