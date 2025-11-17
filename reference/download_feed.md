@@ -27,6 +27,7 @@ download_feed(
   latest = TRUE,
   status = "active",
   official = NULL,
+  auth_args = NULL,
   ...
 )
 ```
@@ -109,6 +110,23 @@ download_feed(
   `FALSE`, only return feeds explicitly marked as unofficial. If `NULL`,
   return all feeds regardless of official status.
 
+- auth_args:
+
+  A string. Some agencies require authentication to download feeds
+  directly from their source URLs. Provide your API key/token in one of
+  two formats:
+
+  - Just the value: `"your_api_key_here"`
+
+  - Parameter and value: `"apikey=your_api_key_here"`
+
+  Also accepts a value stored in `.Renviron` (.e.g
+  Sys.getenv("AGENCY_API_KEY") stored in the same formats) Only valid
+  when `use_source_url = TRUE`. If a feed requires authentication,
+  you'll receive an error message with a link to obtain credentials. The
+  authentication method (URL parameter or HTTP header) is determined
+  automatically from the feed's metadata.
+
 - ...:
 
   Additional arguments passed to
@@ -133,42 +151,3 @@ feeds,
 for more flexible GTFS reading
 
 ## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-# Download by feed ID
-gtfs <- download_feed("mdb-2862")
-
-# Download from search results
-feeds <- feeds(provider = "TransLink")
-gtfs <- download_feed(feeds[36, ])
-
-# Search and download by provider name (excludes Flex automatically)
-gtfs <- download_feed(provider = "Arlington")
-
-# Download using agency's source URL instead of MobilityData hosted
-gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
-
-# Include Flex feeds in search
-gtfs <- download_feed(provider = "Arlington", exclude_flex = FALSE)
-
-# Filter by location
-gtfs <- download_feed(
-  country_code = "US",
-  subdivision_name = "California",
-  municipality = "San Francisco"
-)
-
-# Search and download all feeds, including unofficial ones
-gtfs <- download_feed(provider = "TTC", official = NULL)
-
-# See all available versions for a feed
-versions <- download_feed("mdb-2862", latest = FALSE)
-
-# Download a specific historical version (feed_id auto-extracted from dataset_id)
-historical <- download_feed(dataset_id = "mdb-53-202507240047")
-
-# Or specify both explicitly
-historical <- download_feed("mdb-53", dataset_id = "mdb-53-202507240047")
-} # }
-```

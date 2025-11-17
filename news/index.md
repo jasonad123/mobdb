@@ -1,5 +1,12 @@
 # Changelog
 
+## mobdb 0.1.6
+
+### Major changes
+
+- **New!** `download_feeds()` now supports direct download of feeds that
+  require API authentication through the `auth_args` parameter
+
 ## mobdb 0.1.5
 
 ### Major changes
