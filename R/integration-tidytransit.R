@@ -123,6 +123,9 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   with unknown official status (NA) when searching by provider/location.
 #'   If `FALSE`, only return feeds explicitly marked as unofficial.
 #'   If `NULL`, return all feeds regardless of official status.
+#' @param auth_args A string. Certain agencies require authentication through an API key to download their feeds directly
+#' from their agency. Provide your API key for those agencies either directly here or stored in .Renviron. Only valid
+#' when `use_source_url = TRUE`
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
 #' @return If `latest = TRUE`, a `gtfs` object as returned by [tidytransit::read_gtfs()].
@@ -184,6 +187,7 @@ download_feed <- function(feed_id = NULL,
                           latest = TRUE,
                           status = "active",
                           official = NULL,
+                          auth_args = NULL,
                           ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
@@ -198,6 +202,13 @@ download_feed <- function(feed_id = NULL,
       "Cannot use {.arg dataset_id} with {.arg use_source_url = TRUE}.",
       "i" = "Historical datasets are only available from MobilityData's hosted URLs.",
       "i" = "Set {.code use_source_url = FALSE} to download a specific dataset version."
+    ))
+  }
+
+  if (!is.null(auth_args) && !use_source_url) {
+    cli::cli_abort(c(
+      "Cannot use {.arg auth_args} with {.arg use_source_url = FALSE}.",
+      "i" = "auth_args are only required when downloading directly from certain agencies"
     ))
   }
 
@@ -423,11 +434,25 @@ download_feed <- function(feed_id = NULL,
     # Get source URL from feed details
     feed_details <- mobdb_get_feed(selected_feed_id)
     url <- feed_details$source_info$producer_url
+    auth_type <- mobdb_authentication_type(selected_feed_id)
+    auth_name <- mobdb_api_key_parameter_name(selected_feed_id)
+    auth_url <- mobdb_authentication_info_url(selected_feed_id)
+
 
     if (is.null(url) || is.na(url)) {
       cli::cli_abort(c(
         "No source URL found for feed {.val {selected_feed_id}}.",
         "i" = "Try setting {.code use_source_url = FALSE} to use MobilityData's hosted URL."
+      ))
+    }
+    
+    if (is.null(auth_args) || is.na(auth_args) && auth_type > 0) {
+        cli::cli_abort(c(
+          "{.val {selected_feed_id}} needs API credentials to download from the source url.",
+          "i" = "Visit {.val {auth_url}} to find out how to get API credentials.",
+          "i" = "Then set {.code auth_args} with your API credentials",
+          "i" = "The API key value is {.val {auth_name}}",
+          "i" = "Or set {.code use_source_url = FALSE} to download the MobilityData hosted version"
       ))
     }
 

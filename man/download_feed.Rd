@@ -17,6 +17,7 @@ download_feed(
   latest = TRUE,
   status = "active",
   official = NULL,
+  auth_args = NULL,
   ...
 )
 }
@@ -67,6 +68,10 @@ be used with search parameters like \code{provider} or \code{country_code}.}
 with unknown official status (NA) when searching by provider/location.
 If \code{FALSE}, only return feeds explicitly marked as unofficial.
 If \code{NULL}, return all feeds regardless of official status.}
+
+\item{auth_args}{A string. Certain agencies require authentication through an API key to download their feeds directly
+from their agency. Provide your API key for those agencies either directly here or stored in .Renviron. Only valid
+when \code{use_source_url = TRUE}}
 
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
 }

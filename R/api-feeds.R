@@ -202,6 +202,9 @@ mobdb_get_feed <- function(feed_id) {
   httr2::resp_body_json(resp)
 }
 
+
+
+
 #' Get download URL for a feed
 #'
 #' @description
@@ -222,16 +225,14 @@ mobdb_get_feed <- function(feed_id) {
 #' library(tidytransit)
 #' gtfs <- read_gtfs(url)
 #' }
+#' 
 #' @export
 mobdb_feed_url <- function(feed_id) {
   feed <- mobdb_get_feed(feed_id)
 
   # Try different possible locations for the URL
   # Based on actual API: URL is in source_info$producer_url
-  url <- feed$source_info$producer_url %||%
-    feed$urls$direct_download %||%
-    feed$direct_download_url %||%
-    feed$url
+  url <- feed$source_info$producer_url
 
   if (is.null(url)) {
     cli::cli_warn("No download URL found for feed {.val {feed_id}}.")
@@ -239,3 +240,85 @@ mobdb_feed_url <- function(feed_id) {
 
   url
 }
+
+#' Get `authentication_type` for a feed
+#'
+#' @description
+#' Internal function for getting the `authentication_type` for API authentication purposes
+#' This is then used by `auth_args=` parameters in `download_feed()` and similar functions
+#' to enable direct download of feeds requiring an API key or similar
+#' 
+#' @param feed_id A string. The unique identifier for the feed.
+#'
+#' @return An integer. 
+#' - 0 or `NULL` means the feed does not require authentication
+#' - 1 means the authentication requires an API key, which should be passed as value of the parameter api_key_parameter_name in the URL. 
+#' - 2 means the authentication requires an HTTP header, which should be passed as the value of the header api_key_parameter_name in the HTTP request. 
+#' 
+#' When not provided, the authentication type is assumed to be 0.
+#'
+#' @noRd
+mobdb_authentication_type <- function(feed_id) {
+  feed <- mobdb_get_feed(feed_id)
+
+  # Based on actual API: URL is in source_info$authentication_type
+  result <- feed$source_info$authentication_type
+
+  result
+}
+
+
+#' Get `api_key_parameter_name` for a feed
+#'
+#' @description
+#' Internal function for getting the `api_key_parameter_name` for API authentication purposes
+#' This is then used by `auth_args=` parameters in `download_feed()` and similar functions
+#'
+#' @param feed_id A string. The unique identifier for the feed.
+#'
+#' @return A string. Defines the name of the parameter to pass in the URL to provide the API key or `NULL` if not available.
+#'
+#' @noRd
+mobdb_api_key_parameter_name <- function(feed_id) {
+  feed <- mobdb_get_feed(feed_id)
+
+  # Based on actual API: URL is in source_info$producer_url
+  result <- feed$source_info$api_key_parameter_name
+
+  result
+}
+
+
+#' Get `authentication_info_url` for a feed
+#'
+#' @description
+#' Internal function for getting the `authentication_info_url` for API authentication purposes
+#' This is then used by `auth_args=` parameters in `download_feed()` and similar functions
+#' This function returns a URL that describes the how API auth credentials are created
+#' 
+#' *NOTE:* Per the Mobility Database API, authentication_info_url is required if `authentication_type` is 1 or 2
+#' so this function will warn if this is the case
+#'
+#' @param feed_id A string. The unique identifier for the feed.
+#'
+#' @return A string. Defines the authentication info URL
+#' 
+#' @noRd
+mobdb_authentication_info_url <- function(feed_id) {
+  feed <- mobdb_get_feed(feed_id)
+
+  # Try different possible locations for the URL
+  # Based on actual API: URL is in source_info$producer_url
+  url <- feed$source_info$authentication_info_url
+
+  auth_type <- mobdb_authentication_type(feed_id)
+
+  if (is.null(url) && auth_type > 0) {
+    cli::cli_warn("No authentication info URL found for feed {.val {feed_id}}.")
+    cli::cli_warn("Contact the agency directly for more information on how to access their API.")
+  }
+
+  url
+}
+
+
