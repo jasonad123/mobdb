@@ -225,3 +225,129 @@ test_that("mobdb_extract_locations() validates input", {
     "must be a data frame"
   )
 })
+
+# Tests for authentication helper functions
+
+test_that("parse_auth_args() extracts value from plain value format", {
+  result <- mobdb:::parse_auth_args("my_api_key_123")
+  expect_equal(result, "my_api_key_123")
+})
+
+test_that("parse_auth_args() extracts value from param=value format", {
+  result <- mobdb:::parse_auth_args("apikey=my_api_key_123")
+  expect_equal(result, "my_api_key_123")
+})
+
+test_that("parse_auth_args() handles NULL input", {
+  result <- mobdb:::parse_auth_args(NULL)
+  expect_null(result)
+})
+
+test_that("parse_auth_args() handles NA input", {
+  result <- mobdb:::parse_auth_args(NA_character_)
+  expect_null(result)
+})
+
+test_that("parse_auth_args() validates format with multiple equals", {
+  expect_error(
+    mobdb:::parse_auth_args("key=value=extra"),
+    "Invalid.*auth_args.*format"
+  )
+})
+
+test_that("parse_auth_args() warns when param name doesn't match expected", {
+  expect_warning(
+    result <- mobdb:::parse_auth_args("wrong_param=value123", "expected_param"),
+    "does not match expected"
+  )
+  expect_equal(result, "value123")
+})
+
+test_that("build_authenticated_request() returns URL for auth_type=0", {
+  result <- mobdb:::build_authenticated_request(
+    "https://example.com/feed.zip",
+    auth_type = 0,
+    auth_param_name = NULL,
+    auth_value = NULL
+  )
+  expect_equal(result, "https://example.com/feed.zip")
+})
+
+test_that("build_authenticated_request() returns URL for NULL auth_type", {
+  result <- mobdb:::build_authenticated_request(
+    "https://example.com/feed.zip",
+    auth_type = NULL,
+    auth_param_name = NULL,
+    auth_value = NULL
+  )
+  expect_equal(result, "https://example.com/feed.zip")
+})
+
+test_that("build_authenticated_request() builds URL with query param for auth_type=1", {
+  result <- mobdb:::build_authenticated_request(
+    "https://example.com/feed.zip",
+    auth_type = 1,
+    auth_param_name = "apikey",
+    auth_value = "test123"
+  )
+  expect_equal(result, "https://example.com/feed.zip?apikey=test123")
+})
+
+test_that("build_authenticated_request() appends to existing query params for auth_type=1", {
+  result <- mobdb:::build_authenticated_request(
+    "https://example.com/feed.zip?format=json",
+    auth_type = 1,
+    auth_param_name = "apikey",
+    auth_value = "test123"
+  )
+  expect_equal(result, "https://example.com/feed.zip?format=json&apikey=test123")
+})
+
+test_that("build_authenticated_request() builds httr2 request for auth_type=2", {
+  skip_if_not_installed("httr2")
+
+  result <- mobdb:::build_authenticated_request(
+    "https://example.com/feed.zip",
+    auth_type = 2,
+    auth_param_name = "X-API-Key",
+    auth_value = "test123"
+  )
+
+  expect_s3_class(result, "httr2_request")
+})
+
+test_that("build_authenticated_request() errors on unknown auth_type", {
+  expect_error(
+    mobdb:::build_authenticated_request(
+      "https://example.com/feed.zip",
+      auth_type = 99,
+      auth_param_name = "key",
+      auth_value = "value"
+    ),
+    "Unknown authentication type"
+  )
+})
+
+test_that("build_authenticated_request() errors when param name missing for auth_type=1", {
+  expect_error(
+    mobdb:::build_authenticated_request(
+      "https://example.com/feed.zip",
+      auth_type = 1,
+      auth_param_name = NULL,
+      auth_value = "test123"
+    ),
+    "requires.*api_key_parameter_name"
+  )
+})
+
+test_that("build_authenticated_request() errors when param name missing for auth_type=2", {
+  expect_error(
+    mobdb:::build_authenticated_request(
+      "https://example.com/feed.zip",
+      auth_type = 2,
+      auth_param_name = NA_character_,
+      auth_value = "test123"
+    ),
+    "requires.*api_key_parameter_name"
+  )
+})

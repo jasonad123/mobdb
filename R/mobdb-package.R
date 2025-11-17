@@ -4,7 +4,7 @@
 ## usethis namespace: start
 #' @importFrom cli cli_abort cli_warn cli_inform
 #' @importFrom lifecycle deprecated
-#' @importFrom rlang .data abort warn inform %||%
+#' @importFrom rlang .data abort warn inform %||% :=
 #' @importFrom tibble tibble as_tibble
 ## usethis namespace: end
 NULL

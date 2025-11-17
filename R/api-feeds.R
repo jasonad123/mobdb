@@ -295,14 +295,14 @@ mobdb_api_key_parameter_name <- function(feed_id) {
 #' Internal function for getting the `authentication_info_url` for API authentication purposes
 #' This is then used by `auth_args=` parameters in `download_feed()` and similar functions
 #' This function returns a URL that describes the how API auth credentials are created
-#' 
+#'
 #' *NOTE:* Per the Mobility Database API, authentication_info_url is required if `authentication_type` is 1 or 2
 #' so this function will warn if this is the case
 #'
 #' @param feed_id A string. The unique identifier for the feed.
 #'
 #' @return A string. Defines the authentication info URL
-#' 
+#'
 #' @noRd
 mobdb_authentication_info_url <- function(feed_id) {
   feed <- mobdb_get_feed(feed_id)
@@ -319,6 +319,117 @@ mobdb_authentication_info_url <- function(feed_id) {
   }
 
   url
+}
+
+
+#' Parse auth_args parameter
+#'
+#' @description
+#' Internal helper to parse auth_args parameter, which can be provided as:
+#' - "value" - just the API key/token value
+#' - "param_name=value" - explicit parameter name and value
+#'
+#' @param auth_args A string. The authentication argument(s)
+#' @param expected_param_name A string. The expected parameter name from API
+#'
+#' @return A string. The API key/token value
+#'
+#' @noRd
+parse_auth_args <- function(auth_args, expected_param_name = NULL) {
+  if (is.null(auth_args) || is.na(auth_args)) {
+    return(NULL)
+  }
+
+  # Check if auth_args contains "=" (explicit param=value format)
+  if (grepl("=", auth_args, fixed = TRUE)) {
+    parts <- strsplit(auth_args, "=", fixed = TRUE)[[1]]
+    if (length(parts) != 2) {
+      cli::cli_abort(c(
+        "Invalid {.arg auth_args} format: {.val {auth_args}}",
+        "i" = "Expected format: {.code param_name=value} or just {.code value}"
+      ))
+    }
+
+    param_name <- parts[1]
+    value <- parts[2]
+
+    # Validate that provided param name matches expected (if expected is known)
+    if (!is.null(expected_param_name) && !is.na(expected_param_name)) {
+      if (param_name != expected_param_name) {
+        cli::cli_warn(c(
+          "Provided parameter name {.val {param_name}} does not match expected {.val {expected_param_name}}",
+          "i" = "Using provided parameter name anyway"
+        ))
+      }
+    }
+
+    return(value)
+  } else {
+    # auth_args is just the value
+    return(auth_args)
+  }
+}
+
+
+#' Build authenticated URL for feed download
+#'
+#' @description
+#' Internal function to construct an authenticated download URL or httr2 request
+#' based on the feed's authentication requirements
+#'
+#' @param url A string. The base URL to download from
+#' @param auth_type An integer. Authentication type (0=none, 1=URL param, 2=HTTP header)
+#' @param auth_param_name A string. Name of the authentication parameter/header
+#' @param auth_value A string. The API key/token value
+#'
+#' @return A string (for auth_type=1) or httr2 request object (for auth_type=2)
+#'
+#' @noRd
+build_authenticated_request <- function(url, auth_type, auth_param_name, auth_value) {
+  # Type 0: No authentication needed
+  if (is.null(auth_type) || is.na(auth_type) || auth_type == 0) {
+    return(url)
+  }
+
+  # Type 1: URL query parameter authentication
+  if (auth_type == 1) {
+    if (is.null(auth_param_name) || is.na(auth_param_name)) {
+      cli::cli_abort(c(
+        "Authentication type 1 requires {.field api_key_parameter_name}",
+        "i" = "This information is missing from the API response"
+      ))
+    }
+
+    # Check if URL already has query parameters
+    separator <- if (grepl("?", url, fixed = TRUE)) "&" else "?"
+
+    # Build authenticated URL with query parameter
+    authenticated_url <- paste0(url, separator, auth_param_name, "=", auth_value)
+    return(authenticated_url)
+  }
+
+  # Type 2: HTTP header authentication
+  if (auth_type == 2) {
+    if (is.null(auth_param_name) || is.na(auth_param_name)) {
+      cli::cli_abort(c(
+        "Authentication type 2 requires {.field api_key_parameter_name}",
+        "i" = "This information is missing from the API response"
+      ))
+    }
+
+    # Return httr2 request with authentication header
+    # Note: This will be used by tidytransit::read_gtfs() which accepts httr2 requests
+    req <- httr2::request(url) |>
+      httr2::req_headers(!!auth_param_name := auth_value)
+
+    return(req)
+  }
+
+  # Unknown authentication type
+  cli::cli_abort(c(
+    "Unknown authentication type: {.val {auth_type}}",
+    "i" = "Expected 0, 1, or 2"
+  ))
 }
 
 
