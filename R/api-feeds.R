@@ -202,6 +202,9 @@ mobdb_get_feed <- function(feed_id) {
   httr2::resp_body_json(resp)
 }
 
+
+
+
 #' Get download URL for a feed
 #'
 #' @description
@@ -222,16 +225,14 @@ mobdb_get_feed <- function(feed_id) {
 #' library(tidytransit)
 #' gtfs <- read_gtfs(url)
 #' }
+#' 
 #' @export
 mobdb_feed_url <- function(feed_id) {
   feed <- mobdb_get_feed(feed_id)
 
   # Try different possible locations for the URL
   # Based on actual API: URL is in source_info$producer_url
-  url <- feed$source_info$producer_url %||%
-    feed$urls$direct_download %||%
-    feed$direct_download_url %||%
-    feed$url
+  url <- feed$source_info$producer_url
 
   if (is.null(url)) {
     cli::cli_warn("No download URL found for feed {.val {feed_id}}.")
@@ -239,3 +240,196 @@ mobdb_feed_url <- function(feed_id) {
 
   url
 }
+
+#' Get `authentication_type` for a feed
+#'
+#' @description
+#' Internal function for getting the `authentication_type` for API authentication purposes
+#' This is then used by `auth_args=` parameters in `download_feed()` and similar functions
+#' to enable direct download of feeds requiring an API key or similar
+#' 
+#' @param feed_id A string. The unique identifier for the feed.
+#'
+#' @return An integer. 
+#' - 0 or `NULL` means the feed does not require authentication
+#' - 1 means the authentication requires an API key, which should be passed as value of the parameter api_key_parameter_name in the URL. 
+#' - 2 means the authentication requires an HTTP header, which should be passed as the value of the header api_key_parameter_name in the HTTP request. 
+#' 
+#' When not provided, the authentication type is assumed to be 0.
+#'
+#' @noRd
+mobdb_authentication_type <- function(feed_id) {
+  feed <- mobdb_get_feed(feed_id)
+
+  # Based on actual API: URL is in source_info$authentication_type
+  result <- feed$source_info$authentication_type
+
+  result
+}
+
+
+#' Get `api_key_parameter_name` for a feed
+#'
+#' @description
+#' Internal function for getting the `api_key_parameter_name` for API authentication purposes
+#' This is then used by `auth_args=` parameters in `download_feed()` and similar functions
+#'
+#' @param feed_id A string. The unique identifier for the feed.
+#'
+#' @return A string. Defines the name of the parameter to pass in the URL to provide the API key or `NULL` if not available.
+#'
+#' @noRd
+mobdb_api_key_parameter_name <- function(feed_id) {
+  feed <- mobdb_get_feed(feed_id)
+
+  # Based on actual API: URL is in source_info$producer_url
+  result <- feed$source_info$api_key_parameter_name
+
+  result
+}
+
+
+#' Get `authentication_info_url` for a feed
+#'
+#' @description
+#' Internal function for getting the `authentication_info_url` for API authentication purposes
+#' This is then used by `auth_args=` parameters in `download_feed()` and similar functions
+#' This function returns a URL that describes the how API auth credentials are created
+#'
+#' *NOTE:* Per the Mobility Database API, authentication_info_url is required if `authentication_type` is 1 or 2
+#' so this function will warn if this is the case
+#'
+#' @param feed_id A string. The unique identifier for the feed.
+#'
+#' @return A string. Defines the authentication info URL
+#'
+#' @noRd
+mobdb_authentication_info_url <- function(feed_id) {
+  feed <- mobdb_get_feed(feed_id)
+
+  # Try different possible locations for the URL
+  # Based on actual API: URL is in source_info$producer_url
+  url <- feed$source_info$authentication_info_url
+
+  auth_type <- mobdb_authentication_type(feed_id)
+
+  if (is.null(url) && auth_type > 0) {
+    cli::cli_warn("No authentication info URL found for feed {.val {feed_id}}.")
+    cli::cli_warn("Contact the agency directly for more information on how to access their API.")
+  }
+
+  url
+}
+
+
+#' Parse auth_args parameter
+#'
+#' @description
+#' Internal helper to parse auth_args parameter, which can be provided as:
+#' - "value" - just the API key/token value
+#' - "param_name=value" - explicit parameter name and value
+#'
+#' @param auth_args A string. The authentication argument(s)
+#' @param expected_param_name A string. The expected parameter name from API
+#'
+#' @return A string. The API key/token value
+#'
+#' @noRd
+parse_auth_args <- function(auth_args, expected_param_name = NULL) {
+  if (is.null(auth_args) || is.na(auth_args)) {
+    return(NULL)
+  }
+
+  # Check if auth_args contains "=" (explicit param=value format)
+  if (grepl("=", auth_args, fixed = TRUE)) {
+    parts <- strsplit(auth_args, "=", fixed = TRUE)[[1]]
+    if (length(parts) != 2) {
+      cli::cli_abort(c(
+        "Invalid {.arg auth_args} format: {.val {auth_args}}",
+        "i" = "Expected format: {.code param_name=value} or just {.code value}"
+      ))
+    }
+
+    param_name <- parts[1]
+    value <- parts[2]
+
+    # Validate that provided param name matches expected (if expected is known)
+    if (!is.null(expected_param_name) && !is.na(expected_param_name)) {
+      if (param_name != expected_param_name) {
+        cli::cli_warn(c(
+          "Provided parameter name {.val {param_name}} does not match expected {.val {expected_param_name}}",
+          "i" = "Using provided parameter name anyway"
+        ))
+      }
+    }
+
+    return(value)
+  } else {
+    # auth_args is just the value
+    return(auth_args)
+  }
+}
+
+
+#' Build authenticated URL for feed download
+#'
+#' @description
+#' Internal function to construct an authenticated download URL or httr2 request
+#' based on the feed's authentication requirements
+#'
+#' @param url A string. The base URL to download from
+#' @param auth_type An integer. Authentication type (0=none, 1=URL param, 2=HTTP header)
+#' @param auth_param_name A string. Name of the authentication parameter/header
+#' @param auth_value A string. The API key/token value
+#'
+#' @return A string (for auth_type=1) or httr2 request object (for auth_type=2)
+#'
+#' @noRd
+build_authenticated_request <- function(url, auth_type, auth_param_name, auth_value) {
+  # Type 0: No authentication needed
+  if (is.null(auth_type) || is.na(auth_type) || auth_type == 0) {
+    return(url)
+  }
+
+  # Type 1: URL query parameter authentication
+  if (auth_type == 1) {
+    if (is.null(auth_param_name) || is.na(auth_param_name)) {
+      cli::cli_abort(c(
+        "Authentication type 1 requires {.field api_key_parameter_name}",
+        "i" = "This information is missing from the API response"
+      ))
+    }
+
+    # Check if URL already has query parameters
+    separator <- if (grepl("?", url, fixed = TRUE)) "&" else "?"
+
+    # Build authenticated URL with query parameter
+    authenticated_url <- paste0(url, separator, auth_param_name, "=", auth_value)
+    return(authenticated_url)
+  }
+
+  # Type 2: HTTP header authentication
+  if (auth_type == 2) {
+    if (is.null(auth_param_name) || is.na(auth_param_name)) {
+      cli::cli_abort(c(
+        "Authentication type 2 requires {.field api_key_parameter_name}",
+        "i" = "This information is missing from the API response"
+      ))
+    }
+
+    # Return httr2 request with authentication header
+    # Note: This will be used by tidytransit::read_gtfs() which accepts httr2 requests
+    req <- httr2::request(url) |>
+      httr2::req_headers(!!auth_param_name := auth_value)
+
+    return(req)
+  }
+
+  # Unknown authentication type
+  cli::cli_abort(c(
+    "Unknown authentication type: {.val {auth_type}}",
+    "i" = "Expected 0, 1, or 2"
+  ))
+}
+
+

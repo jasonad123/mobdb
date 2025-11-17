@@ -17,6 +17,7 @@ download_feed(
   latest = TRUE,
   status = "active",
   official = NULL,
+  auth_args = NULL,
   ...
 )
 }
@@ -68,6 +69,20 @@ with unknown official status (NA) when searching by provider/location.
 If \code{FALSE}, only return feeds explicitly marked as unofficial.
 If \code{NULL}, return all feeds regardless of official status.}
 
+\item{auth_args}{A string. Some agencies require authentication to download
+feeds directly from their source URLs. Provide your API key/token in one of
+two formats:
+\itemize{
+\item Just the value: \code{"your_api_key_here"}
+\item Parameter and value: \code{"apikey=your_api_key_here"}
+}
+
+Also accepts a value stored in \code{.Renviron} (.e.g Sys.getenv("AGENCY_API_KEY") stored in the same formats)
+Only valid when \code{use_source_url = TRUE}. If a feed requires authentication,
+you'll receive an error message with a link to obtain credentials. The
+authentication method (URL parameter or HTTP header) is determined
+automatically from the feed's metadata.}
+
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
 }
 \value{
@@ -98,6 +113,31 @@ gtfs <- download_feed(provider = "Arlington")
 
 # Download using agency's source URL instead of MobilityData hosted
 gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
+
+# Download from agency requiring API authentication
+# Method 1: Just provide the API key value
+gtfs <- download_feed(
+  provider = "WMATA",
+  feed_name = "Rail"
+  use_source_url = TRUE,
+  auth_args = "your_wmata_api_key"
+)
+
+# Method 2: Explicitly specify parameter name and value
+gtfs <- download_feed(
+  provider = "WMATA",
+  feed_name = "Rail"
+  use_source_url = TRUE,
+  auth_args = "api_key=your_wmata_api_key"
+)
+
+# Method 3(ish): Specify value stored in .Renviron
+gtfs <- download_feed(
+  provider = "WMATA",
+  feed_name = "Rail"
+  use_source_url = TRUE,
+  auth_args = Sys.getenv("WMATA_API_KEY")
+)
 
 # Include Flex feeds in search
 gtfs <- download_feed(provider = "Arlington", exclude_flex = FALSE)

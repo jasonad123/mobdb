@@ -123,6 +123,17 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   with unknown official status (NA) when searching by provider/location.
 #'   If `FALSE`, only return feeds explicitly marked as unofficial.
 #'   If `NULL`, return all feeds regardless of official status.
+#' @param auth_args A string. Some agencies require authentication to download
+#'   feeds directly from their source URLs. Provide your API key/token in one of
+#'   two formats:
+#'   - Just the value: `"your_api_key_here"`
+#'   - Parameter and value: `"apikey=your_api_key_here"`
+#'   
+#'   Also accepts a value stored in `.Renviron` (.e.g Sys.getenv("AGENCY_API_KEY") stored in the same formats)
+#'   Only valid when `use_source_url = TRUE`. If a feed requires authentication,
+#'   you'll receive an error message with a link to obtain credentials. The
+#'   authentication method (URL parameter or HTTP header) is determined
+#'   automatically from the feed's metadata.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
 #' @return If `latest = TRUE`, a `gtfs` object as returned by [tidytransit::read_gtfs()].
@@ -142,6 +153,31 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'
 #' # Download using agency's source URL instead of MobilityData hosted
 #' gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
+#'
+#' # Download from agency requiring API authentication
+#' # Method 1: Just provide the API key value
+#' gtfs <- download_feed(
+#'   provider = "WMATA",
+#'   feed_name = "Rail"
+#'   use_source_url = TRUE,
+#'   auth_args = "your_wmata_api_key"
+#' )
+#'
+#' # Method 2: Explicitly specify parameter name and value
+#' gtfs <- download_feed(
+#'   provider = "WMATA",
+#'   feed_name = "Rail"
+#'   use_source_url = TRUE,
+#'   auth_args = "api_key=your_wmata_api_key"
+#' )
+#' 
+#' # Method 3(ish): Specify value stored in .Renviron
+#' gtfs <- download_feed(
+#'   provider = "WMATA",
+#'   feed_name = "Rail"
+#'   use_source_url = TRUE,
+#'   auth_args = Sys.getenv("WMATA_API_KEY")
+#' )
 #'
 #' # Include Flex feeds in search
 #' gtfs <- download_feed(provider = "Arlington", exclude_flex = FALSE)
@@ -184,6 +220,7 @@ download_feed <- function(feed_id = NULL,
                           latest = TRUE,
                           status = "active",
                           official = NULL,
+                          auth_args = NULL,
                           ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
@@ -198,6 +235,13 @@ download_feed <- function(feed_id = NULL,
       "Cannot use {.arg dataset_id} with {.arg use_source_url = TRUE}.",
       "i" = "Historical datasets are only available from MobilityData's hosted URLs.",
       "i" = "Set {.code use_source_url = FALSE} to download a specific dataset version."
+    ))
+  }
+
+  if (!is.null(auth_args) && !use_source_url) {
+    cli::cli_abort(c(
+      "Cannot use {.arg auth_args} with {.arg use_source_url = FALSE}.",
+      "i" = "auth_args are only required when downloading directly from certain agencies"
     ))
   }
 
@@ -418,11 +462,14 @@ download_feed <- function(feed_id = NULL,
     cli::cli_abort("No datasets found for feed {.val {selected_feed_id}}.")
   }
 
-  # Choose URL source
+  # Choose URL source and prepare request
   if (use_source_url) {
     # Get source URL from feed details
     feed_details <- mobdb_get_feed(selected_feed_id)
     url <- feed_details$source_info$producer_url
+    auth_type <- mobdb_authentication_type(selected_feed_id)
+    auth_param_name <- mobdb_api_key_parameter_name(selected_feed_id)
+    auth_info_url <- mobdb_authentication_info_url(selected_feed_id)
 
     if (is.null(url) || is.na(url)) {
       cli::cli_abort(c(
@@ -431,9 +478,37 @@ download_feed <- function(feed_id = NULL,
       ))
     }
 
-    cli::cli_inform("Downloading from agency source: {.url {url}}")
+    # Check if authentication is required
+    if (!is.null(auth_type) && !is.na(auth_type) && auth_type > 0) {
+      if (is.null(auth_args) || is.na(auth_args)) {
+        cli::cli_abort(c(
+          "{.val {selected_feed_id}} requires API credentials to download from source.",
+          "i" = "Visit {.url {auth_info_url}} to learn how to get API credentials.",
+          "i" = "Then set {.code auth_args} with your API credentials.",
+          "i" = "The API key parameter is: {.val {auth_param_name}}",
+          "i" = "Or set {.code use_source_url = FALSE} to download the MobilityData hosted version."
+        ))
+      }
+
+      # Parse auth_args and build authenticated request
+      auth_value <- parse_auth_args(auth_args, auth_param_name)
+
+      # Build authenticated URL or request object
+      request <- build_authenticated_request(url, auth_type, auth_param_name, auth_value)
+
+      # Inform user based on auth type
+      if (auth_type == 1) {
+        cli::cli_inform("Downloading from agency source with URL parameter authentication")
+      } else if (auth_type == 2) {
+        cli::cli_inform("Downloading from agency source with HTTP header authentication")
+      }
+    } else {
+      # No authentication needed
+      request <- url
+      cli::cli_inform("Downloading from agency source: {.url {url}}")
+    }
   } else {
-    # Use MobilityData hosted URL
+    # Use MobilityData hosted URL (no authentication needed)
     url <- datasets$hosted_url[1]
 
     if (is.null(url) || is.na(url)) {
@@ -443,8 +518,11 @@ download_feed <- function(feed_id = NULL,
       ))
     }
 
+    request <- url
     cli::cli_inform("Downloading from MobilityData: {.url {url}}")
   }
 
-  tidytransit::read_gtfs(url, ...)
+  # Download and parse GTFS feed
+  # tidytransit::read_gtfs() can accept either a URL string or an httr2 request object
+  tidytransit::read_gtfs(request, ...)
 }
