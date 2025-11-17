@@ -4,8 +4,10 @@
 
 ### Major changes
 
-- **New!** `download_feeds()` now supports direct download of feeds that
-  require API authentication through the `auth_args` parameter
+- **New!**
+  [`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
+  now supports direct download of feeds that require API authentication
+  through the `auth_args` parameter
 
 ## mobdb 0.1.5
 

@@ -151,3 +151,45 @@ feeds,
 for more flexible GTFS reading
 
 ## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Download by feed ID
+gtfs <- download_feed("mdb-2862")
+
+# Download from search results
+feeds <- feeds(provider = "TransLink")
+gtfs <- download_feed(feeds[36, ])
+
+# Search and download by provider name
+gtfs <- download_feed(provider = "Arlington")
+
+# Download using agency's source URL instead of MobilityData
+gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
+
+# Download from agency requiring API authentication
+gtfs <- download_feed(
+  provider = "WMATA",
+  feed_name = "Rail",
+  use_source_url = TRUE,
+  auth_args = "your_wmata_api_key"
+)
+
+# Filter by location
+gtfs <- download_feed(
+  country_code = "US",
+  subdivision_name = "California",
+  municipality = "San Francisco"
+)
+
+# Search and download all feeds, including unofficial ones
+gtfs <- download_feed(provider = "TTC", official = NULL)
+
+# See all available versions for a feed
+versions <- download_feed("mdb-2862", latest = FALSE)
+
+# Download a specific historical version (feed_id auto-extracted from dataset_id)
+historical <- download_feed(dataset_id = "mdb-53-202507240047")
+
+} # }
+```
