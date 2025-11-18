@@ -457,7 +457,7 @@ download_feed <- function(feed_id = NULL,
 
     # Check if authentication is required
     if (!is.null(auth_type) && !is.na(auth_type) && auth_type > 0) {
-      if (is.null(auth_args) || is.na(auth_args)) {
+      if (is.null(auth_args) || is.na(auth_args) || auth_args == "") {
         cli::cli_abort(c(
           "{.val {selected_feed_id}} requires API credentials to download from source.",
           "i" = "Visit {.url {auth_info_url}} to learn how to get API credentials.",
@@ -469,6 +469,18 @@ download_feed <- function(feed_id = NULL,
 
       # Parse auth_args and build authenticated request
       auth_value <- parse_auth_args(auth_args, auth_param_name)
+
+      # Double-check that we got a valid auth value after parsing
+      if (is.null(auth_value) || is.na(auth_value) || auth_value == "") {
+        cli::cli_abort(c(
+          "{.val {selected_feed_id}} requires API credentials to download from source.",
+          "x" = "The provided {.arg auth_args} is empty or invalid.",
+          "i" = "If using {.code Sys.getenv()}, make sure the environment variable is set in your {.file .Renviron} file.",
+          "i" = "Visit {.url {auth_info_url}} to learn how to get API credentials.",
+          "i" = "The API key parameter is: {.val {auth_param_name}}",
+          "i" = "Or set {.code use_source_url = FALSE} to download the MobilityData hosted version."
+        ))
+      }
 
       # Build authenticated URL or request object
       request <- build_authenticated_request(url, auth_type, auth_param_name, auth_value)
@@ -500,6 +512,86 @@ download_feed <- function(feed_id = NULL,
   }
 
   # Download and parse GTFS feed
-  # tidytransit::read_gtfs() can accept either a URL string or an httr2 request object
-  tidytransit::read_gtfs(request, ...)
+  # Note: tidytransit::read_gtfs() only accepts URL strings or local file paths
+  # It does NOT support httr2 request objects, so for HTTP header auth we need to
+  # download to a temp file first
+  if (inherits(request, "httr2_request")) {
+    # For HTTP header authentication, download to temp file first
+    temp_file <- tempfile(fileext = ".zip")
+
+    cli::cli_inform("Downloading feed to temporary file...")
+    resp <- httr2::req_perform(request, path = temp_file)
+
+    # Read from the downloaded file
+    gtfs <- tidytransit::read_gtfs(temp_file, ...)
+
+    # Clean up temp file
+    on.exit(unlink(temp_file), add = TRUE)
+
+    return(gtfs)
+  } else {
+    # For URL strings (no auth or URL param auth), validate before passing to tidytransit
+    # Download to temp file first to check if it's actually a ZIP and provide better errors
+    temp_file <- tempfile(fileext = ".zip")
+    on.exit(unlink(temp_file), add = TRUE)
+
+    tryCatch({
+      # Download the file first
+      req <- httr2::request(request)
+      resp <- httr2::req_perform(req, path = temp_file)
+
+      # Check if it's actually a ZIP file by reading magic bytes
+      if (file.exists(temp_file) && file.size(temp_file) > 4) {
+        con <- file(temp_file, "rb")
+        magic_bytes <- readBin(con, "raw", n = 4)
+        close(con)
+
+        # ZIP files start with PK\x03\x04 (0x504B0304)
+        is_zip <- magic_bytes[1] == 0x50 && magic_bytes[2] == 0x4B &&
+                  magic_bytes[3] == 0x03 && magic_bytes[4] == 0x04
+
+        if (!is_zip) {
+          # Not a ZIP file - probably an error response
+          # Try to read as text to show user what the error is
+          error_content <- readLines(temp_file, n = 20, warn = FALSE)
+          error_preview <- paste(head(error_content, 5), collapse = "\n")
+
+          cli::cli_abort(c(
+            "The server did not return a valid GTFS ZIP file.",
+            "x" = "Received {resp_content_type(resp)} instead of application/zip",
+            "i" = "This usually means authentication failed or the URL is incorrect.",
+            "i" = "Response preview: {.code {error_preview}}",
+            if (!is.null(auth_args) && auth_args != "") {
+              c("i" = "Check that your API key is valid and has the correct permissions.")
+            } else {
+              c("i" = "Try using {.code use_source_url = FALSE} to download from MobilityData instead.")
+            }
+          ))
+        }
+      }
+
+      # It's a valid ZIP, pass to tidytransit
+      tidytransit::read_gtfs(temp_file, ...)
+
+    }, error = function(e) {
+      # If it's already our custom error, re-throw it
+      if (grepl("did not return a valid GTFS ZIP", conditionMessage(e))) {
+        stop(e)
+      }
+
+      # Otherwise, add context to the error
+      cli::cli_abort(c(
+        "Failed to download or read GTFS feed.",
+        "x" = conditionMessage(e),
+        "i" = "URL: {.url {request}}",
+        if (use_source_url && !is.null(auth_args) && auth_args != "") {
+          c("i" = "Check that your API key is valid.")
+        } else if (use_source_url) {
+          c("i" = "This feed may require authentication. Check the feed details.")
+        } else {
+          c("i" = "Try using {.code use_source_url = TRUE} with proper authentication.")
+        }
+      ))
+    })
+  }
 }

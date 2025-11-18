@@ -336,7 +336,7 @@ mobdb_authentication_info_url <- function(feed_id) {
 #'
 #' @noRd
 parse_auth_args <- function(auth_args, expected_param_name = NULL) {
-  if (is.null(auth_args) || is.na(auth_args)) {
+  if (is.null(auth_args) || is.na(auth_args) || auth_args == "") {
     return(NULL)
   }
 

@@ -248,6 +248,11 @@ test_that("parse_auth_args() handles NA input", {
   expect_null(result)
 })
 
+test_that("parse_auth_args() handles empty string input", {
+  result <- mobdb:::parse_auth_args("")
+  expect_null(result)
+})
+
 test_that("parse_auth_args() validates format with multiple equals", {
   expect_error(
     mobdb:::parse_auth_args("key=value=extra"),
