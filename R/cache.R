@@ -171,7 +171,7 @@ mobdb_cache_path <- function(path = NULL, install = FALSE, overwrite = FALSE) {
   }
 
   # Set for current session
-  Sys.setenv('MOBDB_CACHE_PATH' = path)
+  Sys.setenv("MOBDB_CACHE_PATH" = path)
   cli::cli_alert_success("Cache path set to: {path}")
 
   # Make permanent if requested

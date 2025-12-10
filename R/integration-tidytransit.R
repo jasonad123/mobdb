@@ -128,9 +128,9 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   two formats:
 #'   - Just the value: `"your_api_key_here"`
 #'   - Parameter and value: `"apikey=your_api_key_here"`
-#'   
+#'
 #'   Also accepts a value stored in `.Renviron` (.e.g Sys.getenv("AGENCY_API_KEY") stored in the same formats)
-#'   Only valid when `use_source_url = TRUE`. If a feed requires authentication, you'll receive an error message with a link to obtain credentials. 
+#'   Only valid when `use_source_url = TRUE`. If a feed requires authentication, you'll receive an error message with a link to obtain credentials.
 #'   The authentication method (URL parameter or HTTP header) is determined
 #'   automatically from the feed's metadata.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
@@ -528,7 +528,7 @@ download_feed <- function(feed_id = NULL,
     # Clean up temp file
     on.exit(unlink(temp_file), add = TRUE)
 
-    return(gtfs)
+    gtfs
   } else {
     # For URL strings (no auth or URL param auth), validate before passing to tidytransit
     # Download to temp file first to check if it's actually a ZIP and provide better errors
@@ -548,7 +548,7 @@ download_feed <- function(feed_id = NULL,
 
         # ZIP files start with PK\x03\x04 (0x504B0304)
         is_zip <- magic_bytes[1] == 0x50 && magic_bytes[2] == 0x4B &&
-                  magic_bytes[3] == 0x03 && magic_bytes[4] == 0x04
+        magic_bytes[3] == 0x03 && magic_bytes[4] == 0x04
 
         if (!is_zip) {
           # Not a ZIP file - probably an error response

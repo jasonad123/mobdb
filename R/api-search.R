@@ -2,7 +2,7 @@
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
-#' 
+#'
 #' Perform a text search across feed names, providers, and locations.
 #'
 #' **Note:** Search is performed on English words and is case insensitive.

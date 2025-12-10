@@ -225,7 +225,6 @@ mobdb_get_feed <- function(feed_id) {
 #' library(tidytransit)
 #' gtfs <- read_gtfs(url)
 #' }
-#' 
 #' @export
 mobdb_feed_url <- function(feed_id) {
   feed <- mobdb_get_feed(feed_id)
@@ -247,14 +246,14 @@ mobdb_feed_url <- function(feed_id) {
 #' Internal function for getting the `authentication_type` for API authentication purposes
 #' This is then used by `auth_args=` parameters in `download_feed()` and similar functions
 #' to enable direct download of feeds requiring an API key or similar
-#' 
+#'
 #' @param feed_id A string. The unique identifier for the feed.
 #'
-#' @return An integer. 
+#' @return An integer.
 #' - 0 or `NULL` means the feed does not require authentication
-#' - 1 means the authentication requires an API key, which should be passed as value of the parameter api_key_parameter_name in the URL. 
-#' - 2 means the authentication requires an HTTP header, which should be passed as the value of the header api_key_parameter_name in the HTTP request. 
-#' 
+#' - 1 means the authentication requires an API key, which should be passed as value of the parameter api_key_parameter_name in the URL.
+#' - 2 means the authentication requires an HTTP header, which should be passed as the value of the header api_key_parameter_name in the HTTP request.
+#'
 #' When not provided, the authentication type is assumed to be 0.
 #'
 #' @noRd
@@ -363,10 +362,10 @@ parse_auth_args <- function(auth_args, expected_param_name = NULL) {
       }
     }
 
-    return(value)
+    value
   } else {
     # auth_args is just the value
-    return(auth_args)
+    auth_args
   }
 }
 
@@ -431,5 +430,3 @@ build_authenticated_request <- function(url, auth_type, auth_param_name, auth_va
     "i" = "Expected 0, 1, or 2"
   ))
 }
-
-

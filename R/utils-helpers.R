@@ -123,7 +123,7 @@ mobdb_extract_locations <- function(results, unnest = TRUE) {
       }
     }
 
-    return(result)
+    result
   } else {
     # Summary: concatenate locations into strings
     results$location_summary <- vapply(seq_len(nrow(results)), function(i) {
@@ -142,7 +142,7 @@ mobdb_extract_locations <- function(results, unnest = TRUE) {
       }
     }, character(1))
 
-    return(results)
+    results
   }
 }
 
@@ -358,7 +358,7 @@ get_validation_report <- function(data) {
 #' **Note:** This function does *not* support GBFS validation reports at this time as
 #' GBFS validation reports are located at a different endpoint and have a different
 #' validation criteria.
-#' 
+#'
 #' @param data One of:
 #'   * A single-row tibble from [mobdb_datasets()] or [mobdb_search()]
 #'   * A character string feed_id (e.g., "mdb-482")

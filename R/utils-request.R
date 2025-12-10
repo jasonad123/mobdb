@@ -27,15 +27,15 @@ mobdb_request <- function(endpoint) {
 #' @noRd
 mobdb_error_body <- function(resp) {
   body <- httr2::resp_body_json(resp)
-  
+
   if (!is.null(body$detail)) {
     return(body$detail)
   }
-  
+
   if (!is.null(body$message)) {
     return(body$message)
   }
-  
+
   "An unknown error occurred"
 }
 
@@ -59,12 +59,12 @@ mobdb_user_agent <- function() {
 #' @noRd
 mobdb_parse_response <- function(resp, simplify = TRUE) {
   body <- httr2::resp_body_json(resp, simplifyVector = simplify)
-  
+
   # Handle different response structures
   if (is.data.frame(body)) {
     return(tibble::as_tibble(body))
   }
-  
+
   # If response has a 'results' or 'data' field, extract it
   if (is.list(body)) {
     if (!is.null(body$results)) {
@@ -77,7 +77,7 @@ mobdb_parse_response <- function(resp, simplify = TRUE) {
       return(tibble::as_tibble(body$feeds))
     }
   }
-  
+
   # Otherwise return as-is, attempting to coerce to tibble
   tibble::as_tibble(body)
 }
@@ -90,14 +90,14 @@ mobdb_parse_response <- function(resp, simplify = TRUE) {
 #' @noRd
 check_rate_limit <- function(resp) {
   headers <- httr2::resp_headers(resp)
-  
+
   limit <- headers$`x-ratelimit-limit`
   remaining <- headers$`x-ratelimit-remaining`
-  
+
   if (!is.null(limit) && !is.null(remaining)) {
     limit_num <- as.numeric(limit)
     remaining_num <- as.numeric(remaining)
-    
+
     if (remaining_num / limit_num < 0.1) {
       cli::cli_warn(c(
         "!" = "Approaching rate limit: {remaining_num} of {limit_num} requests remaining.",
@@ -105,7 +105,7 @@ check_rate_limit <- function(resp) {
       ))
     }
   }
-  
+
   invisible(NULL)
 }
 
