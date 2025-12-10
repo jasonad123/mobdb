@@ -4,5 +4,8 @@ linters: linters_with_defaults(
     pipe_consistency_linter = NULL
   )
 exclusions: list(
-    "tests/testthat/"
+    "tests/testthat/",
+    "R/integration-tidytransit.R" = list(
+      object_usage_linter = Inf
+    ) 
   )

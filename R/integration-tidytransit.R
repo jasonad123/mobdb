@@ -31,6 +31,7 @@
 #' # Read specific historical dataset
 #' gtfs_historical <- mobdb_read_gtfs("mdb-53", dataset_id = "mdb-53-202510250025")
 #' }
+#'
 #' @export
 mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
@@ -548,7 +549,7 @@ download_feed <- function(feed_id = NULL,
 
         # ZIP files start with PK\x03\x04 (0x504B0304)
         is_zip <- magic_bytes[1] == 0x50 && magic_bytes[2] == 0x4B &&
-        magic_bytes[3] == 0x03 && magic_bytes[4] == 0x04
+          magic_bytes[3] == 0x03 && magic_bytes[4] == 0x04
 
         if (!is_zip) {
           # Not a ZIP file - probably an error response

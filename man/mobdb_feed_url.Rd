@@ -26,5 +26,4 @@ url <- mobdb_feed_url("mdb-53")
 library(tidytransit)
 gtfs <- read_gtfs(url)
 }
-
 }
