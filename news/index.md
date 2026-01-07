@@ -4,6 +4,22 @@
 
 ### Major changes
 
+None.
+
+### Minor changes
+
+None.
+
+### Bug fixes
+
+- The `status` parameter in
+  [`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
+  should now work correctly.
+
+## mobdb 0.1.6
+
+### Major changes
+
 - **New!**
   [`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
   now supports direct download of feeds that require API authentication
