@@ -10,7 +10,7 @@ None.
 
 ## Bug fixes
 
-* `download_feed()` now validates feed status when searching by provider/location
+* The `status` parameter in `download_feed()` should now work correctly.
 
 # mobdb 0.1.6
 
