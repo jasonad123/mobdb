@@ -17,4 +17,4 @@
 ^doc$
 ^Meta$
 ^tests/testthat/[^/]+/
-^\.lintr
+^\.lintr$

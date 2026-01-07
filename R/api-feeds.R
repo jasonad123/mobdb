@@ -154,6 +154,13 @@ feeds <- function(provider = NULL,
 
   result <- mobdb_parse_response(resp)
 
+  # Post-filter for status if needed (API may not filter correctly)
+  if (!is.null(status) && nrow(result) > 0) {
+    # Keep only feeds where status matches the requested status
+    # Exclude feeds with NA or different status values
+    result <- result[!is.na(result$status) & result$status == status, ]
+  }
+
   # Post-filter for official status if needed (API may return NA values)
   if (!is.null(official) && nrow(result) > 0) {
     if (official) {
