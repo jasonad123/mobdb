@@ -4,13 +4,21 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/jasonad123/mobdb/graph/badge.svg)](https://app.codecov.io/gh/jasonad123/mobdb)
+[![mobdb status badge](https://jasonad123.r-universe.dev/mobdb/badges/version)](https://jasonad123.r-universe.dev/mobdb)
 <!-- badges: end -->
 
 **mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule, GTFS Realtime, and GBFS (General Bikeshare Feed Specification) feeds from organizations worldwide.
 
 ## Installation
 
-You can install the development version of mobdb from GitHub:
+To get started, install it from [r-universe](https://jasonad123.r-universe.dev/mobdb):
+
+```r
+# Install from r-universe
+install.packages('mobdb', repos = c('https://jasonad123.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+Alternatively, you can install also install `mobdb` from GitHub:
 
 ```r
 # Install using pak (recommended)

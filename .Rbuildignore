@@ -18,3 +18,5 @@
 ^Meta$
 ^tests/testthat/[^/]+/
 ^\.lintr$
+^renovate$
+^renovate\.json$

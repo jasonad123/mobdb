@@ -15,6 +15,8 @@ Useful links:
 \itemize{
   \item \url{https://github.com/jasonad123/mobdb}
   \item \url{https://mobdb.pages.dev}
+  \item \url{https://jasonad123.r-universe.dev/mobdb}
+  \item \url{https://mobdb.jasonadle.com}
   \item Report bugs at \url{https://github.com/jasonad123/mobdb/issues}
 }
 
