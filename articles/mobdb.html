@@ -100,8 +100,12 @@ operations</li>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install mobdb from GitHub:</p>
+<p>Install mobdb from r-universe:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install from r-universe</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mobdb'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://jasonad123.r-universe.dev'</span>, <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Alternatively, you can also install mobdb from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"jasonad123/mobdb"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -118,7 +122,7 @@ to:</p>
 <li>Generate an API refresh token</li>
 <li>Store it in your R environment</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jasonad123/mobdb" class="external-link">mobdb</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Shortcut to launch the Mobility Database in your browser</span></span>
@@ -132,7 +136,7 @@ to:</p>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p><strong>Tip:</strong> Store your token in your <code>.Renviron</code>
 file to avoid entering it each session:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Add this line:</span></span>
 <span><span class="co"># MOBDB_REFRESH_TOKEN=your-refresh-token-here</span></span></code></pre></div>
@@ -144,7 +148,7 @@ file to avoid entering it each session:</p>
 <h3 id="step-1-discover-feeds">Step 1: Discover feeds<a class="anchor" aria-label="anchor" href="#step-1-discover-feeds"></a>
 </h3>
 <p>Find GTFS feeds using various search criteria:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Find all feeds in California</span></span>
 <span><span class="va">ca_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span></span>
 <span>  country_code <span class="op">=</span> <span class="st">"US"</span>,</span>
@@ -165,7 +169,7 @@ file to avoid entering it each session:</p>
 <h3 id="step-2-download-feeds">Step 2: Download feeds<a class="anchor" aria-label="anchor" href="#step-2-download-feeds"></a>
 </h3>
 <p>Download a specific feed by ID or search term:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download by feed ID (Bay Area Rapid Transit)</span></span>
 <span><span class="va">bart</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="st">"mdb-53"</span><span class="op">)</span></span>
 <span></span>
@@ -183,7 +187,7 @@ file to avoid entering it each session:</p>
 <h3 id="step-3-analyze-feeds-with-tidytransit">Step 3: Analyze feeds with tidytransit<a class="anchor" aria-label="anchor" href="#step-3-analyze-feeds-with-tidytransit"></a>
 </h3>
 <p>Now that you have the feed, use tidytransit for analysis:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-transit/tidytransit" class="external-link">tidytransit</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Validate the feed</span></span>
@@ -209,7 +213,7 @@ file to avoid entering it each session:</p>
 <div class="section level3">
 <h3 id="finding-feeds-by-location">Finding Feeds by Location<a class="anchor" aria-label="anchor" href="#finding-feeds-by-location"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Find feeds in a specific municipality</span></span>
 <span><span class="va">seattle_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span>municipality <span class="op">=</span> <span class="st">"Seattle"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
 <span></span>
@@ -227,7 +231,7 @@ file to avoid entering it each session:</p>
 <div class="section level3">
 <h3 id="working-with-multiple-feeds">Working with Multiple Feeds<a class="anchor" aria-label="anchor" href="#working-with-multiple-feeds"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get feeds for several cities</span></span>
 <span><span class="va">agencies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TriMet"</span>, <span class="st">"King County Metro"</span>, <span class="st">"TransLink Vancouver"</span><span class="op">)</span></span>
 <span><span class="va">feeds_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">agencies</span>, <span class="kw">function</span><span class="op">(</span><span class="va">agency</span><span class="op">)</span> <span class="op">{</span></span>
@@ -248,7 +252,7 @@ file to avoid entering it each session:</p>
 <h2 id="complete-example-workflow">Complete Example Workflow<a class="anchor" aria-label="anchor" href="#complete-example-workflow"></a>
 </h2>
 <p>Here’s a complete example from discovery to analysis:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jasonad123/mobdb" class="external-link">mobdb</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-transit/tidytransit" class="external-link">tidytransit</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>

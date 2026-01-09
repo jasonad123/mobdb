@@ -13,11 +13,9 @@ Useful links:
 
 - <https://github.com/jasonad123/mobdb>
 
-- <https://mobdb.pages.dev>
+- <https://mobdb.jasonadle.com>
 
 - <https://jasonad123.r-universe.dev/mobdb>
-
-- <https://mobdb.jasonadle.com>
 
 - Report bugs at <https://github.com/jasonad123/mobdb/issues>
 
