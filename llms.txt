@@ -9,7 +9,15 @@ worldwide.
 
 ## Installation
 
-You can install the development version of mobdb from GitHub:
+To get started, install it from
+[r-universe](https://jasonad123.r-universe.dev/mobdb):
+
+``` r
+# Install from r-universe
+install.packages('mobdb', repos = c('https://jasonad123.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+Alternatively, you can install also install `mobdb` from GitHub:
 
 ``` r
 # Install using pak (recommended)

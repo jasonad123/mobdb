@@ -75,8 +75,12 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of mobdb from GitHub:</p>
+<p>To get started, install it from <a href="https://jasonad123.r-universe.dev/mobdb" class="external-link">r-universe</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Install from r-universe</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mobdb'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://jasonad123.r-universe.dev'</span>, <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Alternatively, you can install also install <code>mobdb</code> from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install using pak (recommended)</span></span>
 <span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"jasonad123/mobdb"</span><span class="op">)</span></span>
@@ -95,7 +99,7 @@
 <li>Navigate to your account details page to view your refresh token</li>
 <li>Set your token in R:</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jasonad123/mobdb" class="external-link">mobdb</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># For current session only</span></span>
@@ -111,7 +115,7 @@
 <div class="section level3">
 <h3 id="search-for-feeds">Search for feeds<a class="anchor" aria-label="anchor" href="#search-for-feeds"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Search by provider name</span></span>
 <span><span class="va">bart_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"BART"</span><span class="op">)</span></span>
 <span></span>
@@ -132,7 +136,7 @@
 <h3 id="download-gtfs-schedule-feeds">Download GTFS Schedule feeds<a class="anchor" aria-label="anchor" href="#download-gtfs-schedule-feeds"></a>
 </h3>
 <p>The <code><a href="reference/download_feed.html">download_feed()</a></code> function downloads GTFS Schedule feeds by feed ID or by searching for providers/locations.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-transit/tidytransit" class="external-link">tidytransit</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-transit.github.io/gtfsio/" class="external-link">gtfsio</a></span><span class="op">)</span></span>
 <span></span>
@@ -164,7 +168,7 @@
 <span><span class="co">#&gt; [4] "feed_info.txt"      "routes.txt"         "shapes.txt"</span></span>
 <span><span class="co">#&gt; [7] "stops.txt"          "stop_times.txt"     "trips.txt"</span></span></code></pre></div>
 <p><strong>Note:</strong> When multiple feeds match your search criteria, the function displays a table of options and prompts you to specify which feed to download using its feed ID.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"San Francisco"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Searching for GTFS Schedule feeds...</span></span>
 <span><span class="co">#&gt; ! Found 2 matching feeds:</span></span>
@@ -181,7 +185,7 @@
 <div class="section level3">
 <h3 id="get-feed-details">Get feed details<a class="anchor" aria-label="anchor" href="#get-feed-details"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get detailed information about a specific feed</span></span>
 <span><span class="va">feed_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_get_feed.html">mobdb_get_feed</a></span><span class="op">(</span><span class="st">"mdb-247"</span><span class="op">)</span></span>
 <span></span>
@@ -196,7 +200,7 @@
 <h3 id="check-feed-quality-before-downloading">Check feed quality before downloading<a class="anchor" aria-label="anchor" href="#check-feed-quality-before-downloading"></a>
 </h3>
 <p>MobilityData validates all GTFS Schedule feeds through the canonical GTFS validator. You can check validation results before downloading:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get validation report for a feed</span></span>
 <span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_datasets.html">mobdb_datasets</a></span><span class="op">(</span><span class="st">"mdb-482"</span><span class="op">)</span>  <span class="co"># Alexandria DASH</span></span>
 <span><span class="va">validation</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_validation_report.html">get_validation_report</a></span><span class="op">(</span><span class="va">datasets</span><span class="op">)</span></span>
@@ -217,7 +221,7 @@
 <div class="section level3">
 <h3 id="access-historical-datasets">Access historical datasets<a class="anchor" aria-label="anchor" href="#access-historical-datasets"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># List all available versions for a feed</span></span>
 <span><span class="va">versions</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="st">"mdb-53"</span>, latest <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>  <span class="co"># BART</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">versions</span><span class="op">)</span></span>
@@ -243,7 +247,7 @@
 <li>
 <strong><code><a href="reference/mobdb_read_gtfs.html">mobdb_read_gtfs()</a></code></strong> - More flexible reader that works with any GTFS feed type</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-transit/tidytransit" class="external-link">tidytransit</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
@@ -269,7 +273,7 @@
 <h3 id="pagination">Pagination<a class="anchor" aria-label="anchor" href="#pagination"></a>
 </h3>
 <p>For large result sets, use pagination:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get first 100 results</span></span>
 <span><span class="va">page1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/feeds.html">feeds</a></span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">100</span>, offset <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
@@ -340,6 +344,7 @@
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/jasonad123/mobdb" class="external-link"><img src="https://codecov.io/gh/jasonad123/mobdb/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://jasonad123.r-universe.dev/mobdb" class="external-link"><img src="https://jasonad123.r-universe.dev/mobdb/badges/version" alt="mobdb status badge"></a></li>
 </ul>
 </div>
 
