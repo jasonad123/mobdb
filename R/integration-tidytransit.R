@@ -134,6 +134,10 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   Only valid when `use_source_url = TRUE`. If a feed requires authentication, you'll receive an error message with a link to obtain credentials.
 #'   The authentication method (URL parameter or HTTP header) is determined
 #'   automatically from the feed's metadata.
+#' @param export_path A string. Optional path to save the GTFS feed as a ZIP file
+#'   (e.g., "data/gtfs/feed.zip"). If provided, the feed will be exported using
+#'   [gtfsio::export_gtfs()] after downloading. Requires the `gtfsio` package.
+#'   If `NULL` (default), the feed is not saved to disk.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
 #' @return If `latest = TRUE`, a `gtfs` object as returned by [tidytransit::read_gtfs()].
@@ -178,6 +182,9 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' # Download a specific historical version (feed_id auto-extracted from dataset_id)
 #' historical <- download_feed(dataset_id = "mdb-53-202507240047")
 #'
+#' # Download and save as ZIP file
+#' gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
+#'
 #' }
 #' @seealso
 #' [mobdb_datasets()] to list all available historical versions,
@@ -199,6 +206,7 @@ download_feed <- function(feed_id = NULL,
                           status = "active",
                           official = NULL,
                           auth_args = NULL,
+                          export_path = NULL,
                           ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
@@ -528,15 +536,13 @@ download_feed <- function(feed_id = NULL,
 
     # Clean up temp file
     on.exit(unlink(temp_file), add = TRUE)
-
-    gtfs
   } else {
     # For URL strings (no auth or URL param auth), validate before passing to tidytransit
     # Download to temp file first to check if it's actually a ZIP and provide better errors
     temp_file <- tempfile(fileext = ".zip")
     on.exit(unlink(temp_file), add = TRUE)
 
-    tryCatch({
+    gtfs <- tryCatch({
       # Download the file first
       req <- httr2::request(request)
       resp <- httr2::req_perform(req, path = temp_file)
@@ -595,6 +601,28 @@ download_feed <- function(feed_id = NULL,
       ))
     })
   }
+
+  # Export to ZIP file if export_path is provided
+  if (!is.null(export_path)) {
+    if (!requireNamespace("gtfsio", quietly = TRUE)) {
+      cli::cli_abort(c(
+        "The {.pkg gtfsio} package is required to export GTFS feeds.",
+        "i" = "Install it with {.code install.packages('gtfsio')}."
+      ))
+    }
+
+    # Create directory if it doesn't exist
+    export_dir <- dirname(export_path)
+    if (!dir.exists(export_dir)) {
+      dir.create(export_dir, recursive = TRUE)
+    }
+
+    cli::cli_inform("Exporting GTFS feed to: {.file {export_path}}")
+    gtfsio::export_gtfs(gtfs, export_path)
+    cli::cli_inform("Successfully exported GTFS feed.")
+  }
+
+  gtfs
 }
 
 #' Download the best GTFS Schedule feed with smart selection
@@ -630,6 +658,10 @@ download_feed <- function(feed_id = NULL,
 #' @param use_source_url Logical. Download from agency's source URL (`TRUE`) or
 #'   MobilityData's hosted URL (`FALSE`, default).
 #' @param auth_args Authentication arguments if required (see [download_feed()]).
+#' @param export_path A string. Optional path to save the GTFS feed as a ZIP file
+#'   (e.g., "data/gtfs/feed.zip"). If provided, the feed will be exported using
+#'   [gtfsio::export_gtfs()] after downloading. Requires the `gtfsio` package.
+#'   If `NULL` (default), the feed is not saved to disk.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
 #' @return A `gtfs` object from tidytransit, or `NULL` if user cancels selection.
@@ -680,6 +712,9 @@ download_feed <- function(feed_id = NULL,
 #' # Non-interactive mode (for scripts)
 #' options(mobdb.interactive = FALSE)
 #' feed <- download_best_feed(provider = "WMATA")
+#'
+#' # Download and save as ZIP file
+#' feed <- download_best_feed(provider = "TriMet", export_path = "data/gtfs/trimet.zip")
 #' }
 #'
 #' @seealso
@@ -700,6 +735,7 @@ download_best_feed <- function(provider = NULL,
                                 exclude_flex = TRUE,
                                 use_source_url = FALSE,
                                 auth_args = NULL,
+                                export_path = NULL,
                                 ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
@@ -863,6 +899,7 @@ download_best_feed <- function(provider = NULL,
     dataset_id = dataset_id,
     use_source_url = use_source_url,
     auth_args = auth_args,
+    export_path = export_path,
     ...
   )
 }
