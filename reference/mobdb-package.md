@@ -15,8 +15,6 @@ Useful links:
 
 - <https://mobdb.jasonadle.com>
 
-- <https://jasonad123.r-universe.dev/mobdb>
-
 - Report bugs at <https://github.com/jasonad123/mobdb/issues>
 
 ## Author
