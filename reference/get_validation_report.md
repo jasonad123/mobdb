@@ -19,10 +19,11 @@ get_validation_report(data)
 
 - data:
 
-  A tibble from [`feeds()`](https://mobdb.pages.dev/reference/feeds.md),
-  [`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md),
+  A tibble from
+  [`feeds()`](https://mobdb.jasonadle.com/reference/feeds.md),
+  [`mobdb_datasets()`](https://mobdb.jasonadle.com/reference/mobdb_datasets.md),
   or
-  [`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md).
+  [`mobdb_search()`](https://mobdb.jasonadle.com/reference/mobdb_search.md).
 
 ## Value
 
@@ -44,13 +45,13 @@ A tibble with validation summary information:
 
 ## See also
 
-[`filter_by_validation()`](https://mobdb.pages.dev/reference/filter_by_validation.md)
+[`filter_by_validation()`](https://mobdb.jasonadle.com/reference/filter_by_validation.md)
 to filter by quality thresholds,
-[`view_validation_report()`](https://mobdb.pages.dev/reference/view_validation_report.md)
+[`view_validation_report()`](https://mobdb.jasonadle.com/reference/view_validation_report.md)
 to open full HTML/JSON reports in browser,
-[`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md)
+[`mobdb_datasets()`](https://mobdb.jasonadle.com/reference/mobdb_datasets.md)
 to get dataset information with validation data,
-[`mobdb_extract_datasets()`](https://mobdb.pages.dev/reference/mobdb_extract_datasets.md)
+[`mobdb_extract_datasets()`](https://mobdb.jasonadle.com/reference/mobdb_extract_datasets.md)
 to extract validation from search results
 
 ## Examples

@@ -75,7 +75,7 @@ toronto <- mobdb_search(provider = "toronto")
 ### Download GTFS Schedule feeds
 
 The
-[`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)
+[`download_feed()`](https://mobdb.jasonadle.com/reference/download_feed.md)
 function downloads GTFS Schedule feeds by feed ID or by searching for
 providers/locations.
 
@@ -193,10 +193,10 @@ sapply(1:3, function(i) {
 The package provides two functions for working with
 [tidytransit](https://github.com/r-transit/tidytransit):
 
-- **[`download_feed()`](https://mobdb.pages.dev/reference/download_feed.md)** -
+- **[`download_feed()`](https://mobdb.jasonadle.com/reference/download_feed.md)** -
   Download GTFS Schedule feeds with provider/location search
   (recommended)
-- **[`mobdb_read_gtfs()`](https://mobdb.pages.dev/reference/mobdb_read_gtfs.md)** -
+- **[`mobdb_read_gtfs()`](https://mobdb.jasonadle.com/reference/mobdb_read_gtfs.md)** -
   More flexible reader that works with any GTFS feed type
 
 ``` r

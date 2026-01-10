@@ -38,8 +38,8 @@ download_feed(
 
   A string or data frame. The unique identifier for the feed (e.g.,
   "mdb-2862"), or a single-row data frame from
-  [`feeds()`](https://mobdb.pages.dev/reference/feeds.md) or
-  [`mobdb_search()`](https://mobdb.pages.dev/reference/mobdb_search.md).
+  [`feeds()`](https://mobdb.jasonadle.com/reference/feeds.md) or
+  [`mobdb_search()`](https://mobdb.jasonadle.com/reference/mobdb_search.md).
   If a data frame is provided, the feed ID will be extracted
   automatically. If provided, all other search parameters are ignored.
 
@@ -141,13 +141,13 @@ metadata.
 
 ## See also
 
-[`mobdb_datasets()`](https://mobdb.pages.dev/reference/mobdb_datasets.md)
+[`mobdb_datasets()`](https://mobdb.jasonadle.com/reference/mobdb_datasets.md)
 to list all available historical versions,
-[`get_validation_report()`](https://mobdb.pages.dev/reference/get_validation_report.md)
+[`get_validation_report()`](https://mobdb.jasonadle.com/reference/get_validation_report.md)
 to check feed quality before downloading,
-[`feeds()`](https://mobdb.pages.dev/reference/feeds.md) to search for
-feeds,
-[`mobdb_read_gtfs()`](https://mobdb.pages.dev/reference/mobdb_read_gtfs.md)
+[`feeds()`](https://mobdb.jasonadle.com/reference/feeds.md) to search
+for feeds,
+[`mobdb_read_gtfs()`](https://mobdb.jasonadle.com/reference/mobdb_read_gtfs.md)
 for more flexible GTFS reading
 
 ## Examples
