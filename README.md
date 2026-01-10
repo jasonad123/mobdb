@@ -127,6 +127,48 @@ gtfs <- download_feed(provider = "San Francisco")
 #> Use `download_feed(feed_id = "mdb-XXX")` with one of the IDs above.
 ```
 
+### Smart feed selection with `download_best_feed()`
+
+The `download_best_feed()` function provides intelligent, one-shot downloading with automatic feed selection. It ranks feeds by status (active > future > deprecated), official designation, validation quality, and service date coverage.
+
+```r
+# Simple one-shot download - automatically selects the best feed
+bart_feed <- download_best_feed(provider = "Bay Area Rapid Transit")
+
+# Download with quality filtering - only error-free feeds
+clean_feed <- download_best_feed(
+  provider = "Capital Metro",
+  max_validation_errors = 0
+)
+
+# Location-based search
+ontario_feed <- download_best_feed(
+  country_code = "CA",
+  subdivision_name = "Ontario"
+)
+
+# Interactive mode prompts when multiple equally-ranked feeds exist
+wmata_feed <- download_best_feed(provider = "WMATA")
+#> Multiple GTFS Schedule feeds found. Please select one:
+#>   1. [mdb-1124] Washington Metropolitan Area Transit Authority (Bus)
+#>      Status: active | Official: TRUE | Errors: 0 | Warnings: 23
+#>      Service: 2024-11-15 to 2025-06-30
+#>
+#>   2. [mdb-1125] Washington Metropolitan Area Transit Authority (Rail)
+#>      Status: active | Official: TRUE | Errors: 0 | Warnings: 15
+#>      Service: 2024-12-01 to 2025-06-30
+#>
+#> Enter selection (1-2) or 'q' to quit: 1
+
+# Non-interactive mode for scripts
+options(mobdb.interactive = FALSE)
+feed <- download_best_feed(provider = "Metro Transit")
+```
+
+The function automatically falls back to historical datasets when the current feed is marked "future" or "inactive", ensuring you get usable data.
+
+**Note:** Like `download_feed()`, this function only works with GTFS Schedule feeds. For GTFS-RT or GBFS feeds, use `mobdb_read_gtfs()` or fetch URLs with `mobdb_get_feed()`.
+
 ### Get feed details
 
 ```r

@@ -596,3 +596,413 @@ download_feed <- function(feed_id = NULL,
     })
   }
 }
+
+#' Download the best GTFS Schedule feed with smart selection
+#'
+#' @description
+#' A higher-level wrapper around [download_feed()] that automagically selects
+#' the best GTFS Schedule feed when multiple options exist. This function:
+#'
+#' * Searches for feeds using provider name or location
+#' * Automatically ranks feeds by status, official designation, and validation quality
+#' * Prompts for user selection when multiple equally-ranked feeds exist (in interactive mode)
+#' * Falls back to historical datasets when current feed is marked "future" or "deprecated"
+#' * Only works with GTFS Schedule feeds (not GTFS-RT or GBFS)
+#'
+#' This is designed for common use cases where you just want the best, most recent feed
+#' without needing to specify exact feed IDs or handle multiple results manually.
+#'
+#' @param provider Provider/agency name (partial match).
+#' @param country_code ISO 2-letter country code (requires `subdivision_name`).
+#' @param subdivision_name State/province/region name (requires `country_code`).
+#' @param municipality City name.
+#' @param feed_name Feed name filter (case-insensitive substring match).
+#' @param prefer_official Logical. If `TRUE` (default), prefer feeds marked as official.
+#' @param prefer_active Logical. If `TRUE` (default), prefer feeds with status "active"
+#'   over "future", "development", "deprecated", or "inactive".
+#' @param max_validation_errors Integer. Maximum number of validation errors allowed.
+#'   Feeds exceeding this threshold are filtered out. If `NULL` (default), no filtering.
+#' @param interactive Logical. If `TRUE`, prompt user to select when multiple equally-ranked
+#'   feeds exist. If `FALSE`, automatically select the first highest-ranked feed with a
+#'   warning. If `NULL` (default), uses `getOption("mobdb.interactive")` or falls back to
+#'   `interactive()` to detect if running in an interactive R session.
+#' @param exclude_flex Logical. If `TRUE` (default), exclude GTFS-Flex feeds.
+#' @param use_source_url Logical. Download from agency's source URL (`TRUE`) or
+#'   MobilityData's hosted URL (`FALSE`, default).
+#' @param auth_args Authentication arguments if required (see [download_feed()]).
+#' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
+#'
+#' @return A `gtfs` object from tidytransit, or `NULL` if user cancels selection.
+#'
+#' @section Selection Algorithm:
+#' When multiple feeds match the search criteria, feeds are ranked by:
+#'
+#' 1. **Status** (if `prefer_active = TRUE`): active > future > development > deprecated > inactive
+#' 2. **Official designation** (if `prefer_official = TRUE`): official > unclassified > unofficial
+#' 3. **Validation quality**: Feeds with fewer errors score higher
+#' 4. **Service date coverage**: Feeds covering today's date score higher
+#' 5. **Recency**: More recently added feeds get a tiebreaker boost
+#'
+#' If multiple feeds have the same score and `interactive = TRUE`, you'll be prompted to choose.
+#'
+#' @section Status Handling:
+#' The function handles different feed statuses as follows:
+#'
+#' * **"active"**: Preferred status. Feed should be used in public trip planners.
+#' * **"future"** or **"inactive"**: Automatically searches for historical datasets with
+#'   service dates covering today. "future" feeds are not yet active; "inactive" feeds
+#'   haven't been recently updated and may provide outdated information.
+#' * **"deprecated"**: Explicitly deprecated and should not be used. Warns user to search
+#'   for a replacement feed.
+#' * **"development"**: For development purposes only, should not be used in production.
+#'
+#' @section GTFS Schedule Only:
+#' Like [download_feed()], this function only works with GTFS Schedule feeds.
+#' For GTFS-RT or GBFS feeds, use [mobdb_read_gtfs()] or fetch URLs with [mobdb_get_feed()].
+#'
+#' @examples
+#' \dontrun{
+#' # Simple one-shot download by provider name
+#' bart_feed <- download_best_feed(provider = "Bay Area Rapid Transit")
+#'
+#' # Download with quality filtering
+#' clean_feed <- download_best_feed(
+#'   provider = "Capital Metro",
+#'   max_validation_errors = 0
+#' )
+#'
+#' # Download by location
+#' ontario_feed <- download_best_feed(
+#'   country_code = "CA",
+#'   subdivision_name = "Ontario"
+#' )
+#'
+#' # Non-interactive mode (for scripts)
+#' options(mobdb.interactive = FALSE)
+#' feed <- download_best_feed(provider = "WMATA")
+#' }
+#'
+#' @seealso
+#' [download_feed()] for precise control,
+#' [feeds()] to explore available feeds before downloading,
+#' [mobdb_search()] for full-text search with validation data
+#'
+#' @export
+download_best_feed <- function(provider = NULL,
+                                country_code = NULL,
+                                subdivision_name = NULL,
+                                municipality = NULL,
+                                feed_name = NULL,
+                                prefer_official = TRUE,
+                                prefer_active = TRUE,
+                                max_validation_errors = NULL,
+                                interactive = NULL,
+                                exclude_flex = TRUE,
+                                use_source_url = FALSE,
+                                auth_args = NULL,
+                                ...) {
+  if (!requireNamespace("tidytransit", quietly = TRUE)) {
+    cli::cli_abort(c(
+      "The {.pkg tidytransit} package is required to use this function.",
+      "i" = "Install it with {.code install.packages('tidytransit')}."
+    ))
+  }
+
+  # Determine interactive mode
+  if (is.null(interactive)) {
+    interactive <- getOption("mobdb.interactive", base::interactive())
+  }
+
+  # Check that at least one search parameter is provided
+  if (is.null(provider) && is.null(country_code) && is.null(subdivision_name) &&
+      is.null(municipality)) {
+    cli::cli_abort(c(
+      "At least one search parameter must be provided.",
+      "i" = "Use {.arg provider}, {.arg country_code} + {.arg subdivision_name}, or {.arg municipality}."
+    ))
+  }
+
+  # Search for feeds
+  cli::cli_inform("Searching for GTFS Schedule feeds...")
+
+  # Use mobdb_search() if provider is specified (to get validation data)
+  # Otherwise use feeds() for location-based search
+  if (!is.null(provider)) {
+    results <- mobdb_search(query = provider, data_type = "gtfs")
+
+    # Filter to only feeds where provider field actually matches
+    # mobdb_search() does full-text search which can return unrelated results
+    if (nrow(results) > 0 && "provider" %in% names(results)) {
+      results <- results[grepl(provider, results$provider, ignore.case = TRUE), ]
+    }
+  } else {
+    results <- feeds(
+      country_code = country_code,
+      subdivision_name = subdivision_name,
+      municipality = municipality,
+      data_type = "gtfs"
+    )
+  }
+
+  # Check results after filtering
+  if (nrow(results) == 0) {
+    cli::cli_abort(c(
+      "No GTFS Schedule feeds found matching your search criteria.",
+      "i" = "Try broadening your search or check the spelling."
+    ))
+  }
+
+  # Apply exclude_flex filter
+  if (exclude_flex && "feed_name" %in% names(results)) {
+    original_count <- nrow(results)
+    results <- results[!grepl("flex", results$feed_name, ignore.case = TRUE), ]
+
+    if (nrow(results) < original_count) {
+      cli::cli_inform("Excluded {original_count - nrow(results)} GTFS-Flex feed(s).")
+    }
+
+    if (nrow(results) == 0) {
+      cli::cli_abort(c(
+        "All feeds were filtered out as GTFS-Flex feeds.",
+        "i" = "Set {.code exclude_flex = FALSE} to include them."
+      ))
+    }
+  }
+
+  # Apply feed_name filter if specified
+  if (!is.null(feed_name) && "feed_name" %in% names(results)) {
+    original_count <- nrow(results)
+    results <- results[grepl(feed_name, results$feed_name, ignore.case = TRUE), ]
+
+    if (nrow(results) == 0) {
+      cli::cli_abort(c(
+        "No feeds found matching {.arg feed_name} = {.val {feed_name}}.",
+        "i" = "{original_count} feed(s) were found before applying this filter."
+      ))
+    }
+
+    if (nrow(results) < original_count) {
+      cli::cli_inform("Filtered to {nrow(results)} feed(s) matching {.val {feed_name}}.")
+    }
+  }
+
+  cli::cli_inform("Found {nrow(results)} GTFS Schedule feed(s).")
+
+  # Select best feed
+  selected <- select_best_feed(
+    results,
+    prefer_official = prefer_official,
+    prefer_active = prefer_active,
+    max_validation_errors = max_validation_errors
+  )
+
+  if (is.null(selected) || nrow(selected) == 0) {
+    cli::cli_abort("No suitable feeds found after applying quality filters.")
+  }
+
+  # Handle multiple equally-ranked feeds
+  if (nrow(selected) > 1) {
+    if (interactive) {
+      selected <- prompt_feed_selection(selected)
+
+      if (is.null(selected)) {
+        # User cancelled
+        return(invisible(NULL))
+      }
+    } else {
+      # Non-interactive: select first and warn
+      runner_ups <- selected[-1, ]
+      selected <- selected[1, ]
+
+      cli::cli_warn(c(
+        "Multiple equally-ranked feeds found. Automatically selected:",
+        "v" = "{.val {selected$id}} - {selected$provider}",
+        "i" = "Other options: {paste(runner_ups$id, collapse = ', ')}",
+        "i" = "Use {.code interactive = TRUE} or specify {.arg feed_name} for precise selection."
+      ))
+    }
+  }
+
+  # Check feed status and handle special cases
+  dataset_id <- NULL
+
+  if (selected$status == "deprecated") {
+    # Deprecated feeds are being replaced by a different feed_id
+    cli::cli_warn(c(
+      "!" = "Selected feed has status {.val deprecated}.",
+      "i" = "This feed is being replaced by a different feed.",
+      "i" = "Try searching again or check the Mobility Database for the replacement feed."
+    ))
+  } else if (selected$status %in% c("future", "inactive")) {
+    # Future/inactive feeds may have historical datasets with current service dates
+    cli::cli_inform(c(
+      "!" = "Selected feed has status {.val {selected$status}}.",
+      "i" = "Searching for historical dataset with current service dates..."
+    ))
+
+    dataset_id <- find_active_dataset(selected$id)
+
+    if (!is.null(dataset_id)) {
+      cli::cli_inform(c(
+        "v" = "Found active historical dataset: {.val {dataset_id}}",
+        "i" = "Downloading this version instead of the current feed."
+      ))
+    } else {
+      cli::cli_warn(c(
+        "!" = "No historical dataset found with current service dates.",
+        "i" = "Proceeding with the current feed, but it may have {selected$status} service dates."
+      ))
+    }
+  }
+
+  # Download the selected feed
+  cli::cli_inform("Downloading: {.val {selected$id}} - {selected$provider}")
+
+  download_feed(
+    feed_id = selected$id,
+    dataset_id = dataset_id,
+    use_source_url = use_source_url,
+    auth_args = auth_args,
+    ...
+  )
+}
+
+# Internal helper: Select best feed from multiple results
+# Returns a single-row tibble or NULL
+select_best_feed <- function(feeds, prefer_official = TRUE, prefer_active = TRUE,
+                              max_validation_errors = NULL) {
+  if (nrow(feeds) == 0) {
+    return(NULL)
+  }
+
+  if (nrow(feeds) == 1) {
+    return(feeds)
+  }
+
+  # Filter by validation errors if threshold specified
+  if (!is.null(max_validation_errors)) {
+    feeds_with_validation <- feeds[sapply(seq_len(nrow(feeds)), function(i) {
+      row <- feeds[i, ]
+      if ("latest_dataset" %in% names(row) &&
+          !is.null(row$latest_dataset) &&
+          is.data.frame(row$latest_dataset)) {
+        ld <- row$latest_dataset
+        if ("validation_report" %in% names(ld) && is.data.frame(ld$validation_report)) {
+          vr <- ld$validation_report
+          if ("total_error" %in% names(vr) && !is.na(vr$total_error)) {
+            return(vr$total_error <= max_validation_errors)
+          }
+        }
+      }
+      TRUE  # Include feeds without validation data
+    }), ]
+
+    if (nrow(feeds_with_validation) == 0) {
+      cli::cli_warn(c(
+        "No feeds found with {.field total_error} <= {max_validation_errors}.",
+        "i" = "Proceeding with all {nrow(feeds)} feed(s) found."
+      ))
+    } else {
+      feeds <- feeds_with_validation
+    }
+  }
+
+  # Score each feed
+  scores <- sapply(seq_len(nrow(feeds)), function(i) {
+    score_feed_quality(feeds[i, ], prefer_official, prefer_active)
+  })
+
+  # Select feed with highest score
+  max_score <- max(scores)
+  ties <- which(scores == max_score)
+
+  if (length(ties) > 1) {
+    # Multiple feeds with same score - return all for interactive selection
+    return(feeds[ties, ])
+  }
+
+  feeds[ties[1], ]
+}
+
+# Internal helper: Prompt user to select from multiple feeds
+# Returns a single-row tibble or NULL if user quits
+prompt_feed_selection <- function(feeds) {
+  if (nrow(feeds) == 0) {
+    return(NULL)
+  }
+
+  if (nrow(feeds) == 1) {
+    return(feeds)
+  }
+
+  cli::cli_inform(c(
+    "i" = "Multiple GTFS Schedule feeds found. Please select one:"
+  ))
+
+  # Display options
+  for (i in seq_len(nrow(feeds))) {
+    feed_summary <- format_feed_summary(feeds[i, ], include_validation = TRUE)
+    cli::cli_inform(paste0("  ", i, ". ", feed_summary))
+  }
+
+  cli::cli_inform("")
+
+  # Get user input
+  while (TRUE) {
+    choice <- readline(prompt = paste0("Enter selection (1-", nrow(feeds), ") or 'q' to quit: "))
+
+    # Handle quit
+    if (tolower(trimws(choice)) == "q") {
+      cli::cli_inform("Selection cancelled.")
+      return(NULL)
+    }
+
+    # Try to parse as integer
+    choice_num <- suppressWarnings(as.integer(choice))
+
+    if (!is.na(choice_num) && choice_num >= 1 && choice_num <= nrow(feeds)) {
+      selected_feed <- feeds[choice_num, ]
+      cli::cli_inform(c(
+        "v" = "Selected: {.val {selected_feed$id}} ({selected_feed$provider})"
+      ))
+      return(selected_feed)
+    }
+
+    cli::cli_warn("Invalid selection. Please enter a number between 1 and {nrow(feeds)}, or 'q' to quit.")
+  }
+}
+
+# Internal helper: Find active dataset for a feed
+# Returns dataset_id or NULL
+find_active_dataset <- function(feed_id) {
+  datasets <- mobdb_datasets(feed_id, latest = FALSE)
+
+  if (nrow(datasets) == 0) {
+    return(NULL)
+  }
+
+  # Filter to datasets with service dates covering today
+  today <- Sys.Date()
+
+  active_datasets <- datasets[sapply(seq_len(nrow(datasets)), function(i) {
+    row <- datasets[i, ]
+    if ("service_date_range_start" %in% names(row) &&
+        "service_date_range_end" %in% names(row)) {
+      start_date <- as.Date(row$service_date_range_start)
+      end_date <- as.Date(row$service_date_range_end)
+
+      if (!is.na(start_date) && !is.na(end_date)) {
+        return(start_date <= today && end_date >= today)
+      }
+    }
+    FALSE
+  }), ]
+
+  if (nrow(active_datasets) == 0) {
+    return(NULL)
+  }
+
+  # Return most recent active dataset
+  active_datasets <- active_datasets[order(as.POSIXct(active_datasets$downloaded_at), decreasing = TRUE), ]
+  active_datasets$id[1]
+}

@@ -1,3 +1,21 @@
+# mobdb (development version)
+
+## Major changes
+
+* **New!** `download_best_feed()` function for intelligent, one-shot downloading of GTFS Schedule feeds
+  * Automatically ranks feeds by status, official designation, validation quality, and service date coverage
+  * Prompts for user selection when multiple equally-ranked feeds exist (in interactive mode)
+  * Falls back to historical datasets when current feed is marked "future" or "inactive"
+  * Like `download_feed()`, only works with GTFS Schedule feeds
+
+## Minor changes
+
+None.
+
+## Bug fixes
+
+None.
+
 # mobdb 0.1.6
 
 ## Major changes
