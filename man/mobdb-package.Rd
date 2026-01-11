@@ -21,7 +21,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jason A \email{me@jasonadle.com}
+\strong{Maintainer}: Jason A \email{developer@jasonadle.com}
 
 }
 \keyword{internal}
