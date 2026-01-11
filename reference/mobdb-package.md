@@ -19,4 +19,4 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Jason A <me@jasonadle.com>
+**Maintainer**: Jason A <developer@jasonadle.com>
