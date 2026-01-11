@@ -626,7 +626,8 @@ download_feed <- function(feed_id = NULL,
 }
 
 #' Download the best GTFS Schedule feed with smart selection
-#'
+#' `r lifecycle::badge('experimental')`
+#' 
 #' @description
 #' A higher-level wrapper around [download_feed()] that automagically selects
 #' the best GTFS Schedule feed when multiple options exist. This function:
@@ -634,7 +635,7 @@ download_feed <- function(feed_id = NULL,
 #' * Searches for feeds using provider name or location
 #' * Automatically ranks feeds by status, official designation, and validation quality
 #' * Prompts for user selection when multiple equally-ranked feeds exist (in interactive mode)
-#' * Falls back to historical datasets when current feed is marked "future" or "deprecated"
+#' * Falls back to historical datasets when current feed is marked "future" or "inactive"
 #' * Only works with GTFS Schedule feeds (not GTFS-RT or GBFS)
 #'
 #' This is designed for common use cases where you just want the best, most recent feed
@@ -669,7 +670,7 @@ download_feed <- function(feed_id = NULL,
 #' @section Selection Algorithm:
 #' When multiple feeds match the search criteria, feeds are ranked by:
 #'
-#' 1. **Status** (if `prefer_active = TRUE`): active > future > development > deprecated > inactive
+#' 1. **Status** (if `prefer_active = TRUE`): active > future > development > inactive > deprecated
 #' 2. **Official designation** (if `prefer_official = TRUE`): official > unclassified > unofficial
 #' 3. **Validation quality**: Feeds with fewer errors score higher
 #' 4. **Service date coverage**: Feeds covering today's date score higher
@@ -724,18 +725,18 @@ download_feed <- function(feed_id = NULL,
 #'
 #' @export
 download_best_feed <- function(provider = NULL,
-                                country_code = NULL,
-                                subdivision_name = NULL,
-                                municipality = NULL,
-                                feed_name = NULL,
-                                prefer_official = TRUE,
-                                prefer_active = TRUE,
-                                max_validation_errors = NULL,
-                                interactive = NULL,
-                                exclude_flex = TRUE,
-                                use_source_url = FALSE,
-                                auth_args = NULL,
-                                export_path = NULL,
+                              country_code = NULL,
+                              subdivision_name = NULL,
+                              municipality = NULL,
+                              feed_name = NULL,
+                              prefer_official = TRUE,
+                              prefer_active = TRUE,
+                              max_validation_errors = NULL,
+                              interactive = NULL,
+                              exclude_flex = TRUE,
+                              use_source_url = FALSE,
+                              auth_args = NULL,
+                              export_path = NULL,
                                 ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
@@ -752,7 +753,7 @@ download_best_feed <- function(provider = NULL,
   # Check that at least one search parameter is provided
   if (is.null(provider) && is.null(country_code) && is.null(subdivision_name) &&
       is.null(municipality)) {
-    cli::cli_abort(c(
+      cli::cli_abort(c(
       "At least one search parameter must be provided.",
       "i" = "Use {.arg provider}, {.arg country_code} + {.arg subdivision_name}, or {.arg municipality}."
     ))
@@ -907,7 +908,7 @@ download_best_feed <- function(provider = NULL,
 # Internal helper: Select best feed from multiple results
 # Returns a single-row tibble or NULL
 select_best_feed <- function(feeds, prefer_official = TRUE, prefer_active = TRUE,
-                              max_validation_errors = NULL) {
+                          max_validation_errors = NULL) {
   if (nrow(feeds) == 0) {
     return(NULL)
   }
@@ -921,8 +922,8 @@ select_best_feed <- function(feeds, prefer_official = TRUE, prefer_active = TRUE
     feeds_with_validation <- feeds[sapply(seq_len(nrow(feeds)), function(i) {
       row <- feeds[i, ]
       if ("latest_dataset" %in% names(row) &&
-          !is.null(row$latest_dataset) &&
-          is.data.frame(row$latest_dataset)) {
+            !is.null(row$latest_dataset) &&
+            is.data.frame(row$latest_dataset)) {
         ld <- row$latest_dataset
         if ("validation_report" %in% names(ld) && is.data.frame(ld$validation_report)) {
           vr <- ld$validation_report
@@ -1024,7 +1025,7 @@ find_active_dataset <- function(feed_id) {
   active_datasets <- datasets[sapply(seq_len(nrow(datasets)), function(i) {
     row <- datasets[i, ]
     if ("service_date_range_start" %in% names(row) &&
-        "service_date_range_end" %in% names(row)) {
+          "service_date_range_end" %in% names(row)) {
       start_date <- as.Date(row$service_date_range_start)
       end_date <- as.Date(row$service_date_range_end)
 

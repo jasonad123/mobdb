@@ -10,13 +10,13 @@
 
 ## Minor changes
 
-None.
+* **New!** `export_path=` argument added to `download_feed()` and `download_best_feed()`. This argument wraps `export_gtfs()` from `gtfsio` to save GTFS Schedule files as a ZIP file locally. Perfect for workflows that need a local ZIP file and not a tidygtfs object, like analysis in [R5r](https://ipeagit.github.io/r5r/)
 
 ## Bug fixes
 
 None.
 
-# mobdb 0.1.6
+# mobdb 0.1.7
 
 ## Major changes
 

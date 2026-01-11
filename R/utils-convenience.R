@@ -51,7 +51,7 @@ score_feed_quality <- function(feed_row, prefer_official = TRUE, prefer_active =
     if (!is.null(feed_row$latest_dataset) && is.data.frame(feed_row$latest_dataset)) {
       ld <- feed_row$latest_dataset
       if ("service_date_range_start" %in% names(ld) &&
-          "service_date_range_end" %in% names(ld)) {
+            "service_date_range_end" %in% names(ld)) {
         today <- Sys.Date()
         start_date <- as.Date(ld$service_date_range_start)
         end_date <- as.Date(ld$service_date_range_end)

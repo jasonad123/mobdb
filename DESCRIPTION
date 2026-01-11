@@ -3,7 +3,7 @@ Type: Package
 Title: Access the Mobility Database API
 Version: 0.1.8
 Authors@R: 
-    person("Jason", "A", , "me@jasonadle.com", role = c("aut", "cre"))
+    person("Jason", "A", , "developer@jasonadle.com", role = c("aut", "cre"))
 Description: Provides functions to search and access transit feed data from the 
     Mobility Database (mobilitydata.org). The package wraps the Mobility Database 
     API v1, allowing users to discover GTFS and GBFS feeds from transit 
@@ -35,5 +35,5 @@ Suggests:
     gbfs
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://github.com/jasonad123/mobdb, https://mobdb.jasonadle.com, https://jasonad123.r-universe.dev/mobdb
+URL: https://github.com/jasonad123/mobdb, https://mobdb.jasonadle.com
 BugReports: https://github.com/jasonad123/mobdb/issues

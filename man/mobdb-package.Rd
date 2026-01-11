@@ -15,13 +15,12 @@ Useful links:
 \itemize{
   \item \url{https://github.com/jasonad123/mobdb}
   \item \url{https://mobdb.jasonadle.com}
-  \item \url{https://jasonad123.r-universe.dev/mobdb}
   \item Report bugs at \url{https://github.com/jasonad123/mobdb/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Jason A \email{me@jasonadle.com}
+\strong{Maintainer}: Jason A \email{developer@jasonadle.com}
 
 }
 \keyword{internal}
