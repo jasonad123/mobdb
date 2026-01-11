@@ -24,7 +24,7 @@ Install mobdb from r-universe:
 
 ``` r
 # install from r-universe
-install.packages('mobdb', repos = c('https://jasonad123.r-universe.dev', 'https://cloud.r-project.org'))
+install.packages("mobdb", repos = c("https://jasonad123.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
 Alternatively, you can also install mobdb from GitHub:
