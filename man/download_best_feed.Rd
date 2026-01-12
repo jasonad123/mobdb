@@ -2,8 +2,7 @@
 % Please edit documentation in R/integration-tidytransit.R
 \name{download_best_feed}
 \alias{download_best_feed}
-\title{Download the best GTFS Schedule feed with smart selection
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}}
+\title{Download the best GTFS Schedule feed with smart selection}
 \usage{
 download_best_feed(
   provider = NULL,
@@ -64,6 +63,8 @@ If \code{NULL} (default), the feed is not saved to disk.}
 A \code{gtfs} object from tidytransit, or \code{NULL} if user cancels selection.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 A higher-level wrapper around \code{\link[=download_feed]{download_feed()}} that automagically selects
 the best GTFS Schedule feed when multiple options exist. This function:
 \itemize{

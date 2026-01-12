@@ -626,9 +626,10 @@ download_feed <- function(feed_id = NULL,
 }
 
 #' Download the best GTFS Schedule feed with smart selection
-#' `r lifecycle::badge('experimental')`
 #'
 #' @description
+#' `r lifecycle::badge('experimental')`
+#'
 #' A higher-level wrapper around [download_feed()] that automagically selects
 #' the best GTFS Schedule feed when multiple options exist. This function:
 #'
