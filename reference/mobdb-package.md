@@ -13,10 +13,12 @@ Useful links:
 
 - <https://github.com/jasonad123/mobdb>
 
-- <https://mobdb.jasonadle.com>
+- <https://mobdb.jasonadle.dev>
+
+- <https://jasonad123.r-universe.dev/mobdb>
 
 - Report bugs at <https://github.com/jasonad123/mobdb/issues>
 
 ## Author
 
-**Maintainer**: Jason A <developer@jasonadle.com>
+**Maintainer**: Jason A <developer@jasonadle.dev>

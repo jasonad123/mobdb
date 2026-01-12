@@ -1,8 +1,8 @@
 # Extract download URLs from feed results
 
 Helper function to extract producer URLs from a tibble of feeds returned
-by [`feeds()`](https://mobdb.jasonadle.com/reference/feeds.md) or
-[`mobdb_search()`](https://mobdb.jasonadle.com/reference/mobdb_search.md).
+by [`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) or
+[`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md).
 This is useful when you want to get all the source URLs from a set of
 search results.
 
@@ -17,8 +17,8 @@ mobdb_extract_urls(feeds)
 - feeds:
 
   A tibble returned by
-  [`feeds()`](https://mobdb.jasonadle.com/reference/feeds.md) or
-  [`mobdb_search()`](https://mobdb.jasonadle.com/reference/mobdb_search.md).
+  [`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) or
+  [`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md).
 
 ## Value
 

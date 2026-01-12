@@ -2,7 +2,7 @@
 
 Filter feed or dataset results by validation quality thresholds. This is
 a convenience wrapper around
-[`get_validation_report()`](https://mobdb.jasonadle.com/reference/get_validation_report.md)
+[`get_validation_report()`](https://mobdb.jasonadle.dev/reference/get_validation_report.md)
 that returns the original data filtered to only include feeds/datasets
 meeting your quality criteria.
 
@@ -27,10 +27,10 @@ filter_by_validation(
 - data:
 
   A tibble from
-  [`feeds()`](https://mobdb.jasonadle.com/reference/feeds.md),
-  [`mobdb_datasets()`](https://mobdb.jasonadle.com/reference/mobdb_datasets.md),
+  [`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md),
+  [`mobdb_datasets()`](https://mobdb.jasonadle.dev/reference/mobdb_datasets.md),
   or
-  [`mobdb_search()`](https://mobdb.jasonadle.com/reference/mobdb_search.md).
+  [`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md).
 
 - max_errors:
 
@@ -59,9 +59,9 @@ feeds/datasets that meet the specified quality criteria.
 
 ## See also
 
-[`get_validation_report()`](https://mobdb.jasonadle.com/reference/get_validation_report.md)
+[`get_validation_report()`](https://mobdb.jasonadle.dev/reference/get_validation_report.md)
 to inspect validation metrics,
-[`view_validation_report()`](https://mobdb.jasonadle.com/reference/view_validation_report.md)
+[`view_validation_report()`](https://mobdb.jasonadle.dev/reference/view_validation_report.md)
 to view full validation reports
 
 ## Examples
