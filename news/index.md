@@ -1,6 +1,6 @@
 # Changelog
 
-## mobdb 0.1.6
+## mobdb 0.1.7
 
 ### Major changes
 
