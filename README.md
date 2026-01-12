@@ -129,7 +129,7 @@ gtfs <- download_feed(provider = "San Francisco")
 
 ### Smart feed selection with `download_best_feed()`
 
-The `download_best_feed()` function provides intelligent, one-shot downloading with automatic feed selection. It ranks feeds by status (active > future > deprecated), official designation, validation quality, and service date coverage.
+The `download_best_feed()` function provides intelligent, one-shot downloading with automatic feed selection. It ranks feeds by status (active > future > inactive > deprecated), official designation, validation quality, and service date coverage.
 
 ```r
 # Simple one-shot download - automatically selects the best feed
@@ -227,9 +227,10 @@ sapply(1:3, function(i) {
 
 ### Using with tidytransit
 
-The package provides two functions for working with [tidytransit](https://github.com/r-transit/tidytransit):
+The package provides three functions for working with [tidytransit](https://github.com/r-transit/tidytransit):
 
 - **`download_feed()`** - Download GTFS Schedule feeds with provider/location search (recommended)
+- **`download_best_feed()`** - Download "best available" GTFS Schedule feed for a selected provider
 - **`mobdb_read_gtfs()`** - More flexible reader that works with any GTFS feed type
 
 ```r
