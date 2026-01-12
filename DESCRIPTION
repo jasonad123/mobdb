@@ -35,5 +35,5 @@ Suggests:
     gbfs
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://github.com/jasonad123/mobdb, https://mobdb.jasonadle.com
+URL: https://github.com/jasonad123/mobdb, https://mobdb.jasonadle.dev, https://jasonad123.r-universe.dev/mobdb
 BugReports: https://github.com/jasonad123/mobdb/issues
