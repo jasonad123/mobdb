@@ -10,7 +10,7 @@ Word order is not relevant for matching. For example
 
 The endpoint used has known issues with relevance ranking. For better
 results when searching by provider name, consider using
-[`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) with the
+[`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md) with the
 `provider` parameter.
 
 ## Usage
@@ -89,7 +89,7 @@ mobdb_search(
 
 A tibble of matching feeds. Note that search results include additional
 fields compared to
-[`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md):
+[`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md):
 
 - `locations` - List of data frames with geographical information
 

@@ -28,6 +28,7 @@ download_feed(
   status = "active",
   official = NULL,
   auth_args = NULL,
+  export_path = NULL,
   ...
 )
 ```
@@ -38,8 +39,8 @@ download_feed(
 
   A string or data frame. The unique identifier for the feed (e.g.,
   "mdb-2862"), or a single-row data frame from
-  [`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) or
-  [`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md).
+  [`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md) or
+  [`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md).
   If a data frame is provided, the feed ID will be extracted
   automatically. If provided, all other search parameters are ignored.
 
@@ -127,6 +128,14 @@ download_feed(
   authentication method (URL parameter or HTTP header) is determined
   automatically from the feed's metadata.
 
+- export_path:
+
+  A string. Optional path to save the GTFS feed as a ZIP file (e.g.,
+  "data/gtfs/feed.zip"). If provided, the feed will be exported using
+  [`gtfsio::export_gtfs()`](https://r-transit.github.io/gtfsio/reference/export_gtfs.html)
+  after downloading. Requires the `gtfsio` package. If `NULL` (default),
+  the feed is not saved to disk.
+
 - ...:
 
   Additional arguments passed to
@@ -141,13 +150,13 @@ metadata.
 
 ## See also
 
-[`mobdb_datasets()`](https://mobdb.jasonadle.dev/reference/mobdb_datasets.md)
+[`mobdb_datasets()`](http://mobdb.jasonadle.dev/reference/mobdb_datasets.md)
 to list all available historical versions,
-[`get_validation_report()`](https://mobdb.jasonadle.dev/reference/get_validation_report.md)
+[`get_validation_report()`](http://mobdb.jasonadle.dev/reference/get_validation_report.md)
 to check feed quality before downloading,
-[`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) to search
-for feeds,
-[`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
+[`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md) to search for
+feeds,
+[`mobdb_read_gtfs()`](http://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
 for more flexible GTFS reading
 
 ## Examples
@@ -190,6 +199,9 @@ versions <- download_feed("mdb-2862", latest = FALSE)
 
 # Download a specific historical version (feed_id auto-extracted from dataset_id)
 historical <- download_feed(dataset_id = "mdb-53-202507240047")
+
+# Download and save as ZIP file
+gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
 
 } # }
 ```

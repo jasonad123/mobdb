@@ -45,11 +45,11 @@ A tibble containing dataset information including:
 
 ## See also
 
-[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
+[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
 to download specific historical versions,
-[`get_validation_report()`](https://mobdb.jasonadle.dev/reference/get_validation_report.md)
+[`get_validation_report()`](http://mobdb.jasonadle.dev/reference/get_validation_report.md)
 to extract validation data from datasets,
-[`mobdb_get_dataset()`](https://mobdb.jasonadle.dev/reference/mobdb_get_dataset.md)
+[`mobdb_get_dataset()`](http://mobdb.jasonadle.dev/reference/mobdb_get_dataset.md)
 to get details for a specific dataset
 
 ## Examples

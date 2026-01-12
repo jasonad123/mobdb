@@ -75,7 +75,7 @@ toronto <- mobdb_search(provider = "toronto")
 ### Download GTFS Schedule feeds
 
 The
-[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
+[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
 function downloads GTFS Schedule feeds by feed ID or by searching for
 providers/locations.
 
@@ -130,6 +130,61 @@ gtfs <- download_feed(provider = "San Francisco")
 #> Error: Multiple feeds found. Please specify which one to download.
 #> Use `download_feed(feed_id = "mdb-XXX")` with one of the IDs above.
 ```
+
+### Smart feed selection with `download_best_feed()`
+
+The
+[`download_best_feed()`](http://mobdb.jasonadle.dev/reference/download_best_feed.md)
+function provides intelligent, one-shot downloading with automatic feed
+selection. It ranks feeds by status (active \> future \> inactive \>
+deprecated), official designation, validation quality, and service date
+coverage.
+
+``` r
+# Simple one-shot download - automatically selects the best feed
+bart_feed <- download_best_feed(provider = "Bay Area Rapid Transit")
+
+# Download with quality filtering - only error-free feeds
+clean_feed <- download_best_feed(
+  provider = "Capital Metro",
+  max_validation_errors = 0
+)
+
+# Location-based search
+ontario_feed <- download_best_feed(
+  country_code = "CA",
+  subdivision_name = "Ontario"
+)
+
+# Interactive mode prompts when multiple equally-ranked feeds exist
+wmata_feed <- download_best_feed(provider = "WMATA")
+#> Multiple GTFS Schedule feeds found. Please select one:
+#>   1. [mdb-1124] Washington Metropolitan Area Transit Authority (Bus)
+#>      Status: active | Official: TRUE | Errors: 0 | Warnings: 23
+#>      Service: 2024-11-15 to 2025-06-30
+#>
+#>   2. [mdb-1125] Washington Metropolitan Area Transit Authority (Rail)
+#>      Status: active | Official: TRUE | Errors: 0 | Warnings: 15
+#>      Service: 2024-12-01 to 2025-06-30
+#>
+#> Enter selection (1-2) or 'q' to quit: 1
+
+# Non-interactive mode for scripts
+options(mobdb.interactive = FALSE)
+feed <- download_best_feed(provider = "Metro Transit")
+```
+
+The function automatically falls back to historical datasets when the
+current feed is marked “future” or “inactive”, ensuring you get usable
+data.
+
+**Note:** Like
+[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md),
+this function only works with GTFS Schedule feeds. For GTFS-RT or GBFS
+feeds, use
+[`mobdb_read_gtfs()`](http://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
+or fetch URLs with
+[`mobdb_get_feed()`](http://mobdb.jasonadle.dev/reference/mobdb_get_feed.md).
 
 ### Get feed details
 
@@ -190,13 +245,15 @@ sapply(1:3, function(i) {
 
 ### Using with tidytransit
 
-The package provides two functions for working with
+The package provides three functions for working with
 [tidytransit](https://github.com/r-transit/tidytransit):
 
-- **[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)** -
+- **[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)** -
   Download GTFS Schedule feeds with provider/location search
   (recommended)
-- **[`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)** -
+- **[`download_best_feed()`](http://mobdb.jasonadle.dev/reference/download_best_feed.md)** -
+  Download “best available” GTFS Schedule feed for a selected provider
+- **[`mobdb_read_gtfs()`](http://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)** -
   More flexible reader that works with any GTFS feed type
 
 ``` r

@@ -43,11 +43,11 @@ package.
 ### How mobdb handles GTFS-Realtime
 
 `mobdb`, whether through
-[`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) or
-[`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md)
+[`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md) or
+[`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md)
 will surface all available GTFS-Realtime feeds on the Mobility Database.
 The URL retrieved from
-[`mobdb_feed_url()`](https://mobdb.jasonadle.dev/reference/mobdb_feed_url.md)
+[`mobdb_feed_url()`](http://mobdb.jasonadle.dev/reference/mobdb_feed_url.md)
 will be the protobuf endpoint url.
 
 **Note:** Many GTFS-Realtime producers *will* require authentication to
@@ -146,11 +146,11 @@ documentation](https://gbfs.org/documentation/reference/) or on the
 ### How mobdb handles GBFS
 
 `mobdb`, whether through
-[`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) or
-[`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md)
+[`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md) or
+[`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md)
 will surface all available GBFS feeds on the Mobility Database. The URL
 retrieved from
-[`mobdb_feed_url()`](https://mobdb.jasonadle.dev/reference/mobdb_feed_url.md)
+[`mobdb_feed_url()`](http://mobdb.jasonadle.dev/reference/mobdb_feed_url.md)
 will be the auto-discovery endpoint (i.e. `gbfs.json`).
 
 ``` r
