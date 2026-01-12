@@ -2,7 +2,8 @@
 % Please edit documentation in R/integration-tidytransit.R
 \name{download_best_feed}
 \alias{download_best_feed}
-\title{Download the best GTFS Schedule feed with smart selection}
+\title{Download the best GTFS Schedule feed with smart selection
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}}
 \usage{
 download_best_feed(
   provider = NULL,
@@ -17,6 +18,7 @@ download_best_feed(
   exclude_flex = TRUE,
   use_source_url = FALSE,
   auth_args = NULL,
+  export_path = NULL,
   ...
 )
 }
@@ -51,6 +53,11 @@ MobilityData's hosted URL (\code{FALSE}, default).}
 
 \item{auth_args}{Authentication arguments if required (see \code{\link[=download_feed]{download_feed()}}).}
 
+\item{export_path}{A string. Optional path to save the GTFS feed as a ZIP file
+(e.g., "data/gtfs/feed.zip"). If provided, the feed will be exported using
+\code{\link[gtfsio:export_gtfs]{gtfsio::export_gtfs()}} after downloading. Requires the \code{gtfsio} package.
+If \code{NULL} (default), the feed is not saved to disk.}
+
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
 }
 \value{
@@ -63,7 +70,7 @@ the best GTFS Schedule feed when multiple options exist. This function:
 \item Searches for feeds using provider name or location
 \item Automatically ranks feeds by status, official designation, and validation quality
 \item Prompts for user selection when multiple equally-ranked feeds exist (in interactive mode)
-\item Falls back to historical datasets when current feed is marked "future" or "deprecated"
+\item Falls back to historical datasets when current feed is marked "future" or "inactive"
 \item Only works with GTFS Schedule feeds (not GTFS-RT or GBFS)
 }
 
@@ -74,7 +81,7 @@ without needing to specify exact feed IDs or handle multiple results manually.
 
 When multiple feeds match the search criteria, feeds are ranked by:
 \enumerate{
-\item \strong{Status} (if \code{prefer_active = TRUE}): active > future > development > deprecated > inactive
+\item \strong{Status} (if \code{prefer_active = TRUE}): active > future > development > inactive > deprecated
 \item \strong{Official designation} (if \code{prefer_official = TRUE}): official > unclassified > unofficial
 \item \strong{Validation quality}: Feeds with fewer errors score higher
 \item \strong{Service date coverage}: Feeds covering today's date score higher
@@ -124,6 +131,9 @@ ontario_feed <- download_best_feed(
 # Non-interactive mode (for scripts)
 options(mobdb.interactive = FALSE)
 feed <- download_best_feed(provider = "WMATA")
+
+# Download and save as ZIP file
+feed <- download_best_feed(provider = "TriMet", export_path = "data/gtfs/trimet.zip")
 }
 
 }

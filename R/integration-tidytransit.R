@@ -134,6 +134,10 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   Only valid when `use_source_url = TRUE`. If a feed requires authentication, you'll receive an error message with a link to obtain credentials.
 #'   The authentication method (URL parameter or HTTP header) is determined
 #'   automatically from the feed's metadata.
+#' @param export_path A string. Optional path to save the GTFS feed as a ZIP file
+#'   (e.g., "data/gtfs/feed.zip"). If provided, the feed will be exported using
+#'   [gtfsio::export_gtfs()] after downloading. Requires the `gtfsio` package.
+#'   If `NULL` (default), the feed is not saved to disk.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
 #' @return If `latest = TRUE`, a `gtfs` object as returned by [tidytransit::read_gtfs()].
@@ -178,6 +182,9 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' # Download a specific historical version (feed_id auto-extracted from dataset_id)
 #' historical <- download_feed(dataset_id = "mdb-53-202507240047")
 #'
+#' # Download and save as ZIP file
+#' gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
+#'
 #' }
 #' @seealso
 #' [mobdb_datasets()] to list all available historical versions,
@@ -199,6 +206,7 @@ download_feed <- function(feed_id = NULL,
                           status = "active",
                           official = NULL,
                           auth_args = NULL,
+                          export_path = NULL,
                           ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
@@ -528,15 +536,13 @@ download_feed <- function(feed_id = NULL,
 
     # Clean up temp file
     on.exit(unlink(temp_file), add = TRUE)
-
-    gtfs
   } else {
     # For URL strings (no auth or URL param auth), validate before passing to tidytransit
     # Download to temp file first to check if it's actually a ZIP and provide better errors
     temp_file <- tempfile(fileext = ".zip")
     on.exit(unlink(temp_file), add = TRUE)
 
-    tryCatch({
+    gtfs <- tryCatch({
       # Download the file first
       req <- httr2::request(request)
       resp <- httr2::req_perform(req, path = temp_file)
@@ -595,9 +601,32 @@ download_feed <- function(feed_id = NULL,
       ))
     })
   }
+
+  # Export to ZIP file if export_path is provided
+  if (!is.null(export_path)) {
+    if (!requireNamespace("gtfsio", quietly = TRUE)) {
+      cli::cli_abort(c(
+        "The {.pkg gtfsio} package is required to export GTFS feeds.",
+        "i" = "Install it with {.code install.packages('gtfsio')}."
+      ))
+    }
+
+    # Create directory if it doesn't exist
+    export_dir <- dirname(export_path)
+    if (!dir.exists(export_dir)) {
+      dir.create(export_dir, recursive = TRUE)
+    }
+
+    cli::cli_inform("Exporting GTFS feed to: {.file {export_path}}")
+    gtfsio::export_gtfs(gtfs, export_path)
+    cli::cli_inform("Successfully exported GTFS feed.")
+  }
+
+  gtfs
 }
 
 #' Download the best GTFS Schedule feed with smart selection
+#' `r lifecycle::badge('experimental')`
 #'
 #' @description
 #' A higher-level wrapper around [download_feed()] that automagically selects
@@ -606,7 +635,7 @@ download_feed <- function(feed_id = NULL,
 #' * Searches for feeds using provider name or location
 #' * Automatically ranks feeds by status, official designation, and validation quality
 #' * Prompts for user selection when multiple equally-ranked feeds exist (in interactive mode)
-#' * Falls back to historical datasets when current feed is marked "future" or "deprecated"
+#' * Falls back to historical datasets when current feed is marked "future" or "inactive"
 #' * Only works with GTFS Schedule feeds (not GTFS-RT or GBFS)
 #'
 #' This is designed for common use cases where you just want the best, most recent feed
@@ -630,6 +659,10 @@ download_feed <- function(feed_id = NULL,
 #' @param use_source_url Logical. Download from agency's source URL (`TRUE`) or
 #'   MobilityData's hosted URL (`FALSE`, default).
 #' @param auth_args Authentication arguments if required (see [download_feed()]).
+#' @param export_path A string. Optional path to save the GTFS feed as a ZIP file
+#'   (e.g., "data/gtfs/feed.zip"). If provided, the feed will be exported using
+#'   [gtfsio::export_gtfs()] after downloading. Requires the `gtfsio` package.
+#'   If `NULL` (default), the feed is not saved to disk.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
 #' @return A `gtfs` object from tidytransit, or `NULL` if user cancels selection.
@@ -637,7 +670,7 @@ download_feed <- function(feed_id = NULL,
 #' @section Selection Algorithm:
 #' When multiple feeds match the search criteria, feeds are ranked by:
 #'
-#' 1. **Status** (if `prefer_active = TRUE`): active > future > development > deprecated > inactive
+#' 1. **Status** (if `prefer_active = TRUE`): active > future > development > inactive > deprecated
 #' 2. **Official designation** (if `prefer_official = TRUE`): official > unclassified > unofficial
 #' 3. **Validation quality**: Feeds with fewer errors score higher
 #' 4. **Service date coverage**: Feeds covering today's date score higher
@@ -680,6 +713,9 @@ download_feed <- function(feed_id = NULL,
 #' # Non-interactive mode (for scripts)
 #' options(mobdb.interactive = FALSE)
 #' feed <- download_best_feed(provider = "WMATA")
+#'
+#' # Download and save as ZIP file
+#' feed <- download_best_feed(provider = "TriMet", export_path = "data/gtfs/trimet.zip")
 #' }
 #'
 #' @seealso
@@ -689,18 +725,19 @@ download_feed <- function(feed_id = NULL,
 #'
 #' @export
 download_best_feed <- function(provider = NULL,
-                                country_code = NULL,
-                                subdivision_name = NULL,
-                                municipality = NULL,
-                                feed_name = NULL,
-                                prefer_official = TRUE,
-                                prefer_active = TRUE,
-                                max_validation_errors = NULL,
-                                interactive = NULL,
-                                exclude_flex = TRUE,
-                                use_source_url = FALSE,
-                                auth_args = NULL,
-                                ...) {
+                             country_code = NULL,
+                             subdivision_name = NULL,
+                             municipality = NULL,
+                             feed_name = NULL,
+                             prefer_official = TRUE,
+                             prefer_active = TRUE,
+                             max_validation_errors = NULL,
+                             interactive = NULL,
+                             exclude_flex = TRUE,
+                             use_source_url = FALSE,
+                             auth_args = NULL,
+                             export_path = NULL,
+                               ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
       "The {.pkg tidytransit} package is required to use this function.",
@@ -715,8 +752,8 @@ download_best_feed <- function(provider = NULL,
 
   # Check that at least one search parameter is provided
   if (is.null(provider) && is.null(country_code) && is.null(subdivision_name) &&
-      is.null(municipality)) {
-    cli::cli_abort(c(
+        is.null(municipality)) {
+      cli::cli_abort(c(
       "At least one search parameter must be provided.",
       "i" = "Use {.arg provider}, {.arg country_code} + {.arg subdivision_name}, or {.arg municipality}."
     ))
@@ -863,6 +900,7 @@ download_best_feed <- function(provider = NULL,
     dataset_id = dataset_id,
     use_source_url = use_source_url,
     auth_args = auth_args,
+    export_path = export_path,
     ...
   )
 }
@@ -870,7 +908,7 @@ download_best_feed <- function(provider = NULL,
 # Internal helper: Select best feed from multiple results
 # Returns a single-row tibble or NULL
 select_best_feed <- function(feeds, prefer_official = TRUE, prefer_active = TRUE,
-                              max_validation_errors = NULL) {
+                          max_validation_errors = NULL) {
   if (nrow(feeds) == 0) {
     return(NULL)
   }
@@ -884,8 +922,8 @@ select_best_feed <- function(feeds, prefer_official = TRUE, prefer_active = TRUE
     feeds_with_validation <- feeds[sapply(seq_len(nrow(feeds)), function(i) {
       row <- feeds[i, ]
       if ("latest_dataset" %in% names(row) &&
-          !is.null(row$latest_dataset) &&
-          is.data.frame(row$latest_dataset)) {
+            !is.null(row$latest_dataset) &&
+            is.data.frame(row$latest_dataset)) {
         ld <- row$latest_dataset
         if ("validation_report" %in% names(ld) && is.data.frame(ld$validation_report)) {
           vr <- ld$validation_report
@@ -987,7 +1025,7 @@ find_active_dataset <- function(feed_id) {
   active_datasets <- datasets[sapply(seq_len(nrow(datasets)), function(i) {
     row <- datasets[i, ]
     if ("service_date_range_start" %in% names(row) &&
-        "service_date_range_end" %in% names(row)) {
+          "service_date_range_end" %in% names(row)) {
       start_date <- as.Date(row$service_date_range_start)
       end_date <- as.Date(row$service_date_range_end)
 

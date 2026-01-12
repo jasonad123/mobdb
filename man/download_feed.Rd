@@ -18,6 +18,7 @@ download_feed(
   status = "active",
   official = NULL,
   auth_args = NULL,
+  export_path = NULL,
   ...
 )
 }
@@ -82,6 +83,11 @@ Only valid when \code{use_source_url = TRUE}. If a feed requires authentication,
 The authentication method (URL parameter or HTTP header) is determined
 automatically from the feed's metadata.}
 
+\item{export_path}{A string. Optional path to save the GTFS feed as a ZIP file
+(e.g., "data/gtfs/feed.zip"). If provided, the feed will be exported using
+\code{\link[gtfsio:export_gtfs]{gtfsio::export_gtfs()}} after downloading. Requires the \code{gtfsio} package.
+If \code{NULL} (default), the feed is not saved to disk.}
+
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
 }
 \value{
@@ -136,6 +142,9 @@ versions <- download_feed("mdb-2862", latest = FALSE)
 
 # Download a specific historical version (feed_id auto-extracted from dataset_id)
 historical <- download_feed(dataset_id = "mdb-53-202507240047")
+
+# Download and save as ZIP file
+gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
 
 }
 }
