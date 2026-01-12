@@ -14,13 +14,13 @@ Provides functions to search and access transit feed data from the Mobility Data
 Useful links:
 \itemize{
   \item \url{https://github.com/jasonad123/mobdb}
-  \item \url{https://mobdb.jasonadle.com}
+  \item \url{https://mobdb.jasonadle.dev}
   \item Report bugs at \url{https://github.com/jasonad123/mobdb/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Jason A \email{developer@jasonadle.com}
+\strong{Maintainer}: Jason A \email{developer@jasonadle.dev}
 
 }
 \keyword{internal}

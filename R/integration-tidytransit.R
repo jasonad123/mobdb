@@ -627,7 +627,7 @@ download_feed <- function(feed_id = NULL,
 
 #' Download the best GTFS Schedule feed with smart selection
 #' `r lifecycle::badge('experimental')`
-#' 
+#'
 #' @description
 #' A higher-level wrapper around [download_feed()] that automagically selects
 #' the best GTFS Schedule feed when multiple options exist. This function:
@@ -725,19 +725,19 @@ download_feed <- function(feed_id = NULL,
 #'
 #' @export
 download_best_feed <- function(provider = NULL,
-                              country_code = NULL,
-                              subdivision_name = NULL,
-                              municipality = NULL,
-                              feed_name = NULL,
-                              prefer_official = TRUE,
-                              prefer_active = TRUE,
-                              max_validation_errors = NULL,
-                              interactive = NULL,
-                              exclude_flex = TRUE,
-                              use_source_url = FALSE,
-                              auth_args = NULL,
-                              export_path = NULL,
-                                ...) {
+                             country_code = NULL,
+                             subdivision_name = NULL,
+                             municipality = NULL,
+                             feed_name = NULL,
+                             prefer_official = TRUE,
+                             prefer_active = TRUE,
+                             max_validation_errors = NULL,
+                             interactive = NULL,
+                             exclude_flex = TRUE,
+                             use_source_url = FALSE,
+                             auth_args = NULL,
+                             export_path = NULL,
+                               ...) {
   if (!requireNamespace("tidytransit", quietly = TRUE)) {
     cli::cli_abort(c(
       "The {.pkg tidytransit} package is required to use this function.",
@@ -752,7 +752,7 @@ download_best_feed <- function(provider = NULL,
 
   # Check that at least one search parameter is provided
   if (is.null(provider) && is.null(country_code) && is.null(subdivision_name) &&
-      is.null(municipality)) {
+        is.null(municipality)) {
       cli::cli_abort(c(
       "At least one search parameter must be provided.",
       "i" = "Use {.arg provider}, {.arg country_code} + {.arg subdivision_name}, or {.arg municipality}."

@@ -1,4 +1,4 @@
-url: https://mobdb.jasonadle.com
+url: https://mobdb.jasonadle.dev
 template:
   bootstrap: 5
   light-switch: true
@@ -24,6 +24,7 @@ reference:
   desc: Download feeds for analysis
 - contents:
   - download_feed
+  - download_best_feed
   - mobdb_read_gtfs
 
 - title: Assess feed quality
