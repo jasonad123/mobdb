@@ -1,41 +1,37 @@
-url: https://mobdb.jasonadle.dev/
+url: http://mobdb.jasonadle.dev/
 template:
   bootstrap: 5
-  light-switch: true
+  light-switch: yes
   bootswatch: morph
 navbar:
   structure:
-    right: [github, lightswitch]
+    right:
+    - github
+    - lightswitch
 reference:
 - title: Get started
   desc: Essential functions to begin using mobdb
 - contents:
   - has_concept("authentication")
   - mobdb_browse
-
 - title: Discover feeds
   desc: Search and explore available transit feeds
 - contents:
   - mobdb_search
   - feeds
   - feeds_bbox
-
 - title: Download feeds
   desc: Download feeds for analysis
 - contents:
   - download_feed
+  - download_best_feed
   - mobdb_read_gtfs
-
 - title: Assess feed quality
   desc: Evaluate feed quality using MobilityData validation reports
-- contents:
-  - has_concept("validation")
-
+- contents: has_concept("validation")
 - title: Historical datasets
   desc: Access and explore historical feed versions
-- contents:
-  - has_concept("datasets")
-
+- contents: has_concept("datasets")
 - title: Work with feed metadata
   desc: Extract and manipulate feed information
 - contents:
@@ -45,7 +41,6 @@ reference:
   - -has_concept("authentication")
   - -has_concept("validation")
   - -has_concept("datasets")
-
 - title: Utilities
-- contents:
-  - starts_with("mobdb_cache")
+- contents: starts_with("mobdb_cache")
+

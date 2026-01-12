@@ -1,11 +1,11 @@
 Package: mobdb
 Type: Package
 Title: Access the Mobility Database API
-Version: 0.1.7
-Authors@R: 
+Version: 0.1.8
+Authors@R:
     person("Jason", "A", , "developer@jasonadle.dev", role = c("aut", "cre"))
 Description: Provides functions to search and access transit feed data from the 
-    Mobility Database (mobilitydata.org). The package wraps the Mobility Database 
+    Mobility Database (mobilitydatabase.org). The package wraps the Mobility Database 
     API v1, allowing users to discover GTFS and GBFS feeds from transit 
     agencies worldwide. Functions are designed to integrate seamlessly with the 
     tidytransit and gtfstools packages for subsequent feed analysis.
@@ -32,7 +32,8 @@ Suggests:
     gtfsio,
     keyring,
     sf,
-    gbfs
+    gbfs,
+    zip
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://github.com/jasonad123/mobdb, https://mobdb.jasonadle.dev, https://jasonad123.r-universe.dev/mobdb
