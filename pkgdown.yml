@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   gbfs-and-gtfs-rt: gbfs-and-gtfs-rt.html
   mobdb: mobdb.html
-last_built: 2026-01-12T21:55Z
+last_built: 2026-01-13T14:50Z
 urls:
-  reference: http://mobdb.jasonadle.dev/reference
-  article: http://mobdb.jasonadle.dev/articles
+  reference: https://mobdb.jasonadle.dev/reference
+  article: https://mobdb.jasonadle.dev/articles

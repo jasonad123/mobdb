@@ -75,7 +75,7 @@ toronto <- mobdb_search(provider = "toronto")
 ### Download GTFS Schedule feeds
 
 The
-[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
 function downloads GTFS Schedule feeds by feed ID or by searching for
 providers/locations.
 
@@ -134,7 +134,7 @@ gtfs <- download_feed(provider = "San Francisco")
 ### Smart feed selection with `download_best_feed()`
 
 The
-[`download_best_feed()`](http://mobdb.jasonadle.dev/reference/download_best_feed.md)
+[`download_best_feed()`](https://mobdb.jasonadle.dev/reference/download_best_feed.md)
 function provides intelligent, one-shot downloading with automatic feed
 selection. It ranks feeds by status (active \> future \> inactive \>
 deprecated), official designation, validation quality, and service date
@@ -179,12 +179,12 @@ current feed is marked “future” or “inactive”, ensuring you get usable
 data.
 
 **Note:** Like
-[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md),
+[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md),
 this function only works with GTFS Schedule feeds. For GTFS-RT or GBFS
 feeds, use
-[`mobdb_read_gtfs()`](http://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
+[`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
 or fetch URLs with
-[`mobdb_get_feed()`](http://mobdb.jasonadle.dev/reference/mobdb_get_feed.md).
+[`mobdb_get_feed()`](https://mobdb.jasonadle.dev/reference/mobdb_get_feed.md).
 
 ### Get feed details
 
@@ -248,12 +248,12 @@ sapply(1:3, function(i) {
 The package provides three functions for working with
 [tidytransit](https://github.com/r-transit/tidytransit):
 
-- **[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)** -
+- **[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)** -
   Download GTFS Schedule feeds with provider/location search
   (recommended)
-- **[`download_best_feed()`](http://mobdb.jasonadle.dev/reference/download_best_feed.md)** -
+- **[`download_best_feed()`](https://mobdb.jasonadle.dev/reference/download_best_feed.md)** -
   Download “best available” GTFS Schedule feed for a selected provider
-- **[`mobdb_read_gtfs()`](http://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)** -
+- **[`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)** -
   More flexible reader that works with any GTFS feed type
 
 ``` r

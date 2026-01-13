@@ -15,7 +15,7 @@ mobdb_extract_locations(results, unnest = TRUE)
 - results:
 
   A tibble returned by
-  [`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md).
+  [`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md).
 
 - unnest:
 

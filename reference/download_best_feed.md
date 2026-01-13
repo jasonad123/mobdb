@@ -3,7 +3,7 @@
 **\[experimental\]**
 
 A higher-level wrapper around
-[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
 that automagically selects the best GTFS Schedule feed when multiple
 options exist. This function:
 
@@ -102,7 +102,7 @@ download_best_feed(
 - auth_args:
 
   Authentication arguments if required (see
-  [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)).
+  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)).
 
 - export_path:
 
@@ -161,20 +161,20 @@ The function handles different feed statuses as follows:
 ## GTFS Schedule Only
 
 Like
-[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md),
+[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md),
 this function only works with GTFS Schedule feeds. For GTFS-RT or GBFS
 feeds, use
-[`mobdb_read_gtfs()`](http://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
+[`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
 or fetch URLs with
-[`mobdb_get_feed()`](http://mobdb.jasonadle.dev/reference/mobdb_get_feed.md).
+[`mobdb_get_feed()`](https://mobdb.jasonadle.dev/reference/mobdb_get_feed.md).
 
 ## See also
 
-[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
 for precise control,
-[`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md) to explore
+[`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) to explore
 available feeds before downloading,
-[`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md)
+[`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md)
 for full-text search with validation data
 
 ## Examples

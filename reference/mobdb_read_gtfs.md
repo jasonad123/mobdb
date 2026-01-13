@@ -3,10 +3,10 @@
 **\[superseded\]**
 
 **Note:** This function is superseded by
-[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md),
+[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md),
 which provides the same functionality plus integrated search, Flex
 filtering, and more control over data sources. New code should use
-[`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
 instead.
 
 Convenience wrapper that fetches a feed's download URL from the Mobility
@@ -26,8 +26,8 @@ mobdb_read_gtfs(feed_id, dataset_id = NULL, ...)
 
   A string. The unique identifier for the feed, or a data frame with a
   single row from
-  [`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md) or
-  [`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md).
+  [`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) or
+  [`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md).
 
 - dataset_id:
 

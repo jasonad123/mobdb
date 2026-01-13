@@ -5,7 +5,7 @@
 ### Major changes
 
 - **New!**
-  [`download_best_feed()`](http://mobdb.jasonadle.dev/reference/download_best_feed.md)
+  [`download_best_feed()`](https://mobdb.jasonadle.dev/reference/download_best_feed.md)
   function for intelligent, one-shot downloading of GTFS Schedule feeds
   - Automatically ranks feeds by status, official designation,
     validation quality, and service date coverage
@@ -14,15 +14,15 @@
   - Falls back to historical datasets when current feed is marked
     “future” or “inactive”
   - Like
-    [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md),
+    [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md),
     only works with GTFS Schedule feeds
 
 ### Minor changes
 
 - **New!** `export_path=` argument added to
-  [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
   and
-  [`download_best_feed()`](http://mobdb.jasonadle.dev/reference/download_best_feed.md).
+  [`download_best_feed()`](https://mobdb.jasonadle.dev/reference/download_best_feed.md).
   This argument wraps
   [`export_gtfs()`](https://r-transit.github.io/gtfsio/reference/export_gtfs.html)
   from `gtfsio` to save GTFS Schedule files as a ZIP file locally.
@@ -50,7 +50,7 @@ None.
 ### Bug fixes
 
 - The `status` parameter in
-  [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
   should now work correctly.
 
 ## mobdb 0.1.6
@@ -58,7 +58,7 @@ None.
 ### Major changes
 
 - **New!**
-  [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
   now supports direct download of feeds that require API authentication
   through the `auth_args` parameter
 
@@ -67,24 +67,24 @@ None.
 ### Major changes
 
 - **New!**
-  [`feeds_bbox()`](http://mobdb.jasonadle.dev/reference/feeds_bbox.md)
+  [`feeds_bbox()`](https://mobdb.jasonadle.dev/reference/feeds_bbox.md)
   function for discovering GTFS Schedule feeds by bounding box
 - **New!** API responses are now cached. Used the following functions to
   manage the cache:
-  - [`mobdb_cache_path()`](http://mobdb.jasonadle.dev/reference/mobdb_cache_path.md) -
+  - [`mobdb_cache_path()`](https://mobdb.jasonadle.dev/reference/mobdb_cache_path.md) -
     configure cache location
-  - [`mobdb_cache_info()`](http://mobdb.jasonadle.dev/reference/mobdb_cache_info.md) -
+  - [`mobdb_cache_info()`](https://mobdb.jasonadle.dev/reference/mobdb_cache_info.md) -
     view cache status
-  - [`mobdb_cache_list()`](http://mobdb.jasonadle.dev/reference/mobdb_cache_list.md) -
+  - [`mobdb_cache_list()`](https://mobdb.jasonadle.dev/reference/mobdb_cache_list.md) -
     list cached files
-  - [`mobdb_cache_clear()`](http://mobdb.jasonadle.dev/reference/mobdb_cache_clear.md) -
+  - [`mobdb_cache_clear()`](https://mobdb.jasonadle.dev/reference/mobdb_cache_clear.md) -
     clear cache
 - All API functions now support caching via `use_cache` parameter
 
 ### Minor changes
 
 - **New!** Vignette: “Working with GTFS-Realtime and GBFS”
-- [`feeds_bbox()`](http://mobdb.jasonadle.dev/reference/feeds_bbox.md)
+- [`feeds_bbox()`](https://mobdb.jasonadle.dev/reference/feeds_bbox.md)
   supports both numeric vectors and sf bbox objects
 - Added `sf` to Suggests for bbox object support
 
@@ -92,43 +92,43 @@ None.
 
 ### Major changes
 
-- [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+- [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
   now supports downloading specific historical dataset versions via the
   `dataset_id` parameter
 - **New!**
-  [`get_validation_report()`](http://mobdb.jasonadle.dev/reference/get_validation_report.md)
+  [`get_validation_report()`](https://mobdb.jasonadle.dev/reference/get_validation_report.md)
   function extracts MobilityData validation summaries to help assess
   feed quality before downloading
 - **New!**
-  [`view_validation_report()`](http://mobdb.jasonadle.dev/reference/view_validation_report.md)
+  [`view_validation_report()`](https://mobdb.jasonadle.dev/reference/view_validation_report.md)
   function opens MobilityData validation reports in your browser
 - **New!**
-  [`filter_by_validation()`](http://mobdb.jasonadle.dev/reference/filter_by_validation.md)
+  [`filter_by_validation()`](https://mobdb.jasonadle.dev/reference/filter_by_validation.md)
   function filters feeds/datasets by quality thresholds (max
   errors/warnings)
 
 ### Minor changes
 
-- [`mobdb_extract_datasets()`](http://mobdb.jasonadle.dev/reference/mobdb_extract_datasets.md)
+- [`mobdb_extract_datasets()`](https://mobdb.jasonadle.dev/reference/mobdb_extract_datasets.md)
   now includes `html_report` and `json_report` URLs in output
 - `download_feed(latest = FALSE)` returns all available historical
   versions without downloading
-- [`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md)
+- [`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md)
   now supports various parameters.
 - **New!**
-  [`mobdb_browse()`](http://mobdb.jasonadle.dev/reference/mobdb_browse.md)
+  [`mobdb_browse()`](https://mobdb.jasonadle.dev/reference/mobdb_browse.md)
   function opens the Mobility Database in your browser
 
 ### Bug fixes
 
-- [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+- [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
   now validates feed status when searching by provider/location
-- [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+- [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
   correctly filters official feed status
-- [`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md) status
+- [`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) status
   validation now correctly accepts all five API statuses: “active”,
   “deprecated”, “inactive”, “development”, and “future”
-- [`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md)
+- [`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md)
   now correctly performs searches
 
 ## mobdb 0.1.3
@@ -136,23 +136,24 @@ None.
 ### Major changes
 
 - `mobdb_download_feed()` is now called
-  [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md).
+  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md).
   This is a **breaking change** and requires users that uses this
   function to be updated to use the new function name.
 
 - `mobdb_feeds()` is now called
-  [`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md). This is a
+  [`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md). This is a
   **breaking change** and requires all code that uses this function to
   be updated to use the new function name.
 
 ### Minor changes
 
-- [`download_feed()`](http://mobdb.jasonadle.dev/reference/download_feed.md)
+- [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
   now accepts the `official` parameter for filtering official vs
   unofficial feeds
 
-- [`feeds()`](http://mobdb.jasonadle.dev/reference/feeds.md) now accepts
-  the `official` parameter for filtering official vs unofficial feeds
+- [`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) now
+  accepts the `official` parameter for filtering official vs unofficial
+  feeds
 
 ## mobdb 0.1.2
 
@@ -160,16 +161,16 @@ None.
 
 - `mobdb_download_feed()` now accepts data frames from `mobdb_feeds()`
   or
-  [`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md)
+  [`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md)
 - Soft deprecation of
-  [`mobdb_read_gtfs()`](http://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
+  [`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
   (still works; use `mobdb_download_feed()` for new code)
 
 ### Minor changes
 
 - Fixed documentation examples to use valid feed IDs
 - Enhanced
-  [`mobdb_search()`](http://mobdb.jasonadle.dev/reference/mobdb_search.md)
+  [`mobdb_search()`](https://mobdb.jasonadle.dev/reference/mobdb_search.md)
   docs to explain API limitations
 - Added comprehensive test suite
 
@@ -199,8 +200,8 @@ for discovering and accessing GTFS transit feeds.
 
 - Search and filter feeds with `mobdb_feeds()`
 - Access historical datasets with
-  [`mobdb_datasets()`](http://mobdb.jasonadle.dev/reference/mobdb_datasets.md)
+  [`mobdb_datasets()`](https://mobdb.jasonadle.dev/reference/mobdb_datasets.md)
 - Direct integration with tidytransit via
-  [`mobdb_read_gtfs()`](http://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
+  [`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
 - Secure authentication with
-  [`mobdb_set_key()`](http://mobdb.jasonadle.dev/reference/mobdb_set_key.md)
+  [`mobdb_set_key()`](https://mobdb.jasonadle.dev/reference/mobdb_set_key.md)
