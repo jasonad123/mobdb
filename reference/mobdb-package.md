@@ -11,11 +11,9 @@ feed analysis.
 
 Useful links:
 
-- <https://github.com/jasonad123/mobdb>
-
 - <https://mobdb.jasonadle.dev>
 
-- <https://jasonad123.r-universe.dev/mobdb>
+- <https://github.com/jasonad123/mobdb>
 
 - Report bugs at <https://github.com/jasonad123/mobdb/issues>
 
