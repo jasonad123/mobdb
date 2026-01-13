@@ -1,14 +1,14 @@
 Package: mobdb
 Type: Package
-Title: Access the Mobility Database API
+Title: Access the Mobility Database API to discover transit feeds
 Version: 0.1.8
 Authors@R:
-    person("Jason", "A", , "developer@jasonadle.dev", role = c("aut", "cre"))
+    person("Jason", "Adle", email = "developer@jasonadle.dev", role = c("aut", "cre"))
 Description: Provides functions to search and access transit feed data from the 
     Mobility Database (mobilitydatabase.org). The package wraps the Mobility Database 
     API v1, allowing users to discover GTFS and GBFS feeds from transit 
-    agencies worldwide. Functions are designed to integrate seamlessly with the 
-    tidytransit and gtfstools packages for subsequent feed analysis.
+    agencies worldwide. Functions are designed to integrate seamlessly with 
+    packages like tidytransit and gtfstools for subsequent feed analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

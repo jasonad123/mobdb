@@ -4,11 +4,11 @@
 \name{mobdb-package}
 \alias{mobdb}
 \alias{mobdb-package}
-\title{mobdb: Access the Mobility Database API}
+\title{mobdb: Access the Mobility Database API to discover transit feeds}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Provides functions to search and access transit feed data from the Mobility Database (mobilitydatabase.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GBFS feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with the tidytransit and gtfstools packages for subsequent feed analysis.
+Provides functions to search and access transit feed data from the Mobility Database (mobilitydatabase.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GBFS feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with packages like tidytransit and gtfstools for subsequent feed analysis.
 }
 \seealso{
 Useful links:
@@ -21,7 +21,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jason A \email{developer@jasonadle.dev}
+\strong{Maintainer}: Jason Adle \email{developer@jasonadle.dev}
 
 }
 \keyword{internal}
