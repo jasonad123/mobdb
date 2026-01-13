@@ -36,5 +36,5 @@ Suggests:
     zip
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://github.com/jasonad123/mobdb, https://mobdb.jasonadle.dev, https://jasonad123.r-universe.dev/mobdb
+URL: https://mobdb.jasonadle.dev, https://github.com/jasonad123/mobdb
 BugReports: https://github.com/jasonad123/mobdb/issues
