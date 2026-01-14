@@ -1,8 +1,16 @@
 name: Test R-universe
 
 on:
-  push:
   pull_request:
+    branches: [main, master]
+    paths:
+      - 'R/**'
+      - 'src/**'
+      - 'tests/**'
+      - 'data/**'
+      - 'inst/**'
+      - 'DESCRIPTION'
+      - 'NAMESPACE'
   workflow_dispatch:
 
 jobs:
