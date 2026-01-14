@@ -13,6 +13,9 @@ on:
       - 'NAMESPACE'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: R-universe testing
