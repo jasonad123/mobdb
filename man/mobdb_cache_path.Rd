@@ -24,10 +24,10 @@ Configure the directory where mobdb caches API responses. By default,
 mobdb uses \code{tools::R_user_dir("mobdb", "cache")}.
 }
 \examples{
-\dontrun{
 # Show current cache path
 mobdb_cache_path()
 
+\dontrun{
 # Set for current session only
 mobdb_cache_path("~/my_mobdb_cache")
 

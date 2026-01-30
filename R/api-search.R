@@ -41,8 +41,7 @@
 #'   * `latest_dataset` - Data frame with most recent dataset details and validation
 #'   * Core fields (`id`, `provider`, `data_type`, `status`, `source_info`) are the same
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples()
 #' # Search for transit agencies (Note: results may not be well-ranked)
 #' results <- mobdb_search("transit")
 #'
@@ -71,7 +70,7 @@
 #'   subdivision_name = "Ontario",
 #'   data_type = "gtfs"
 #' )
-#' }
+#'
 #' @export
 mobdb_search <- function(query,
                          feed_id = NULL,

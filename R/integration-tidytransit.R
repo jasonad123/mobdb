@@ -19,8 +19,7 @@
 #'
 #' @return A `gtfs` object as returned by [tidytransit::read_gtfs()].
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples() && mobdb_has_tidytransit()
 #' # Read latest feed by ID (Bay Area Rapid Transit)
 #' gtfs <- mobdb_read_gtfs("mdb-53")
 #'
@@ -30,7 +29,6 @@
 #'
 #' # Read specific historical dataset
 #' gtfs_historical <- mobdb_read_gtfs("mdb-53", dataset_id = "mdb-53-202510250025")
-#' }
 #'
 #' @export
 mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
@@ -143,8 +141,7 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' @return If `latest = TRUE`, a `gtfs` object as returned by [tidytransit::read_gtfs()].
 #'   If `latest = FALSE`, a tibble of all available datasets with their metadata.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples() && mobdb_has_tidytransit()
 #' # Download by feed ID
 #' gtfs <- download_feed("mdb-2862")
 #'
@@ -157,14 +154,6 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'
 #' # Download using agency's source URL instead of MobilityData
 #' gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
-#'
-#' # Download from agency requiring API authentication
-#' gtfs <- download_feed(
-#'   provider = "WMATA",
-#'   feed_name = "Rail",
-#'   use_source_url = TRUE,
-#'   auth_args = "your_wmata_api_key"
-#' )
 #'
 #' # Filter by location
 #' gtfs <- download_feed(
@@ -182,10 +171,6 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' # Download a specific historical version (feed_id auto-extracted from dataset_id)
 #' historical <- download_feed(dataset_id = "mdb-53-202507240047")
 #'
-#' # Download and save as ZIP file
-#' gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
-#'
-#' }
 #' @seealso
 #' [mobdb_datasets()] to list all available historical versions,
 #' [get_validation_report()] to check feed quality before downloading,
@@ -694,8 +679,7 @@ download_feed <- function(feed_id = NULL,
 #' Like [download_feed()], this function only works with GTFS Schedule feeds.
 #' For GTFS-RT or GBFS feeds, use [mobdb_read_gtfs()] or fetch URLs with [mobdb_get_feed()].
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples() && mobdb_has_tidytransit()
 #' # Simple one-shot download by provider name
 #' bart_feed <- download_best_feed(provider = "Bay Area Rapid Transit")
 #'
@@ -714,10 +698,6 @@ download_feed <- function(feed_id = NULL,
 #' # Non-interactive mode (for scripts)
 #' options(mobdb.interactive = FALSE)
 #' feed <- download_best_feed(provider = "WMATA")
-#'
-#' # Download and save as ZIP file
-#' feed <- download_best_feed(provider = "TriMet", export_path = "data/gtfs/trimet.zip")
-#' }
 #'
 #' @seealso
 #' [download_feed()] for precise control,

@@ -41,27 +41,35 @@ GBFS validation reports are located at a different endpoint and have a different
 validation criteria.
 }
 \examples{
-\dontrun{
-# Find all California feeds with zero errors
+# Create sample data with validation information (search results structure)
+sample_data <- tibble::tibble(
+  id = c("mdb-1", "mdb-2", "mdb-3"),
+  provider = c("Agency A", "Agency B", "Agency C"),
+  latest_dataset = tibble::tibble(
+    id = c("mdb-1-202501", "mdb-2-202501", "mdb-3-202501"),
+    validation_report = tibble::tibble(
+      total_error = c(0L, 5L, 100L),
+      total_warning = c(10L, 50L, 500L),
+      total_info = c(5L, 10L, 20L)
+    )
+  )
+)
+
+# Filter to feeds with zero errors
+filter_by_validation(sample_data, max_errors = 0)
+
+# Filter with multiple criteria
+filter_by_validation(sample_data, max_errors = 10, max_warnings = 100)
+
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
+# With real API data:
 ca_feeds <- feeds(
   country_code = "US",
   subdivision_name = "California",
   data_type = "gtfs"
 )
 clean_feeds <- filter_by_validation(ca_feeds, max_errors = 0)
-
-# Find feeds with minimal issues
-quality_feeds <- filter_by_validation(
-  ca_feeds,
-  max_errors = 0,
-  max_warnings = 100
-)
-
-# Get historical BART datasets with improving quality
-bart <- feeds(provider = "Bay Area Rapid Transit")
-datasets <- mobdb_datasets(bart$id[1], latest = FALSE)
-improving <- filter_by_validation(datasets, max_errors = 5, max_warnings = 3000)
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=get_validation_report]{get_validation_report()}} to inspect validation metrics,

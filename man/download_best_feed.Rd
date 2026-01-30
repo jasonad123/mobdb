@@ -113,7 +113,7 @@ For GTFS-RT or GBFS feeds, use \code{\link[=mobdb_read_gtfs]{mobdb_read_gtfs()}}
 }
 
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples() && mobdb_has_tidytransit()) withAutoprint(\{ # examplesIf}
 # Simple one-shot download by provider name
 bart_feed <- download_best_feed(provider = "Bay Area Rapid Transit")
 
@@ -132,11 +132,7 @@ ontario_feed <- download_best_feed(
 # Non-interactive mode (for scripts)
 options(mobdb.interactive = FALSE)
 feed <- download_best_feed(provider = "WMATA")
-
-# Download and save as ZIP file
-feed <- download_best_feed(provider = "TriMet", export_path = "data/gtfs/trimet.zip")
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=download_feed]{download_feed()}} for precise control,

@@ -142,10 +142,10 @@ get_cache_ttl <- function(endpoint_type = c("feeds", "search", "datasets", "hist
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' # Show current cache path
 #' mobdb_cache_path()
 #'
+#' \dontrun{
 #' # Set for current session only
 #' mobdb_cache_path("~/my_mobdb_cache")
 #'

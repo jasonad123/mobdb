@@ -18,12 +18,13 @@ This is useful for passing to tidytransit::read_gtfs() or similar
 functions.
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
 # Get download URL
 url <- mobdb_feed_url("mdb-53")
-
+\dontshow{\}) # examplesIf}
+\dontshow{if (mobdb_can_run_examples() && mobdb_has_tidytransit()) withAutoprint(\{ # examplesIf}
 # Use with tidytransit
 library(tidytransit)
 gtfs <- read_gtfs(url)
-}
+\dontshow{\}) # examplesIf}
 }

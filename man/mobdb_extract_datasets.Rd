@@ -31,16 +31,36 @@ endpoint includes a \code{latest_dataset} field with comprehensive information
 about the most recent dataset, including validation results.
 }
 \examples{
-\dontrun{
-# Search for feeds
+# Create sample data matching mobdb_search() output with latest_dataset
+sample_results <- tibble::tibble(
+  id = "mdb-1",
+  provider = "Sample Agency",
+  latest_dataset = tibble::tibble(
+    id = "mdb-1-202501010000",
+    hosted_url = "https://example.com/dataset.zip",
+    downloaded_at = "2025-01-01T00:00:00Z",
+    hash = "abc123",
+    service_date_range_start = "2025-01-01",
+    service_date_range_end = "2025-12-31",
+    agency_timezone = "America/Los_Angeles",
+    validation_report = tibble::tibble(
+      total_error = 0L,
+      total_warning = 5L,
+      total_info = 10L,
+      url_html = "https://example.com/report.html",
+      url_json = "https://example.com/report.json"
+    )
+  )
+)
+
+# Extract dataset information
+mobdb_extract_datasets(sample_results)
+
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
+# With real API data:
 results <- mobdb_search("transit")
-
-# Get dataset info with validation status
 datasets <- mobdb_extract_datasets(results)
-
-# Filter for feeds with no errors
-clean_feeds <- datasets |> filter(total_error == 0)
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=get_validation_report]{get_validation_report()}} to get full validation details with report URLs,

@@ -47,8 +47,7 @@
 #'   * `official_updated_at` - Date and time of last update
 #'   * Additional metadata columns
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples()
 #' # Get all active GTFS feeds in California
 #' ca_feeds <- feeds(
 #'   country_code = "US",
@@ -63,7 +62,7 @@
 #' # Get feeds with pagination
 #' first_100 <- feeds(limit = 100, offset = 0)
 #' next_100 <- feeds(limit = 100, offset = 100)
-#' }
+#'
 #' @export
 feeds <- function(provider = NULL,
                   country_code = NULL,
@@ -189,11 +188,10 @@ feeds <- function(provider = NULL,
 #'
 #' @return A list containing detailed feed information.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples()
 #' # Get details for a specific feed
 #' feed_details <- mobdb_get_feed("mdb-53")
-#' }
+#'
 #' @export
 mobdb_get_feed <- function(feed_id) {
   if (!is.character(feed_id) || length(feed_id) != 1) {
@@ -223,15 +221,15 @@ mobdb_get_feed <- function(feed_id) {
 #'
 #' @return A string. The direct download URL, or `NULL` if not available.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples()
 #' # Get download URL
 #' url <- mobdb_feed_url("mdb-53")
 #'
+#' @examplesIf mobdb_can_run_examples() && mobdb_has_tidytransit()
 #' # Use with tidytransit
 #' library(tidytransit)
 #' gtfs <- read_gtfs(url)
-#' }
+#'
 #' @export
 mobdb_feed_url <- function(feed_id) {
   feed <- mobdb_get_feed(feed_id)

@@ -146,9 +146,9 @@ set_renviron_key <- function(token) {
 #' @return Logical. `TRUE` if a token is configured, `FALSE` otherwise.
 #'
 #' @examples
-#' \dontrun{
+#' # Check if API token is configured
 #' mobdb_has_key()
-#' }
+#'
 #' @concept authentication
 #' @export
 mobdb_has_key <- function() {

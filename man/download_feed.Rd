@@ -105,7 +105,7 @@ GTFS Realtime and GBFS feeds use a different data model and are not supported by
 \emph{This function was formerly called \code{mobdb_download_feed()}.}
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples() && mobdb_has_tidytransit()) withAutoprint(\{ # examplesIf}
 # Download by feed ID
 gtfs <- download_feed("mdb-2862")
 
@@ -118,14 +118,6 @@ gtfs <- download_feed(provider = "Arlington")
 
 # Download using agency's source URL instead of MobilityData
 gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
-
-# Download from agency requiring API authentication
-gtfs <- download_feed(
-  provider = "WMATA",
-  feed_name = "Rail",
-  use_source_url = TRUE,
-  auth_args = "your_wmata_api_key"
-)
 
 # Filter by location
 gtfs <- download_feed(
@@ -142,11 +134,7 @@ versions <- download_feed("mdb-2862", latest = FALSE)
 
 # Download a specific historical version (feed_id auto-extracted from dataset_id)
 historical <- download_feed(dataset_id = "mdb-53-202507240047")
-
-# Download and save as ZIP file
-gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
-
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=mobdb_datasets]{mobdb_datasets()}} to list all available historical versions,
