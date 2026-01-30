@@ -51,6 +51,7 @@ jobs:
           folder: docs
 
       - name: Deploy to Cloudflare Pages
+        if: github.event_name == 'pull_request'
         uses: cloudflare/wrangler-action@v3
         id: cloudflare
         with:
