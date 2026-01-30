@@ -16,3 +16,4 @@ Used internally to control example execution on CRAN.
 \examples{
 mobdb_has_internet()
 }
+\keyword{internal}

@@ -43,4 +43,9 @@ reference:
   - -has_concept("datasets")
 - title: Utilities
 - contents: starts_with("mobdb_cache")
+- title: internal
+- contents:
+  - mobdb_has_internet
+  - mobdb_can_run_examples
+  - mobdb_has_tidytransit
 

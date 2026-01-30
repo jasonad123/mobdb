@@ -16,3 +16,4 @@ Used to control example execution for functions that require tidytransit.
 \examples{
 mobdb_has_tidytransit()
 }
+\keyword{internal}

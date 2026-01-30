@@ -16,3 +16,4 @@ Used to control example execution on CRAN.
 \examples{
 mobdb_can_run_examples()
 }
+\keyword{internal}

@@ -9,6 +9,7 @@
 #' Used internally to control example execution on CRAN.
 #'
 #' @return Logical. `TRUE` if internet is available, `FALSE` otherwise.
+#' @keywords internal
 #' @export
 #' @examples
 #' mobdb_has_internet()
@@ -26,6 +27,7 @@ mobdb_has_internet <- function() {
 #' Used to control example execution on CRAN.
 #'
 #' @return Logical. `TRUE` if examples can run, `FALSE` otherwise.
+#' @keywords internal
 #' @export
 #' @examples
 #' mobdb_can_run_examples()
@@ -39,6 +41,7 @@ mobdb_can_run_examples <- function() {
 #' Used to control example execution for functions that require tidytransit.
 #'
 #' @return Logical. `TRUE` if tidytransit is available, `FALSE` otherwise.
+#' @keywords internal
 #' @export
 #' @examples
 #' mobdb_has_tidytransit()
