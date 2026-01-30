@@ -1,7 +1,6 @@
 # mobdb <img src="man/figures/logo.png" align="right" width="180" alt="logo" />
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/jasonad123/mobdb/graph/badge.svg)](https://app.codecov.io/gh/jasonad123/mobdb)
 [![mobdb status badge](https://jasonad123.r-universe.dev/mobdb/badges/version)](https://jasonad123.r-universe.dev/mobdb)
@@ -11,14 +10,20 @@
 
 ## Installation
 
-To get started, install it from [r-universe](https://jasonad123.r-universe.dev/mobdb):
+To get started, install from CRAN:
+
+```r
+install.packages("mobdb")
+```
+
+Alternatively, latest versions are also available on [r-universe](https://jasonad123.r-universe.dev/mobdb):
 
 ```r
 # Install from r-universe
 install.packages('mobdb', repos = c('https://jasonad123.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
-Alternatively, you can install also install `mobdb` from GitHub:
+Development versions of `mobdb` are available from GitHub:
 
 ```r
 # Install using pak (recommended)
