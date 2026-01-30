@@ -1,3 +1,15 @@
+# mobdb 1.0.0
+
+## Major changes
+
+## Minor changes
+
+None.
+
+## Bug fixes
+
+None.
+
 # mobdb 0.1.8
 
 ## Major changes
