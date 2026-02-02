@@ -1,14 +1,20 @@
 # mobdb 1.0.0
 
+Initial CRAN release.
+
 ## Major changes
+
+* First stable release prepared for CRAN submission
+* Comprehensive documentation and vignettes
 
 ## Minor changes
 
-None.
+* Refined API response caching system
+* Improved error messages and user feedback
 
 ## Bug fixes
 
-None.
+* Various stability improvements from pre-release testing
 
 # mobdb 0.1.8
 

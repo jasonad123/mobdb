@@ -10,13 +10,7 @@
 
 ## Installation
 
-To get started, install from CRAN:
-
-```r
-install.packages("mobdb")
-```
-
-Alternatively, latest versions are also available on [r-universe](https://jasonad123.r-universe.dev/mobdb):
+Install from [r-universe](https://jasonad123.r-universe.dev/mobdb):
 
 ```r
 # Install from r-universe
