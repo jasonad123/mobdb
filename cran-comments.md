@@ -7,9 +7,8 @@
 ## Test environments
 
 * Local: macOS 15.7.3, R 4.5.2
-* GitHub Actions: Ubuntu-latest, R release; Windows-latest, R Release
-* R-hub: Windows Server 2022, R-devel
-* R-hub: Ubuntu 22.04, R-devel
+* GitHub Actions: Ubuntu-latest, R-release; Windows-latest, R-release
+* R-universe (via GitHub Actions): R-devel (Linux, Windows, macOS); R-release (Linux, Windows, macOS), R-old (Linux, Windows, macOS)
 
 ## Notes
 
