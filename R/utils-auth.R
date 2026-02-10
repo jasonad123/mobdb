@@ -13,13 +13,13 @@
 #' @return Invisibly returns `TRUE` if successful.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Set token for current session
 #' mobdb_set_key("your_refresh_token_here")
-#'
+#' }
+#' @examplesIf FALSE
 #' # Set token permanently in .Renviron
 #' mobdb_set_key("your_refresh_token_here", install = TRUE)
-#' }
 #' @concept authentication
 #' @export
 mobdb_set_key <- function(refresh_token, install = FALSE) {
@@ -35,6 +35,19 @@ mobdb_set_key <- function(refresh_token, install = FALSE) {
   mobdb_env$access_token <- NULL  # Clear any existing access token
 
   if (install) {
+    if (interactive()) {
+      answer <- utils::menu(
+        c("Yes", "No"),
+        title = "This will write your token to ~/.Renviron. Proceed?"
+      )
+      if (answer != 1) {
+        cli::cli_inform(c(
+          "v" = "Refresh token set for current session only.",
+          "i" = "Token was not written to .Renviron."
+        ))
+        return(invisible(TRUE))
+      }
+    }
     set_renviron_key(refresh_token)
     cli::cli_inform(c(
       "v" = "Refresh token set and saved to {.file .Renviron}.",

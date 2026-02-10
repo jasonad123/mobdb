@@ -367,9 +367,10 @@ download_feed <- function(feed_id = NULL,
         " " = ""
       ))
 
-      # Print a clean table of options
+      # Display a clean table of options via message stream
       feed_summary <- feeds[, c("id", "provider", "feed_name", "status")]
-      print(feed_summary)
+      msg <- utils::capture.output(print(feed_summary))
+      cli::cli_inform(paste(msg, collapse = "\n"))
 
       cli::cli_abort(c(
         "x" = "Multiple feeds found. Please specify which one to download.",
@@ -550,7 +551,7 @@ download_feed <- function(feed_id = NULL,
 
           cli::cli_abort(c(
             "The server did not return a valid GTFS ZIP file.",
-            "x" = "Received {resp_content_type(resp)} instead of application/zip",
+            "x" = "Received {httr2::resp_content_type(resp)} instead of application/zip",
             "i" = "This usually means authentication failed or the URL is incorrect.",
             "i" = "Response preview: {.code {error_preview}}",
             if (!is.null(auth_args) && auth_args != "") {
