@@ -191,6 +191,127 @@ test_that("mobdb_cache_path() shows current path", {
   expect_type(path, "character")
 })
 
+test_that("mobdb_cache_path() emits message when showing path", {
+  expect_message(
+    mobdb_cache_path(),
+    "Current cache path"
+  )
+})
+
+test_that("mobdb_cache_path() emits message when setting path", {
+  temp_cache <- file.path(tempdir(), "mobdb_test_msg_set", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+
+  expect_message(
+    mobdb_cache_path(temp_cache),
+    "Cache path set to"
+  )
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("mobdb_cache_path(install = TRUE) writes .Renviron in non-interactive mode", {
+  skip_if(interactive(), "Test requires non-interactive session")
+
+  temp_cache <- file.path(tempdir(), "mobdb_test_install_cache", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  temp_home <- file.path(tempdir(), "mobdb_test_cache_home", basename(tempfile()))
+  dir.create(temp_home, recursive = TRUE)
+  on.exit(unlink(temp_home, recursive = TRUE), add = TRUE)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+
+  withr::with_envvar(c(HOME = temp_home), {
+    mobdb_cache_path(temp_cache, install = TRUE)
+
+    renviron_path <- file.path(temp_home, ".Renviron")
+    expect_true(file.exists(renviron_path))
+
+    lines <- readLines(renviron_path)
+    expect_true(any(grepl("MOBDB_CACHE_PATH=", lines)))
+  })
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("mobdb_cache_path(install = TRUE) errors if already set without overwrite", {
+  skip_if(interactive(), "Test requires non-interactive session")
+
+  temp_cache <- file.path(tempdir(), "mobdb_test_no_overwrite", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  temp_home <- file.path(tempdir(), "mobdb_test_cache_noow", basename(tempfile()))
+  dir.create(temp_home, recursive = TRUE)
+  on.exit(unlink(temp_home, recursive = TRUE), add = TRUE)
+
+  # Pre-populate .Renviron with existing entry
+  renviron_path <- file.path(temp_home, ".Renviron")
+  writeLines("MOBDB_CACHE_PATH='/old/path'", renviron_path)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+
+  withr::with_envvar(c(HOME = temp_home), {
+    expect_error(
+      mobdb_cache_path(temp_cache, install = TRUE, overwrite = FALSE),
+      "MOBDB_CACHE_PATH already set"
+    )
+  })
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("mobdb_cache_path(install = TRUE, overwrite = TRUE) replaces .Renviron entry", {
+  skip_if(interactive(), "Test requires non-interactive session")
+
+  temp_cache <- file.path(tempdir(), "mobdb_test_overwrite", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  temp_home <- file.path(tempdir(), "mobdb_test_cache_ow", basename(tempfile()))
+  dir.create(temp_home, recursive = TRUE)
+  on.exit(unlink(temp_home, recursive = TRUE), add = TRUE)
+
+  # Pre-populate .Renviron with existing entry and other vars
+  renviron_path <- file.path(temp_home, ".Renviron")
+  writeLines(c("OTHER_VAR=keep", "MOBDB_CACHE_PATH='/old/path'"), renviron_path)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+
+  withr::with_envvar(c(HOME = temp_home), {
+    mobdb_cache_path(temp_cache, install = TRUE, overwrite = TRUE)
+
+    lines <- readLines(renviron_path)
+    cache_lines <- grep("MOBDB_CACHE_PATH", lines, value = TRUE)
+
+    # Old entry replaced, only one entry remains
+    expect_length(cache_lines, 1)
+    expect_true(grepl(temp_cache, cache_lines, fixed = TRUE))
+
+    # Other vars preserved
+    expect_true(any(grepl("OTHER_VAR=keep", lines)))
+  })
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
 test_that("mobdb_cache_path() sets cache path", {
   temp_cache <- file.path(tempdir(), "mobdb_test_set", basename(tempfile()))
   on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
@@ -310,6 +431,172 @@ test_that("mobdb_cache_clear() handles missing cache directory", {
   Sys.setenv(MOBDB_CACHE_PATH = temp_cache)
 
   expect_invisible(mobdb_cache_clear())
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("read_from_cache() emits message on cache hit", {
+  temp_cache <- file.path(tempdir(), "mobdb_test_msg_hit", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+  Sys.setenv(MOBDB_CACHE_PATH = temp_cache)
+
+  write_to_cache(data.frame(x = 1), "msg_test.rds")
+
+  expect_message(
+    read_from_cache("msg_test.rds"),
+    "Using cached data"
+  )
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("read_from_cache() emits message on cache expiry", {
+  temp_cache <- file.path(tempdir(), "mobdb_test_msg_expire", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+  Sys.setenv(MOBDB_CACHE_PATH = temp_cache)
+
+  write_to_cache(data.frame(x = 1), "expire_msg_test.rds")
+
+  # Backdate the file to simulate expiry
+  cache_file <- file.path(temp_cache, "expire_msg_test.rds")
+  Sys.setFileTime(cache_file, Sys.time() - 7200)  # 2 hours ago
+
+  expect_message(
+    result <- read_from_cache("expire_msg_test.rds", max_age = 1),
+    "Cache expired"
+  )
+  expect_null(result)
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("mobdb_cache_info() emits messages via message stream", {
+  temp_cache <- file.path(tempdir(), "mobdb_test_info_msg", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+  Sys.setenv(MOBDB_CACHE_PATH = temp_cache)
+
+  expect_message(
+    mobdb_cache_info(),
+    "Path:"
+  )
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("mobdb_cache_list() warns when cache dir does not exist", {
+  temp_cache <- file.path(tempdir(), "nonexistent_list_dir", basename(tempfile()))
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+  Sys.setenv(MOBDB_CACHE_PATH = temp_cache)
+
+  expect_warning(
+    result <- mobdb_cache_list(),
+    "Cache directory does not exist"
+  )
+  expect_s3_class(result, "tbl_df")
+  expect_equal(nrow(result), 0)
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("mobdb_cache_list() emits message for empty cache", {
+  temp_cache <- file.path(tempdir(), "mobdb_test_list_empty_msg", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+  Sys.setenv(MOBDB_CACHE_PATH = temp_cache)
+  ensure_cache_dir()
+
+  expect_message(
+    mobdb_cache_list(),
+    "Cache is empty"
+  )
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("mobdb_cache_clear() emits messages via message stream", {
+  temp_cache <- file.path(tempdir(), "mobdb_test_clear_msg", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+  Sys.setenv(MOBDB_CACHE_PATH = temp_cache)
+  ensure_cache_dir()
+
+  write_to_cache(data.frame(x = 1), "clear_msg.rds")
+
+  expect_message(
+    mobdb_cache_clear(),
+    "Removed 1 cached file"
+  )
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("mobdb_cache_clear() emits message for missing directory", {
+  temp_cache <- file.path(tempdir(), "nonexistent_clear_dir", basename(tempfile()))
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+  Sys.setenv(MOBDB_CACHE_PATH = temp_cache)
+
+  expect_message(
+    mobdb_cache_clear(),
+    "No cache directory found"
+  )
+
+  if (!is.na(old_env)) {
+    Sys.setenv(MOBDB_CACHE_PATH = old_env)
+  } else {
+    Sys.unsetenv("MOBDB_CACHE_PATH")
+  }
+})
+
+test_that("mobdb_cache_clear() emits message for empty cache", {
+  temp_cache <- file.path(tempdir(), "mobdb_test_clear_empty_msg", basename(tempfile()))
+  on.exit(unlink(temp_cache, recursive = TRUE), add = TRUE)
+
+  old_env <- Sys.getenv("MOBDB_CACHE_PATH", unset = NA)
+  Sys.setenv(MOBDB_CACHE_PATH = temp_cache)
+  ensure_cache_dir()
+
+  expect_message(
+    mobdb_cache_clear(),
+    "Cache is already empty"
+  )
 
   if (!is.na(old_env)) {
     Sys.setenv(MOBDB_CACHE_PATH = old_env)

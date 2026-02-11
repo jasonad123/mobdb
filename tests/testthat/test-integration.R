@@ -25,6 +25,37 @@ test_that("download_feed() requires feed identifier", {
   )
 })
 
+test_that("download_feed() displays multiple feeds via message stream", {
+  skip_if_not_installed("tidytransit")
+
+  # Mock feeds() to return multiple results without hitting the API
+  mock_feeds <- tibble::tibble(
+    id = c("mdb-1", "mdb-2", "mdb-3"),
+    provider = c("Agency A", "Agency B", "Agency C"),
+    feed_name = c("Route 1", "Route 2", "Route 3"),
+    status = c("active", "active", "active"),
+    official = c(TRUE, TRUE, FALSE),
+    data_type = c("gtfs", "gtfs", "gtfs"),
+    source_info = tibble::tibble(
+      producer_url = rep("https://example.com/feed.zip", 3)
+    )
+  )
+
+  local_mocked_bindings(
+    feeds = function(...) mock_feeds
+  )
+
+  # The error about multiple feeds should be raised,
+  # and the table should be emitted as a message (not stdout)
+  expect_message(
+    expect_error(
+      download_feed(provider = "Agency"),
+      "Multiple feeds found"
+    ),
+    "Found 3 matching feeds"
+  )
+})
+
 test_that("download_feed() works with feed_id", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
