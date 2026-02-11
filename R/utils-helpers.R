@@ -265,13 +265,15 @@ mobdb_extract_datasets <- function(results) {
   )
 
   # Add validation report summary if available
-  if (is.data.frame(results$latest_dataset$validation_report)) {
+  has_vr <- hasName(results$latest_dataset, "validation_report") &&
+    is.data.frame(results$latest_dataset$validation_report)
+  if (has_vr) {
     vr <- results$latest_dataset$validation_report
     dataset_info$total_error <- vr$total_error
     dataset_info$total_warning <- vr$total_warning
     dataset_info$total_info <- vr$total_info
-    dataset_info$html_report <- vr$url_html
-    dataset_info$json_report <- vr$url_json
+    if (hasName(vr, "url_html")) dataset_info$html_report <- vr$url_html
+    if (hasName(vr, "url_json")) dataset_info$json_report <- vr$url_json
   }
 
   dataset_info
@@ -376,7 +378,9 @@ get_validation_report <- function(data) {
 
   # Check if this is search results (has latest_dataset column)
   if ("latest_dataset" %in% names(data)) {
-    if (!is.data.frame(data$latest_dataset$validation_report)) {
+    has_vr <- hasName(data$latest_dataset, "validation_report") &&
+      is.data.frame(data$latest_dataset$validation_report)
+    if (!has_vr) {
       cli::cli_warn("No validation report data found in search results.")
       return(tibble::tibble())
     }
@@ -484,7 +488,9 @@ view_validation_report <- function(data, format = "html") {
 
       # Check if this is search results
     } else if ("latest_dataset" %in% names(data)) {
-      if (!is.data.frame(data$latest_dataset$validation_report)) {
+      has_vr <- hasName(data$latest_dataset, "validation_report") &&
+        is.data.frame(data$latest_dataset$validation_report)
+      if (!has_vr) {
         cli::cli_abort("No validation report available for this feed.")
       }
 

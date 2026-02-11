@@ -71,7 +71,9 @@ test_that("mobdb_extract_datasets() extracts validation data", {
       validation_report = tibble::tibble(
         total_error = c(0, 1),
         total_warning = c(2, 5),
-        total_info = c(10, 15)
+        total_info = c(10, 15),
+        url_html = c("https://example.com/report1.html", "https://example.com/report2.html"),
+        url_json = c("https://example.com/report1.json", "https://example.com/report2.json")
       )
     )
   )
@@ -81,6 +83,8 @@ test_that("mobdb_extract_datasets() extracts validation data", {
   expect_s3_class(datasets, "tbl_df")
   expect_true("dataset_id" %in% names(datasets))
   expect_true("total_error" %in% names(datasets))
+  expect_true("html_report" %in% names(datasets))
+  expect_true("json_report" %in% names(datasets))
   expect_equal(nrow(datasets), 2)
 })
 
