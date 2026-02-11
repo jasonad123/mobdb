@@ -20,7 +20,3 @@
 
 * Tests use httptest2 for mocking HTTP responses, with `skip_on_cran()`
   for tests that require live API access.
-
-## Downstream dependencies
-
-There are currently no known downstream dependencies for this package.

@@ -15,7 +15,7 @@ Removes cached files from the cache directory. Can remove all files
 or only those older than a specified number of days.
 }
 \examples{
-\dontrun{
+\donttest{
 # Clear all cache
 mobdb_cache_clear()
 

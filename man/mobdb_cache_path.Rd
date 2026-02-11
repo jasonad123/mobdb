@@ -27,11 +27,12 @@ mobdb uses \code{tools::R_user_dir("mobdb", "cache")}.
 # Show current cache path
 mobdb_cache_path()
 
-\dontrun{
+\donttest{
 # Set for current session only
 mobdb_cache_path("~/my_mobdb_cache")
-
+}
+\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
 # Set permanently in .Renviron
 mobdb_cache_path("~/my_mobdb_cache", install = TRUE)
-}
+\dontshow{\}) # examplesIf}
 }

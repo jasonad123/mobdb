@@ -22,12 +22,13 @@ Store your Mobility Database API refresh token for use in subsequent API calls.
 The refresh token is used to generate short-lived access tokens automatically.
 }
 \examples{
-\dontrun{
+\donttest{
 # Set token for current session
 mobdb_set_key("your_refresh_token_here")
-
+}
+\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
 # Set token permanently in .Renviron
 mobdb_set_key("your_refresh_token_here", install = TRUE)
-}
+\dontshow{\}) # examplesIf}
 }
 \concept{authentication}
