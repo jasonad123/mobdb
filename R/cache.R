@@ -86,7 +86,7 @@ read_from_cache <- function(cache_key, max_age = NULL) {
     age_hours <- as.numeric(difftime(Sys.time(), file_info$mtime, units = "hours"))
 
     if (age_hours > max_age) {
-      cli::cli_inform("i" = "Cache expired (age: {round(age_hours, 1)}h > max: {max_age}h)")
+      cli::cli_inform(c("i" = "Cache expired (age: {round(age_hours, 1)}h > max: {max_age}h)"))
       return(NULL)
     }
   }
