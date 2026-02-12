@@ -370,7 +370,7 @@ download_feed <- function(feed_id = NULL,
       # Display a clean table of options via message stream
       feed_summary <- feeds[, c("id", "provider", "feed_name", "status")]
       msg <- utils::capture.output(print(feed_summary))
-      cli::cli_inform(paste(msg, collapse = "\n"))
+      message(paste(msg, collapse = "\n"))
 
       cli::cli_abort(c(
         "x" = "Multiple feeds found. Please specify which one to download.",
