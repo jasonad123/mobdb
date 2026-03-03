@@ -48,4 +48,4 @@ reference:
   - mobdb_has_internet
   - mobdb_can_run_examples
   - mobdb_has_tidytransit
-
+  - gtfs_to_spec_format
