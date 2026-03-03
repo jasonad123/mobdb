@@ -2,6 +2,7 @@
 
 export(download_best_feed)
 export(download_feed)
+export(gtfs_to_spec_format)
 export(feeds)
 export(feeds_bbox)
 export(filter_by_validation)
