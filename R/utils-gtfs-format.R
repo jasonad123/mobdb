@@ -23,9 +23,8 @@ validate_gtfs_dates <- function(gtfs) {
       if (!col_name %in% names(tbl)) next
       na_count <- sum(is.na(tbl[[col_name]]))
       if (na_count > 0) {
-        total <- nrow(tbl)
         cli::cli_warn(c(
-          "!" = "{na_count} of {total} value{?s} in {.field {col_name}} of {.val {table_name}} {?is/are} NA.",
+          "!" = "{na_count} of {nrow(tbl)} value{?s} in {.field {col_name}} of {.val {table_name}} {?is/are} NA.",
           "i" = "This may indicate malformed dates in the source feed (e.g., dashes instead of YYYYMMDD).",
           "i" = "Use {.code export_path} with {.code raw = TRUE} to download the raw feed and inspect the original data."
         ))
