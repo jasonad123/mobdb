@@ -28,7 +28,7 @@ reference:
   - mobdb_read_gtfs
   - gtfs_to_spec_format
 - title: Assess feed quality
-  desc: Evaluate feed quality using MobilityData validation reports
+  desc: Evaluate feed quality using Mobility Database validation reports
 - contents: has_concept("validation")
 - title: Historical datasets
   desc: Access and explore historical feed versions

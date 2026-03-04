@@ -22,7 +22,7 @@ A tibble with validation summary information:
 }
 }
 \description{
-Extract validation report summary from feed/dataset results. MobilityData
+Extract validation report summary from feed/dataset results. The Mobility Database
 runs all GTFS Schedule feeds through the canonical GTFS validator, and this
 function surfaces that validation data to help assess feed quality before
 downloading.

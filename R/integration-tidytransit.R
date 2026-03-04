@@ -103,10 +103,10 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' @param feed_name A string. Optional filter for feed name. If provided, only
 #'   feeds whose `feed_name` contains this string (case-insensitive) will be
 #'   considered. Use `NULL` (default) to skip this filter.
-#' @param use_source_url A logical. If `FALSE` (default), uses MobilityData's
+#' @param use_source_url A logical. If `FALSE` (default), uses Mobility Database's
 #'   hosted/archived URL which ensures you get the exact version in their database.
 #'   If `TRUE`, uses the provider's direct source URL which may be more current
-#'   but could differ from MobilityData's version.
+#'   but could differ from the hosted version.
 #' @param dataset_id A string. Optional specific dataset ID for historical versions
 #'   (e.g., "mdb-53-202510250025"). If provided, downloads that specific dataset
 #'   version instead of the latest. Cannot be used with `use_source_url = TRUE`.
@@ -162,7 +162,7 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' # Search and download by provider name
 #' gtfs <- download_feed(provider = "Arlington")
 #'
-#' # Download using agency's source URL instead of MobilityData
+#' # Download using agency's source URL instead of Mobility Database
 #' gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
 #'
 #' # Filter by location
@@ -232,7 +232,7 @@ download_feed <- function(feed_id = NULL,
   if (!is.null(dataset_id) && use_source_url) {
     cli::cli_abort(c(
       "Cannot use {.arg dataset_id} with {.arg use_source_url = TRUE}.",
-      "i" = "Historical datasets are only available from MobilityData's hosted URLs.",
+      "i" = "Historical datasets are only available from Mobility Database's hosted URLs.",
       "i" = "Set {.code use_source_url = FALSE} to download a specific dataset version."
     ))
   }
@@ -474,7 +474,7 @@ download_feed <- function(feed_id = NULL,
     if (is.null(url) || is.na(url)) {
       cli::cli_abort(c(
         "No source URL found for feed {.val {selected_feed_id}}.",
-        "i" = "Try setting {.code use_source_url = FALSE} to use MobilityData's hosted URL."
+        "i" = "Try setting {.code use_source_url = FALSE} to use Mobility Database's hosted URL."
       ))
     }
 
@@ -486,7 +486,7 @@ download_feed <- function(feed_id = NULL,
           "i" = "Visit {.url {auth_info_url}} to learn how to get API credentials.",
           "i" = "Then set {.code auth_args} with your API credentials.",
           "i" = "The API key parameter is: {.val {auth_param_name}}",
-          "i" = "Or set {.code use_source_url = FALSE} to download the MobilityData hosted version."
+          "i" = "Or set {.code use_source_url = FALSE} to download the Mobility Database hosted version."
         ))
       }
 
@@ -501,7 +501,7 @@ download_feed <- function(feed_id = NULL,
           "i" = "If using {.code Sys.getenv()}, make sure the environment variable is set in your {.file .Renviron} file.",
           "i" = "Visit {.url {auth_info_url}} to learn how to get API credentials.",
           "i" = "The API key parameter is: {.val {auth_param_name}}",
-          "i" = "Or set {.code use_source_url = FALSE} to download the MobilityData hosted version."
+          "i" = "Or set {.code use_source_url = FALSE} to download the Mobility Database hosted version."
         ))
       }
 
@@ -531,7 +531,7 @@ download_feed <- function(feed_id = NULL,
     }
 
     request <- url
-    cli::cli_inform("Downloading from MobilityData: {.url {url}}")
+    cli::cli_inform("Downloading from Mobility Database: {.url {url}}")
   }
 
   # Download and parse GTFS feed
@@ -600,7 +600,7 @@ download_feed <- function(feed_id = NULL,
             if (!is.null(auth_args) && auth_args != "") {
               c("i" = "Check that your API key is valid and has the correct permissions.")
             } else {
-              c("i" = "Try using {.code use_source_url = FALSE} to download from MobilityData instead.")
+              c("i" = "Try using {.code use_source_url = FALSE} to download from Mobility Database instead.")
             }
           ))
         }
@@ -705,7 +705,7 @@ download_feed <- function(feed_id = NULL,
 #'   `interactive()` to detect if running in an interactive R session.
 #' @param exclude_flex Logical. If `TRUE` (default), exclude GTFS-Flex feeds.
 #' @param use_source_url Logical. Download from agency's source URL (`TRUE`) or
-#'   MobilityData's hosted URL (`FALSE`, default).
+#'   Mobility Database's hosted URL (`FALSE`, default).
 #' @param auth_args Authentication arguments if required (see [download_feed()]).
 #' @param export_path A string. Optional path to save the GTFS feed as a ZIP file
 #'   (e.g., "data/gtfs/feed.zip"). See [download_feed()] for details on behavior

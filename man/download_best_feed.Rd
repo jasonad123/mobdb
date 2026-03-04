@@ -49,7 +49,7 @@ warning. If \code{NULL} (default), uses \code{getOption("mobdb.interactive")} or
 \item{exclude_flex}{Logical. If \code{TRUE} (default), exclude GTFS-Flex feeds.}
 
 \item{use_source_url}{Logical. Download from agency's source URL (\code{TRUE}) or
-MobilityData's hosted URL (\code{FALSE}, default).}
+Mobility Database's hosted URL (\code{FALSE}, default).}
 
 \item{auth_args}{Authentication arguments if required (see \code{\link[=download_feed]{download_feed()}}).}
 

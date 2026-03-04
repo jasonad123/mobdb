@@ -47,10 +47,10 @@ that may not work with standard GTFS tools.}
 feeds whose \code{feed_name} contains this string (case-insensitive) will be
 considered. Use \code{NULL} (default) to skip this filter.}
 
-\item{use_source_url}{A logical. If \code{FALSE} (default), uses MobilityData's
+\item{use_source_url}{A logical. If \code{FALSE} (default), uses Mobility Database's
 hosted/archived URL which ensures you get the exact version in their database.
 If \code{TRUE}, uses the provider's direct source URL which may be more current
-but could differ from MobilityData's version.}
+but could differ from the hosted version.}
 
 \item{dataset_id}{A string. Optional specific dataset ID for historical versions
 (e.g., "mdb-53-202510250025"). If provided, downloads that specific dataset
@@ -130,7 +130,7 @@ gtfs <- download_feed(feeds[36, ])
 # Search and download by provider name
 gtfs <- download_feed(provider = "Arlington")
 
-# Download using agency's source URL instead of MobilityData
+# Download using agency's source URL instead of Mobility Database
 gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
 
 # Filter by location

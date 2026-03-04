@@ -184,7 +184,7 @@ urls <- mobdb_extract_urls(feeds)
 
 ### Check feed quality before downloading
 
-MobilityData validates all GTFS Schedule feeds through the canonical GTFS validator. You can check validation results before downloading:
+The Mobility Database validates all GTFS Schedule feeds through the canonical GTFS validator. You can check validation results before downloading:
 
 ```r
 # Get validation report for a feed
