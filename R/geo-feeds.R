@@ -41,8 +41,7 @@
 #'     bounding box coordinates
 #'   * Additional metadata columns
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples()
 #' # Find feeds in the San Francisco Bay Area
 #' # Bounding box: c(min_lon, min_lat, max_lon, max_lat)
 #' bay_area_feeds <- feeds_bbox(
@@ -57,14 +56,6 @@
 #'   status = "active"
 #' )
 #'
-#' # Use with sf package (if installed)
-#' library(sf)
-#' # Create bbox from sf object
-#' bbox_sf <- st_bbox(c(xmin = -122.5, ymin = 37.2,
-#'                      xmax = -121.8, ymax = 38.0),
-#'                    crs = 4326)
-#' feeds <- feeds_bbox(bbox = bbox_sf)
-#' }
 #' @export
 feeds_bbox <- function(bbox,
                        filter_method = "completely_enclosed",

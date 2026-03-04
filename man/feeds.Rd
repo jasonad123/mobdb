@@ -80,7 +80,7 @@ Returns a tibble with feed metadata including download URLs.
 \emph{This function was formerly called \code{mobdb_feeds()}.}
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
 # Get all active GTFS feeds in California
 ca_feeds <- feeds(
   country_code = "US",
@@ -95,5 +95,5 @@ sf_muni <- feeds(provider = "San Francisco")
 # Get feeds with pagination
 first_100 <- feeds(limit = 100, offset = 0)
 next_100 <- feeds(limit = 100, offset = 100)
-}
+\dontshow{\}) # examplesIf}
 }

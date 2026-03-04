@@ -20,7 +20,7 @@ view_validation_report(data, format = "html")
 Invisibly returns the URL that was opened.
 }
 \description{
-Opens the MobilityData validation report for a feed or dataset in your
+Opens the Mobility Database validation report for a feed or dataset in your
 default web browser. The report shows detailed validation results from
 the canonical GTFS validator.
 
@@ -29,7 +29,7 @@ GBFS validation reports are located at a different endpoint and have a different
 validation criteria.
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
 # View validation report for Alexandria DASH
 view_validation_report("mdb-482")
 
@@ -39,7 +39,7 @@ view_validation_report(datasets)
 
 # View JSON report instead
 view_validation_report("mdb-482", format = "json")
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=get_validation_report]{get_validation_report()}} to extract validation data as a tibble,

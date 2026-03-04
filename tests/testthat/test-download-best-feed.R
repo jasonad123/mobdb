@@ -138,3 +138,13 @@ test_that("download_best_feed() passes export_path to download_feed()", {
   # This integration test verifies the parameter is passed through
   skip("Requires full GTFS download - parameter passing tested via integration")
 })
+
+# Tests for raw parameter
+
+test_that("download_best_feed() accepts raw parameter", {
+  # raw = TRUE requires export_path, but without search params it errors first
+  expect_error(
+    download_best_feed(raw = TRUE, export_path = "test.zip"),
+    "At least one search parameter must be provided"
+  )
+})

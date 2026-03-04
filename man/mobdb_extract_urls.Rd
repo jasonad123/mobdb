@@ -19,13 +19,22 @@ by \code{\link[=feeds]{feeds()}} or \code{\link[=mobdb_search]{mobdb_search()}}.
 get all the source URLs from a set of search results.
 }
 \examples{
-\dontrun{
-# Search for feeds and get their URLs
-feeds <- mobdb_search("California")
-urls <- mobdb_extract_urls(feeds)
+# Create sample data matching feeds() output structure
+sample_feeds <- tibble::tibble(
+  id = c("mdb-1", "mdb-2"),
+  provider = c("Agency A", "Agency B"),
+  source_info = tibble::tibble(
+    producer_url = c("https://example.com/feed1.zip", "https://example.com/feed2.zip"),
+    authentication_type = c(0L, 0L)
+  )
+)
 
-# Filter and get URLs
+# Extract URLs from sample data
+mobdb_extract_urls(sample_feeds)
+
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
+# With real API data:
 ca_gtfs <- feeds(subdivision_name = "California", data_type = "gtfs")
 ca_urls <- mobdb_extract_urls(ca_gtfs)
-}
+\dontshow{\}) # examplesIf}
 }

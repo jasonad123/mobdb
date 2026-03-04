@@ -22,7 +22,7 @@ A tibble with validation summary information:
 }
 }
 \description{
-Extract validation report summary from feed/dataset results. MobilityData
+Extract validation report summary from feed/dataset results. The Mobility Database
 runs all GTFS Schedule feeds through the canonical GTFS validator, and this
 function surfaces that validation data to help assess feed quality before
 downloading.
@@ -32,23 +32,33 @@ GBFS validation reports are located at a different endpoint and have a different
 validation criteria.
 }
 \examples{
-\dontrun{
-# Get validation report for feeds from search
+# Create sample dataset data with validation_report
+sample_datasets <- tibble::tibble(
+  id = "mdb-1-202501010000",
+  feed_id = "mdb-1",
+  validation_report = tibble::tibble(
+    total_error = 0L,
+    total_warning = 5L,
+    total_info = 10L,
+    unique_error_count = 0L,
+    unique_warning_count = 3L,
+    unique_info_count = 5L,
+    url_html = "https://example.com/report.html",
+    url_json = "https://example.com/report.json",
+    validated_at = "2025-01-01T00:00:00Z",
+    validator_version = "5.0.0"
+  )
+)
+
+# Extract validation report
+get_validation_report(sample_datasets)
+
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
+# With real API data:
 bart_feeds <- feeds(provider = "Bay Area Rapid Transit")
 datasets <- mobdb_datasets(bart_feeds$id[1])
 validation <- get_validation_report(datasets)
-print(validation)
-
-# Check TransLink Vancouver's validation (has known warnings)
-# Per TransLink's GTFS page "We pass our data through Google's Transit Feed
-# Validator at the error level, but the data may have warnings left unfixed
-# in order to conform to TransLink's business rules, such as duplicate stops
-# with no distance between them."
-vancouver <- feeds(provider = "TransLink", country_code = "CA", data_type = "gtfs")
-vancouver_datasets <- mobdb_datasets(vancouver$id[1])
-validation <- get_validation_report(vancouver_datasets)
-# Shows: 100,076 errors, 14,322,543 warnings
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=filter_by_validation]{filter_by_validation()}} to filter by quality thresholds,

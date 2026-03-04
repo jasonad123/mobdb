@@ -76,7 +76,7 @@ for feed discovery based on geographic location.
 bounding box data is derived from the feed's latest dataset.
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
 # Find feeds in the San Francisco Bay Area
 # Bounding box: c(min_lon, min_lat, max_lon, max_lat)
 bay_area_feeds <- feeds_bbox(
@@ -90,13 +90,5 @@ la_feeds <- feeds_bbox(
   filter_method = "completely_enclosed",
   status = "active"
 )
-
-# Use with sf package (if installed)
-library(sf)
-# Create bbox from sf object
-bbox_sf <- st_bbox(c(xmin = -122.5, ymin = 37.2,
-                     xmax = -121.8, ymax = 38.0),
-                   crs = 4326)
-feeds <- feeds_bbox(bbox = bbox_sf)
-}
+\dontshow{\}) # examplesIf}
 }

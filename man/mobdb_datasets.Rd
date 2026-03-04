@@ -33,14 +33,13 @@ a specific feed. Each dataset represents a snapshot of the feed at a
 particular point in time.
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
 # Get latest dataset for a feed (GTFS schedule feeds only)
 latest <- mobdb_datasets("mdb-53")
 
 # Get all historical datasets
 all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=download_feed]{download_feed()}} to download specific historical versions,

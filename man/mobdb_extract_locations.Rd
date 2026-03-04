@@ -23,14 +23,35 @@ The \code{locations} field in search results is a list of data frames; this func
 flattens it into a more usable format.
 }
 \examples{
-\dontrun{
-# Search for feeds
+# Create sample data matching mobdb_search() output structure
+sample_results <- tibble::tibble(
+  id = c("mdb-1", "mdb-2"),
+  provider = c("Agency A", "Agency B"),
+  locations = list(
+    data.frame(
+      country_code = "US",
+      country = "United States",
+      subdivision_name = "California",
+      municipality = "San Francisco"
+    ),
+    data.frame(
+      country_code = "CA",
+      country = "Canada",
+      subdivision_name = "British Columbia",
+      municipality = "Vancouver"
+    )
+  )
+)
+
+# Extract and unnest locations
+mobdb_extract_locations(sample_results)
+
+# Get summary without unnesting
+mobdb_extract_locations(sample_results, unnest = FALSE)
+
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
+# With real API data:
 results <- mobdb_search("California")
-
-# Get unnested locations (multiple rows per feed if multiple locations)
 locations <- mobdb_extract_locations(results)
-
-# Get summary (one row per feed)
-location_summary <- mobdb_extract_locations(results, unnest = FALSE)
-}
+\dontshow{\}) # examplesIf}
 }

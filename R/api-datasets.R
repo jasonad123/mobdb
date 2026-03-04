@@ -20,14 +20,12 @@
 #'   * `download_url` - URL to download this specific dataset version
 #'   * Additional metadata columns
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples()
 #' # Get latest dataset for a feed (GTFS schedule feeds only)
 #' latest <- mobdb_datasets("mdb-53")
 #'
 #' # Get all historical datasets
 #' all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
-#' }
 #'
 #' @seealso
 #' [download_feed()] to download specific historical versions,
@@ -95,11 +93,10 @@ mobdb_datasets <- function(feed_id, latest = TRUE, use_cache = TRUE) {
 #'
 #' @return A list containing detailed dataset information.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples()
 #' # Get details for a specific dataset
 #' dataset_info <- mobdb_get_dataset("mdb-53-202510250025")
-#' }
+#'
 #' @concept datasets
 #' @export
 mobdb_get_dataset <- function(dataset_id) {

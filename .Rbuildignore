@@ -20,3 +20,5 @@
 ^\.lintr$
 ^renovate$
 ^renovate\.json$
+^cran-comments\.md$
+^revdep$

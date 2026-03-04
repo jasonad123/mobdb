@@ -72,7 +72,7 @@ For better results when searching by provider name,
 consider using \code{\link[=feeds]{feeds()}} with the \code{provider} parameter.
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
 # Search for transit agencies (Note: results may not be well-ranked)
 results <- mobdb_search("transit")
 
@@ -101,5 +101,5 @@ ontario_transit <- feeds(
   subdivision_name = "Ontario",
   data_type = "gtfs"
 )
-}
+\dontshow{\}) # examplesIf}
 }

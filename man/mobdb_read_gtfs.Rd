@@ -30,7 +30,7 @@ Database and passes it to \code{\link[tidytransit:read_gtfs]{tidytransit::read_g
 package.
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples() && mobdb_has_tidytransit()) withAutoprint(\{ # examplesIf}
 # Read latest feed by ID (Bay Area Rapid Transit)
 gtfs <- mobdb_read_gtfs("mdb-53")
 
@@ -40,6 +40,5 @@ gtfs <- mobdb_read_gtfs(feeds[1, ])
 
 # Read specific historical dataset
 gtfs_historical <- mobdb_read_gtfs("mdb-53", dataset_id = "mdb-53-202510250025")
-}
-
+\dontshow{\}) # examplesIf}
 }

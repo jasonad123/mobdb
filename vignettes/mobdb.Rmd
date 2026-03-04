@@ -30,7 +30,7 @@ After discovering and downloading feeds with `mobdb`, you can:
 
 Install mobdb from r-universe:
 
-```{r runiverse install}
+```{r runiverse-install}
 # install from r-universe
 install.packages("mobdb", repos = c("https://jasonad123.r-universe.dev", "https://cloud.r-project.org"))
 ```

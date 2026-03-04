@@ -11,7 +11,7 @@
 #' 3. tools::R_user_dir("mobdb", "cache") (default)
 #'
 #' @return Character string with cache directory path
-#' @keywords internal
+#' @noRd
 get_mobdb_cache_path <- function() {
   # Priority 1: Environment variable
   env_path <- Sys.getenv("MOBDB_CACHE_PATH", unset = "")
@@ -34,7 +34,7 @@ get_mobdb_cache_path <- function() {
 #' Creates the cache directory if it doesn't exist.
 #'
 #' @return Character string with cache directory path (invisibly)
-#' @keywords internal
+#' @noRd
 ensure_cache_dir <- function() {
   cache_dir <- get_mobdb_cache_path()
   if (!dir.exists(cache_dir)) {
@@ -49,12 +49,12 @@ ensure_cache_dir <- function() {
 #' @param ... Parameters to include in cache key
 #' @param prefix Character prefix for cache key (default: "mobdb")
 #' @return Character string with cache key (filename)
-#' @keywords internal
+#' @noRd
 generate_cache_key <- function(..., prefix = "mobdb") {
   params <- list(...)
 
   # Remove NULL values
-  params <- params[!sapply(params, is.null)]
+  params <- params[!vapply(params, is.null, logical(1))]
 
   # Sort for consistency (same params = same key regardless of order)
   if (length(params) > 0 && !is.null(names(params))) {
@@ -71,7 +71,7 @@ generate_cache_key <- function(..., prefix = "mobdb") {
 #' @param cache_key Cache file name
 #' @param max_age Maximum age in hours (NULL = no limit)
 #' @return Cached data or NULL if not found/expired
-#' @keywords internal
+#' @noRd
 read_from_cache <- function(cache_key, max_age = NULL) {
   cache_dir <- get_mobdb_cache_path()
   cache_file <- file.path(cache_dir, cache_key)
@@ -86,12 +86,12 @@ read_from_cache <- function(cache_key, max_age = NULL) {
     age_hours <- as.numeric(difftime(Sys.time(), file_info$mtime, units = "hours"))
 
     if (age_hours > max_age) {
-      cli::cli_alert_info("Cache expired (age: {round(age_hours, 1)}h > max: {max_age}h)")
+      cli::cli_inform(c("i" = "Cache expired (age: {round(age_hours, 1)}h > max: {max_age}h)"))
       return(NULL)
     }
   }
 
-  cli::cli_alert_success("Using cached data")
+  cli::cli_inform(c("v" = "Using cached data"))
   readRDS(cache_file)
 }
 
@@ -99,7 +99,8 @@ read_from_cache <- function(cache_key, max_age = NULL) {
 #'
 #' @param data Data to cache
 #' @param cache_key Cache file name
-#' @keywords internal
+#' @return Character. Path to the cache file (invisibly).
+#' @noRd
 write_to_cache <- function(data, cache_key) {
   cache_dir <- ensure_cache_dir()
   cache_file <- file.path(cache_dir, cache_key)
@@ -111,7 +112,7 @@ write_to_cache <- function(data, cache_key) {
 #'
 #' @param endpoint_type Type of endpoint
 #' @return TTL in hours
-#' @keywords internal
+#' @noRd
 get_cache_ttl <- function(endpoint_type = c("feeds", "search", "datasets", "historical")) {
   endpoint_type <- match.arg(endpoint_type)
 
@@ -142,22 +143,22 @@ get_cache_ttl <- function(endpoint_type = c("feeds", "search", "datasets", "hist
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' # Show current cache path
 #' mobdb_cache_path()
 #'
+#' \donttest{
 #' # Set for current session only
 #' mobdb_cache_path("~/my_mobdb_cache")
-#'
+#' }
+#' @examplesIf FALSE
 #' # Set permanently in .Renviron
 #' mobdb_cache_path("~/my_mobdb_cache", install = TRUE)
-#' }
 mobdb_cache_path <- function(path = NULL, install = FALSE, overwrite = FALSE) {
 
   # If no path provided, just show current path
   if (is.null(path)) {
     current_path <- get_mobdb_cache_path()
-    cli::cli_alert_info("Current cache path: {current_path}")
+    cli::cli_inform(c("i" = "Current cache path: {current_path}"))
     return(invisible(current_path))
   }
 
@@ -167,15 +168,28 @@ mobdb_cache_path <- function(path = NULL, install = FALSE, overwrite = FALSE) {
   # Create directory if it doesn't exist
   if (!dir.exists(path)) {
     dir.create(path, recursive = TRUE, showWarnings = FALSE)
-    cli::cli_alert_success("Created cache directory: {path}")
+    cli::cli_inform(c("v" = "Created cache directory: {path}"))
   }
 
   # Set for current session
   Sys.setenv("MOBDB_CACHE_PATH" = path)
-  cli::cli_alert_success("Cache path set to: {path}")
+  cli::cli_inform(c("v" = "Cache path set to: {path}"))
 
   # Make permanent if requested
   if (install) {
+    if (interactive()) {
+      answer <- utils::menu(
+        c("Yes", "No"),
+        title = "This will write MOBDB_CACHE_PATH to ~/.Renviron. Proceed?"
+      )
+      if (answer != 1) {
+        cli::cli_inform(c(
+          "v" = "Cache path set for current session only.",
+          "i" = "Path was not written to .Renviron."
+        ))
+        return(invisible(path))
+      }
+    }
     home <- Sys.getenv("HOME")
     renv <- file.path(home, ".Renviron")
 
@@ -201,8 +215,10 @@ mobdb_cache_path <- function(path = NULL, install = FALSE, overwrite = FALSE) {
           sep = "\n",
           append = TRUE)
 
-    cli::cli_alert_success("Added MOBDB_CACHE_PATH to .Renviron")
-    cli::cli_alert_info("Restart R for permanent effect")
+    cli::cli_inform(c(
+      "v" = "Added MOBDB_CACHE_PATH to .Renviron",
+      "i" = "Restart R for permanent effect"
+    ))
   }
 
   invisible(path)
@@ -243,11 +259,13 @@ mobdb_cache_info <- function() {
     size_mb <- 0
   }
 
-  cli::cli_h2("mobdb Cache Information")
-  cli::cli_alert_info("Path: {cache_path}")
-  cli::cli_alert_info("Files: {n_files}")
-  cli::cli_alert_info("Size: {size_mb} MB")
-  cli::cli_alert_info("Exists: {dir.exists(cache_path)}")
+  cli::cli_inform(c(
+    "mobdb Cache Information",
+    "i" = "Path: {cache_path}",
+    "i" = "Files: {n_files}",
+    "i" = "Size: {size_mb} MB",
+    "i" = "Exists: {dir.exists(cache_path)}"
+  ))
 
   invisible(list(
     path = cache_path,
@@ -277,14 +295,14 @@ mobdb_cache_list <- function() {
   cache_dir <- get_mobdb_cache_path()
 
   if (!dir.exists(cache_dir)) {
-    cli::cli_alert_warning("Cache directory does not exist: {cache_dir}")
+    cli::cli_warn("Cache directory does not exist: {cache_dir}")
     return(tibble::tibble())
   }
 
   files <- list.files(cache_dir, pattern = "\\.rds$", full.names = TRUE)
 
   if (length(files) == 0) {
-    cli::cli_alert_info("Cache is empty")
+    cli::cli_inform(c("i" = "Cache is empty"))
     return(tibble::tibble())
   }
 
@@ -311,7 +329,7 @@ mobdb_cache_list <- function() {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Clear all cache
 #' mobdb_cache_clear()
 #'
@@ -322,14 +340,14 @@ mobdb_cache_clear <- function(older_than = NULL) {
   cache_dir <- get_mobdb_cache_path()
 
   if (!dir.exists(cache_dir)) {
-    cli::cli_alert_info("No cache directory found")
+    cli::cli_inform(c("i" = "No cache directory found"))
     return(invisible())
   }
 
   files <- list.files(cache_dir, pattern = "\\.rds$", full.names = TRUE)
 
   if (length(files) == 0) {
-    cli::cli_alert_info("Cache is already empty")
+    cli::cli_inform(c("i" = "Cache is already empty"))
     return(invisible())
   }
 
@@ -340,13 +358,13 @@ mobdb_cache_clear <- function(older_than = NULL) {
     files <- files[age_days > older_than]
 
     if (length(files) == 0) {
-      cli::cli_alert_info("No files older than {older_than} day{?s}")
+      cli::cli_inform(c("i" = "No files older than {older_than} day{?s}"))
       return(invisible())
     }
   }
 
   file.remove(files)
-  cli::cli_alert_success("Removed {length(files)} cached file{?s}")
+  cli::cli_inform(c("v" = "Removed {length(files)} cached file{?s}"))
 
   invisible()
 }

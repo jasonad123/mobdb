@@ -16,8 +16,8 @@ A list containing detailed feed information.
 Retrieve detailed information about a single feed by its ID.
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
 # Get details for a specific feed
 feed_details <- mobdb_get_feed("mdb-53")
-}
+\dontshow{\}) # examplesIf}
 }

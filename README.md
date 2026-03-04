@@ -11,14 +11,14 @@
 
 ## Installation
 
-To get started, install it from [r-universe](https://jasonad123.r-universe.dev/mobdb):
+Install from [r-universe](https://jasonad123.r-universe.dev/mobdb):
 
 ```r
 # Install from r-universe
 install.packages('mobdb', repos = c('https://jasonad123.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
-Alternatively, you can install also install `mobdb` from GitHub:
+Development versions of `mobdb` are available from GitHub:
 
 ```r
 # Install using pak (recommended)
@@ -185,7 +185,7 @@ urls <- mobdb_extract_urls(feeds)
 
 ### Check feed quality before downloading
 
-MobilityData validates all GTFS Schedule feeds through the canonical GTFS validator. You can check validation results before downloading:
+The Mobility Database validates all GTFS Schedule feeds through the canonical GTFS validator. You can check validation results before downloading:
 
 ```r
 # Get validation report for a feed

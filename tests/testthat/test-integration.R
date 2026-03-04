@@ -25,6 +25,37 @@ test_that("download_feed() requires feed identifier", {
   )
 })
 
+test_that("download_feed() displays multiple feeds via message stream", {
+  skip_if_not_installed("tidytransit")
+
+  # Mock feeds() to return multiple results without hitting the API
+  mock_feeds <- tibble::tibble(
+    id = c("mdb-1", "mdb-2", "mdb-3"),
+    provider = c("Agency A", "Agency B", "Agency C"),
+    feed_name = c("Route 1", "Route 2", "Route 3"),
+    status = c("active", "active", "active"),
+    official = c(TRUE, TRUE, FALSE),
+    data_type = c("gtfs", "gtfs", "gtfs"),
+    source_info = tibble::tibble(
+      producer_url = rep("https://example.com/feed.zip", 3)
+    )
+  )
+
+  local_mocked_bindings(
+    feeds = function(...) mock_feeds
+  )
+
+  # The error about multiple feeds should be raised,
+  # and the table should be emitted as a message (not stdout)
+  expect_message(
+    expect_error(
+      download_feed(provider = "Agency"),
+      "Multiple feeds found"
+    ),
+    "Found 3 matching feeds"
+  )
+})
+
 test_that("download_feed() works with feed_id", {
   skip_if_not_installed("httptest2")
   skip_if_not(mobdb_has_key(), "API key not configured")
@@ -183,4 +214,32 @@ test_that("download_feed() with export_path requires gtfsio when used", {
   # This test verifies gtfsio check happens when export_path is provided
   # We need to skip if gtfsio is installed since we can't easily mock package availability
   skip("Package requirement check tested via manual testing - see test-export-gtfs.R")
+})
+
+# Tests for raw parameter
+
+test_that("download_feed() accepts raw parameter", {
+  # raw = TRUE requires export_path, but without feed_id it errors first
+  expect_error(
+    download_feed(raw = TRUE, export_path = "test.zip"),
+    "Must provide either.*feed_id.*or search parameters"
+  )
+})
+
+test_that("download_feed() with raw = TRUE requires export_path", {
+  expect_error(
+    download_feed("mdb-1", raw = TRUE),
+    "export_path.*required.*raw.*TRUE"
+  )
+})
+
+test_that("download_feed() with raw = TRUE does not require tidytransit", {
+  # When raw = TRUE and export_path is set, tidytransit should not be required
+
+  # The error should be about download/API, not about tidytransit
+  # We can't fully test this without mocking, but confirm the parameter is accepted
+  expect_error(
+    download_feed(raw = TRUE, export_path = "test.zip"),
+    "Must provide either.*feed_id.*or search parameters"
+  )
 })

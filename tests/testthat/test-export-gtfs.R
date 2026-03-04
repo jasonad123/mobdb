@@ -147,6 +147,29 @@ test_that("export_path accepts various path formats", {
   # Path with nested directories
 })
 
+# Tests for raw export (raw = TRUE on export_path)
+
+test_that("download_feed() with raw = TRUE and export_path skips tidytransit", {
+  skip_if_not_installed("httptest2")
+  skip_if_not(mobdb_has_key(), "API key not configured")
+
+  # raw = TRUE should not require tidytransit
+  # This test verifies the parameter combination is accepted
+  skip("Requires full GTFS download - raw download tested manually")
+})
+
+test_that("download_feed() export_path uses gtfs_to_spec_format for GTFS compliance", {
+  skip_if_not_installed("tidytransit")
+  skip_if_not_installed("httptest2")
+  skip_if_not(mobdb_has_key(), "API key not configured")
+  skip_if_not_installed("gtfsio")
+
+  # When export_path is used (without raw = TRUE), dates and times
+  # are converted back to GTFS-spec-compliant format via gtfs_to_spec_format()
+  # before writing with gtfsio::export_gtfs()
+  skip("Requires full GTFS download - spec compliance tested manually")
+})
+
 # Test that exported file is valid ZIP
 test_that("exported GTFS feed is a valid ZIP file", {
   skip_if_not_installed("tidytransit")

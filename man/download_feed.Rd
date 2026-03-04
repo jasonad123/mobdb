@@ -19,6 +19,7 @@ download_feed(
   official = NULL,
   auth_args = NULL,
   export_path = NULL,
+  raw = FALSE,
   ...
 )
 }
@@ -46,10 +47,10 @@ that may not work with standard GTFS tools.}
 feeds whose \code{feed_name} contains this string (case-insensitive) will be
 considered. Use \code{NULL} (default) to skip this filter.}
 
-\item{use_source_url}{A logical. If \code{FALSE} (default), uses MobilityData's
+\item{use_source_url}{A logical. If \code{FALSE} (default), uses Mobility Database's
 hosted/archived URL which ensures you get the exact version in their database.
 If \code{TRUE}, uses the provider's direct source URL which may be more current
-but could differ from MobilityData's version.}
+but could differ from the hosted version.}
 
 \item{dataset_id}{A string. Optional specific dataset ID for historical versions
 (e.g., "mdb-53-202510250025"). If provided, downloads that specific dataset
@@ -84,14 +85,27 @@ The authentication method (URL parameter or HTTP header) is determined
 automatically from the feed's metadata.}
 
 \item{export_path}{A string. Optional path to save the GTFS feed as a ZIP file
-(e.g., "data/gtfs/feed.zip"). If provided, the feed will be exported using
-\code{\link[gtfsio:export_gtfs]{gtfsio::export_gtfs()}} after downloading. Requires the \code{gtfsio} package.
-If \code{NULL} (default), the feed is not saved to disk.}
+(e.g., "data/gtfs/feed.zip"). Behavior depends on the \code{raw} parameter:
+\itemize{
+\item \code{raw = FALSE} (default): The feed is parsed by tidytransit, converted back
+to GTFS-spec-compliant format (YYYYMMDD dates, HH:MM:SS times), and exported
+using \code{\link[gtfsio:export_gtfs]{gtfsio::export_gtfs()}}. Requires \code{tidytransit} and \code{gtfsio} packages.
+Returns a gtfs object.
+\item \code{raw = TRUE}: The feed is saved directly as downloaded — no tidytransit
+parsing, no format conversion. Does not require \code{tidytransit} or \code{gtfsio}.
+Returns the file path (invisibly) instead of a gtfs object.
+If \code{NULL} (default), the feed is not saved to disk.
+}}
+
+\item{raw}{A logical. If \code{TRUE}, save the raw GTFS ZIP file directly to
+\code{export_path} without any tidytransit parsing or format conversion. The file
+is saved exactly as downloaded from the source. Only used when \code{export_path}
+is provided. Defaults to \code{FALSE}.}
 
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
 }
 \value{
-If \code{latest = TRUE}, a \code{gtfs} object as returned by \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.
+If \code{export_path} is provided with \code{raw = TRUE}, the file path (invisibly). If \code{latest = TRUE}, a \code{gtfs} object as returned by \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.
 If \code{latest = FALSE}, a tibble of all available datasets with their metadata.
 }
 \description{
@@ -105,7 +119,7 @@ GTFS Realtime and GBFS feeds use a different data model and are not supported by
 \emph{This function was formerly called \code{mobdb_download_feed()}.}
 }
 \examples{
-\dontrun{
+\dontshow{if (mobdb_can_run_examples() && mobdb_has_tidytransit()) withAutoprint(\{ # examplesIf}
 # Download by feed ID
 gtfs <- download_feed("mdb-2862")
 
@@ -116,16 +130,8 @@ gtfs <- download_feed(feeds[36, ])
 # Search and download by provider name
 gtfs <- download_feed(provider = "Arlington")
 
-# Download using agency's source URL instead of MobilityData
+# Download using agency's source URL instead of Mobility Database
 gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
-
-# Download from agency requiring API authentication
-gtfs <- download_feed(
-  provider = "WMATA",
-  feed_name = "Rail",
-  use_source_url = TRUE,
-  auth_args = "your_wmata_api_key"
-)
 
 # Filter by location
 gtfs <- download_feed(
@@ -143,10 +149,12 @@ versions <- download_feed("mdb-2862", latest = FALSE)
 # Download a specific historical version (feed_id auto-extracted from dataset_id)
 historical <- download_feed(dataset_id = "mdb-53-202507240047")
 
-# Download and save as ZIP file
+# Download and save as ZIP file (parsed + re-exported with GTFS-compliant format)
 gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
 
-}
+# Save raw GTFS ZIP without any parsing (fastest, no tidytransit required)
+path <- download_feed("mdb-247", export_path = "data/gtfs/trimet_raw.zip", raw = TRUE)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=mobdb_datasets]{mobdb_datasets()}} to list all available historical versions,

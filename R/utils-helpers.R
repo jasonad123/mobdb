@@ -11,15 +11,24 @@
 #'   input tibble. Returns `NA` for feeds without a URL.
 #'
 #' @examples
-#' \dontrun{
-#' # Search for feeds and get their URLs
-#' feeds <- mobdb_search("California")
-#' urls <- mobdb_extract_urls(feeds)
+#' # Create sample data matching feeds() output structure
+#' sample_feeds <- tibble::tibble(
+#'   id = c("mdb-1", "mdb-2"),
+#'   provider = c("Agency A", "Agency B"),
+#'   source_info = tibble::tibble(
+#'     producer_url = c("https://example.com/feed1.zip", "https://example.com/feed2.zip"),
+#'     authentication_type = c(0L, 0L)
+#'   )
+#' )
 #'
-#' # Filter and get URLs
+#' # Extract URLs from sample data
+#' mobdb_extract_urls(sample_feeds)
+#'
+#' @examplesIf mobdb_can_run_examples()
+#' # With real API data:
 #' ca_gtfs <- feeds(subdivision_name = "California", data_type = "gtfs")
 #' ca_urls <- mobdb_extract_urls(ca_gtfs)
-#' }
+#'
 #' @export
 mobdb_extract_urls <- function(feeds) {
   if (!is.data.frame(feeds)) {
@@ -69,16 +78,37 @@ mobdb_extract_urls <- function(feeds) {
 #'   concatenated location strings.
 #'
 #' @examples
-#' \dontrun{
-#' # Search for feeds
-#' results <- mobdb_search("California")
+#' # Create sample data matching mobdb_search() output structure
+#' sample_results <- tibble::tibble(
+#'   id = c("mdb-1", "mdb-2"),
+#'   provider = c("Agency A", "Agency B"),
+#'   locations = list(
+#'     data.frame(
+#'       country_code = "US",
+#'       country = "United States",
+#'       subdivision_name = "California",
+#'       municipality = "San Francisco"
+#'     ),
+#'     data.frame(
+#'       country_code = "CA",
+#'       country = "Canada",
+#'       subdivision_name = "British Columbia",
+#'       municipality = "Vancouver"
+#'     )
+#'   )
+#' )
 #'
-#' # Get unnested locations (multiple rows per feed if multiple locations)
+#' # Extract and unnest locations
+#' mobdb_extract_locations(sample_results)
+#'
+#' # Get summary without unnesting
+#' mobdb_extract_locations(sample_results, unnest = FALSE)
+#'
+#' @examplesIf mobdb_can_run_examples()
+#' # With real API data:
+#' results <- mobdb_search("California")
 #' locations <- mobdb_extract_locations(results)
 #'
-#' # Get summary (one row per feed)
-#' location_summary <- mobdb_extract_locations(results, unnest = FALSE)
-#' }
 #' @export
 mobdb_extract_locations <- function(results, unnest = TRUE) {
   if (!is.data.frame(results)) {
@@ -169,16 +199,36 @@ mobdb_extract_locations <- function(results, unnest = TRUE) {
 #'     using [mobdb_datasets()], not from search results
 #'
 #' @examples
-#' \dontrun{
-#' # Search for feeds
-#' results <- mobdb_search("transit")
+#' # Create sample data matching mobdb_search() output with latest_dataset
+#' sample_results <- tibble::tibble(
+#'   id = "mdb-1",
+#'   provider = "Sample Agency",
+#'   latest_dataset = tibble::tibble(
+#'     id = "mdb-1-202501010000",
+#'     hosted_url = "https://example.com/dataset.zip",
+#'     downloaded_at = "2025-01-01T00:00:00Z",
+#'     hash = "abc123",
+#'     service_date_range_start = "2025-01-01",
+#'     service_date_range_end = "2025-12-31",
+#'     agency_timezone = "America/Los_Angeles",
+#'     validation_report = tibble::tibble(
+#'       total_error = 0L,
+#'       total_warning = 5L,
+#'       total_info = 10L,
+#'       url_html = "https://example.com/report.html",
+#'       url_json = "https://example.com/report.json"
+#'     )
+#'   )
+#' )
 #'
-#' # Get dataset info with validation status
+#' # Extract dataset information
+#' mobdb_extract_datasets(sample_results)
+#'
+#' @examplesIf mobdb_can_run_examples()
+#' # With real API data:
+#' results <- mobdb_search("transit")
 #' datasets <- mobdb_extract_datasets(results)
 #'
-#' # Filter for feeds with no errors
-#' clean_feeds <- datasets |> filter(total_error == 0)
-#' }
 #' @seealso
 #' [get_validation_report()] to get full validation details with report URLs,
 #' [mobdb_search()] to search for feeds,
@@ -215,13 +265,15 @@ mobdb_extract_datasets <- function(results) {
   )
 
   # Add validation report summary if available
-  if (is.data.frame(results$latest_dataset$validation_report)) {
+  has_vr <- hasName(results$latest_dataset, "validation_report") &&
+    is.data.frame(results$latest_dataset$validation_report)
+  if (has_vr) {
     vr <- results$latest_dataset$validation_report
     dataset_info$total_error <- vr$total_error
     dataset_info$total_warning <- vr$total_warning
     dataset_info$total_info <- vr$total_info
-    dataset_info$html_report <- vr$url_html
-    dataset_info$json_report <- vr$url_json
+    if (hasName(vr, "url_html")) dataset_info$html_report <- vr$url_html
+    if (hasName(vr, "url_json")) dataset_info$json_report <- vr$url_json
   }
 
   dataset_info
@@ -230,7 +282,7 @@ mobdb_extract_datasets <- function(results) {
 #' Get GTFS-Schedule validation report for feeds or datasets
 #'
 #' @description
-#' Extract validation report summary from feed/dataset results. MobilityData
+#' Extract validation report summary from feed/dataset results. The Mobility Database
 #' runs all GTFS Schedule feeds through the canonical GTFS validator, and this
 #' function surfaces that validation data to help assess feed quality before
 #' downloading.
@@ -251,23 +303,33 @@ mobdb_extract_datasets <- function(results) {
 #'   * `json_report` - URL to JSON validation report
 #'
 #' @examples
-#' \dontrun{
-#' # Get validation report for feeds from search
+#' # Create sample dataset data with validation_report
+#' sample_datasets <- tibble::tibble(
+#'   id = "mdb-1-202501010000",
+#'   feed_id = "mdb-1",
+#'   validation_report = tibble::tibble(
+#'     total_error = 0L,
+#'     total_warning = 5L,
+#'     total_info = 10L,
+#'     unique_error_count = 0L,
+#'     unique_warning_count = 3L,
+#'     unique_info_count = 5L,
+#'     url_html = "https://example.com/report.html",
+#'     url_json = "https://example.com/report.json",
+#'     validated_at = "2025-01-01T00:00:00Z",
+#'     validator_version = "5.0.0"
+#'   )
+#' )
+#'
+#' # Extract validation report
+#' get_validation_report(sample_datasets)
+#'
+#' @examplesIf mobdb_can_run_examples()
+#' # With real API data:
 #' bart_feeds <- feeds(provider = "Bay Area Rapid Transit")
 #' datasets <- mobdb_datasets(bart_feeds$id[1])
 #' validation <- get_validation_report(datasets)
-#' print(validation)
 #'
-#' # Check TransLink Vancouver's validation (has known warnings)
-#' # Per TransLink's GTFS page "We pass our data through Google's Transit Feed
-#' # Validator at the error level, but the data may have warnings left unfixed
-#' # in order to conform to TransLink's business rules, such as duplicate stops
-#' # with no distance between them."
-#' vancouver <- feeds(provider = "TransLink", country_code = "CA", data_type = "gtfs")
-#' vancouver_datasets <- mobdb_datasets(vancouver$id[1])
-#' validation <- get_validation_report(vancouver_datasets)
-#' # Shows: 100,076 errors, 14,322,543 warnings
-#' }
 #' @seealso
 #' [filter_by_validation()] to filter by quality thresholds,
 #' [view_validation_report()] to open full HTML/JSON reports in browser,
@@ -316,7 +378,9 @@ get_validation_report <- function(data) {
 
   # Check if this is search results (has latest_dataset column)
   if ("latest_dataset" %in% names(data)) {
-    if (!is.data.frame(data$latest_dataset$validation_report)) {
+    has_vr <- hasName(data$latest_dataset, "validation_report") &&
+      is.data.frame(data$latest_dataset$validation_report)
+    if (!has_vr) {
       cli::cli_warn("No validation report data found in search results.")
       return(tibble::tibble())
     }
@@ -351,7 +415,7 @@ get_validation_report <- function(data) {
 #' View GTFS-Schedule validation report in browser
 #'
 #' @description
-#' Opens the MobilityData validation report for a feed or dataset in your
+#' Opens the Mobility Database validation report for a feed or dataset in your
 #' default web browser. The report shows detailed validation results from
 #' the canonical GTFS validator.
 #'
@@ -367,8 +431,7 @@ get_validation_report <- function(data) {
 #'
 #' @return Invisibly returns the URL that was opened.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf mobdb_can_run_examples()
 #' # View validation report for Alexandria DASH
 #' view_validation_report("mdb-482")
 #'
@@ -378,7 +441,7 @@ get_validation_report <- function(data) {
 #'
 #' # View JSON report instead
 #' view_validation_report("mdb-482", format = "json")
-#' }
+#'
 #' @seealso
 #' [get_validation_report()] to extract validation data as a tibble,
 #' [filter_by_validation()] to filter by quality thresholds,
@@ -425,7 +488,9 @@ view_validation_report <- function(data, format = "html") {
 
       # Check if this is search results
     } else if ("latest_dataset" %in% names(data)) {
-      if (!is.data.frame(data$latest_dataset$validation_report)) {
+      has_vr <- hasName(data$latest_dataset, "validation_report") &&
+        is.data.frame(data$latest_dataset$validation_report)
+      if (!has_vr) {
         cli::cli_abort("No validation report available for this feed.")
       }
 
@@ -477,8 +542,28 @@ view_validation_report <- function(data, format = "html") {
 #'   feeds/datasets that meet the specified quality criteria.
 #'
 #' @examples
-#' \dontrun{
-#' # Find all California feeds with zero errors
+#' # Create sample data with validation information (search results structure)
+#' sample_data <- tibble::tibble(
+#'   id = c("mdb-1", "mdb-2", "mdb-3"),
+#'   provider = c("Agency A", "Agency B", "Agency C"),
+#'   latest_dataset = tibble::tibble(
+#'     id = c("mdb-1-202501", "mdb-2-202501", "mdb-3-202501"),
+#'     validation_report = tibble::tibble(
+#'       total_error = c(0L, 5L, 100L),
+#'       total_warning = c(10L, 50L, 500L),
+#'       total_info = c(5L, 10L, 20L)
+#'     )
+#'   )
+#' )
+#'
+#' # Filter to feeds with zero errors
+#' filter_by_validation(sample_data, max_errors = 0)
+#'
+#' # Filter with multiple criteria
+#' filter_by_validation(sample_data, max_errors = 10, max_warnings = 100)
+#'
+#' @examplesIf mobdb_can_run_examples()
+#' # With real API data:
 #' ca_feeds <- feeds(
 #'   country_code = "US",
 #'   subdivision_name = "California",
@@ -486,18 +571,6 @@ view_validation_report <- function(data, format = "html") {
 #' )
 #' clean_feeds <- filter_by_validation(ca_feeds, max_errors = 0)
 #'
-#' # Find feeds with minimal issues
-#' quality_feeds <- filter_by_validation(
-#'   ca_feeds,
-#'   max_errors = 0,
-#'   max_warnings = 100
-#' )
-#'
-#' # Get historical BART datasets with improving quality
-#' bart <- feeds(provider = "Bay Area Rapid Transit")
-#' datasets <- mobdb_datasets(bart$id[1], latest = FALSE)
-#' improving <- filter_by_validation(datasets, max_errors = 5, max_warnings = 3000)
-#' }
 #' @seealso
 #' [get_validation_report()] to inspect validation metrics,
 #' [view_validation_report()] to view full validation reports
