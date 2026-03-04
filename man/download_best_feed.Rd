@@ -18,6 +18,7 @@ download_best_feed(
   use_source_url = FALSE,
   auth_args = NULL,
   export_path = NULL,
+  raw = FALSE,
   ...
 )
 }
@@ -48,19 +49,22 @@ warning. If \code{NULL} (default), uses \code{getOption("mobdb.interactive")} or
 \item{exclude_flex}{Logical. If \code{TRUE} (default), exclude GTFS-Flex feeds.}
 
 \item{use_source_url}{Logical. Download from agency's source URL (\code{TRUE}) or
-MobilityData's hosted URL (\code{FALSE}, default).}
+Mobility Database's hosted URL (\code{FALSE}, default).}
 
 \item{auth_args}{Authentication arguments if required (see \code{\link[=download_feed]{download_feed()}}).}
 
 \item{export_path}{A string. Optional path to save the GTFS feed as a ZIP file
-(e.g., "data/gtfs/feed.zip"). If provided, the feed will be exported using
-\code{\link[gtfsio:export_gtfs]{gtfsio::export_gtfs()}} after downloading. Requires the \code{gtfsio} package.
-If \code{NULL} (default), the feed is not saved to disk.}
+(e.g., "data/gtfs/feed.zip"). See \code{\link[=download_feed]{download_feed()}} for details on behavior
+with the \code{raw} parameter.}
+
+\item{raw}{A logical. If \code{TRUE}, save the raw GTFS ZIP file directly to
+\code{export_path} without any tidytransit parsing. See \code{\link[=download_feed]{download_feed()}}.
+Defaults to \code{FALSE}.}
 
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
 }
 \value{
-A \code{gtfs} object from tidytransit, or \code{NULL} if user cancels selection.
+If \code{export_path} is provided with \code{raw = TRUE}, the file path (invisibly). Otherwise, a \code{gtfs} object from tidytransit, or \code{NULL} if user cancels selection.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}

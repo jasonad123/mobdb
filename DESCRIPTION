@@ -35,6 +35,7 @@ Suggests:
     keyring,
     sf,
     gbfs,
-    zip
+    zip,
+    hms
 Config/testthat/edition: 3
 VignetteBuilder: knitr

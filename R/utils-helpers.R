@@ -282,7 +282,7 @@ mobdb_extract_datasets <- function(results) {
 #' Get GTFS-Schedule validation report for feeds or datasets
 #'
 #' @description
-#' Extract validation report summary from feed/dataset results. MobilityData
+#' Extract validation report summary from feed/dataset results. The Mobility Database
 #' runs all GTFS Schedule feeds through the canonical GTFS validator, and this
 #' function surfaces that validation data to help assess feed quality before
 #' downloading.
@@ -415,7 +415,7 @@ get_validation_report <- function(data) {
 #' View GTFS-Schedule validation report in browser
 #'
 #' @description
-#' Opens the MobilityData validation report for a feed or dataset in your
+#' Opens the Mobility Database validation report for a feed or dataset in your
 #' default web browser. The report shows detailed validation results from
 #' the canonical GTFS validator.
 #'

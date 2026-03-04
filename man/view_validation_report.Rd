@@ -20,7 +20,7 @@ view_validation_report(data, format = "html")
 Invisibly returns the URL that was opened.
 }
 \description{
-Opens the MobilityData validation report for a feed or dataset in your
+Opens the Mobility Database validation report for a feed or dataset in your
 default web browser. The report shows detailed validation results from
 the canonical GTFS validator.
 

@@ -215,3 +215,31 @@ test_that("download_feed() with export_path requires gtfsio when used", {
   # We need to skip if gtfsio is installed since we can't easily mock package availability
   skip("Package requirement check tested via manual testing - see test-export-gtfs.R")
 })
+
+# Tests for raw parameter
+
+test_that("download_feed() accepts raw parameter", {
+  # raw = TRUE requires export_path, but without feed_id it errors first
+  expect_error(
+    download_feed(raw = TRUE, export_path = "test.zip"),
+    "Must provide either.*feed_id.*or search parameters"
+  )
+})
+
+test_that("download_feed() with raw = TRUE requires export_path", {
+  expect_error(
+    download_feed("mdb-1", raw = TRUE),
+    "export_path.*required.*raw.*TRUE"
+  )
+})
+
+test_that("download_feed() with raw = TRUE does not require tidytransit", {
+  # When raw = TRUE and export_path is set, tidytransit should not be required
+
+  # The error should be about download/API, not about tidytransit
+  # We can't fully test this without mocking, but confirm the parameter is accepted
+  expect_error(
+    download_feed(raw = TRUE, export_path = "test.zip"),
+    "Must provide either.*feed_id.*or search parameters"
+  )
+})

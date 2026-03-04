@@ -124,7 +124,7 @@ None.
 # mobdb 0.1.1
 
 ## Major changes
-* Added `mobdb_download_feed()` for downloading GTFS Schedule feeds from MobilityData hosted URLs
+* Added `mobdb_download_feed()` for downloading GTFS Schedule feeds from Mobility Database hosted URLs
 * Enhanced `mobdb_download_feed()` to support provider/location search parameters
 * Added automatic GTFS-Flex feed filtering with `exclude_flex` parameter (default: TRUE)
 * Added `use_source_url` parameter to choose between MobilityData hosted or agency source URLs
