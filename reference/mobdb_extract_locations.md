@@ -32,14 +32,45 @@ per feed with concatenated location strings.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Search for feeds
+# Create sample data matching mobdb_search() output structure
+sample_results <- tibble::tibble(
+  id = c("mdb-1", "mdb-2"),
+  provider = c("Agency A", "Agency B"),
+  locations = list(
+    data.frame(
+      country_code = "US",
+      country = "United States",
+      subdivision_name = "California",
+      municipality = "San Francisco"
+    ),
+    data.frame(
+      country_code = "CA",
+      country = "Canada",
+      subdivision_name = "British Columbia",
+      municipality = "Vancouver"
+    )
+  )
+)
+
+# Extract and unnest locations
+mobdb_extract_locations(sample_results)
+#> # A tibble: 2 × 6
+#>   id    provider country_code country       subdivision_name municipality 
+#>   <chr> <chr>    <chr>        <chr>         <chr>            <chr>        
+#> 1 mdb-1 Agency A US           United States California       San Francisco
+#> 2 mdb-2 Agency B CA           Canada        British Columbia Vancouver    
+
+# Get summary without unnesting
+mobdb_extract_locations(sample_results, unnest = FALSE)
+#> # A tibble: 2 × 4
+#>   id    provider locations    location_summary               
+#>   <chr> <chr>    <list>       <chr>                          
+#> 1 mdb-1 Agency A <df [1 × 4]> San Francisco, California, US  
+#> 2 mdb-2 Agency B <df [1 × 4]> Vancouver, British Columbia, CA
+
+if (FALSE) { # mobdb_can_run_examples()
+# With real API data:
 results <- mobdb_search("California")
-
-# Get unnested locations (multiple rows per feed if multiple locations)
 locations <- mobdb_extract_locations(results)
-
-# Get summary (one row per feed)
-location_summary <- mobdb_extract_locations(results, unnest = FALSE)
-} # }
+}
 ```

@@ -1,4 +1,4 @@
 # License
 
     YEAR: 2025
-    COPYRIGHT HOLDER: Jason A
+    COPYRIGHT HOLDER: Jason Adle

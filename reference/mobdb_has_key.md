@@ -16,7 +16,7 @@ Logical. `TRUE` if a token is configured, `FALSE` otherwise.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# Check if API token is configured
 mobdb_has_key()
-} # }
+#> [1] FALSE
 ```

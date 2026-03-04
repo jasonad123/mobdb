@@ -21,8 +21,8 @@ A list containing detailed feed information.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples()
 # Get details for a specific feed
 feed_details <- mobdb_get_feed("mdb-53")
-} # }
+}
 ```

@@ -118,7 +118,7 @@ A tibble containing feed information with columns including:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples()
 # Get all active GTFS feeds in California
 ca_feeds <- feeds(
   country_code = "US",
@@ -133,5 +133,5 @@ sf_muni <- feeds(provider = "San Francisco")
 # Get feeds with pagination
 first_100 <- feeds(limit = 100, offset = 0)
 next_100 <- feeds(limit = 100, offset = 100)
-} # }
+}
 ```

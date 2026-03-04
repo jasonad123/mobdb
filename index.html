@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Access the Mobility Database API to discover transit feeds • mobdb</title>
+<title>Access the Mobility Database API to Discover Transit Feeds • mobdb</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -15,9 +15,9 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Access the Mobility Database API to discover transit feeds">
-<meta name="description" content="Provides functions to search and access transit feed data from the Mobility Database (mobilitydatabase.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GBFS feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with packages like tidytransit and gtfstools for subsequent feed analysis.">
-<meta property="og:description" content="Provides functions to search and access transit feed data from the Mobility Database (mobilitydatabase.org). The package wraps the Mobility Database API v1, allowing users to discover GTFS and GBFS feeds from transit agencies worldwide. Functions are designed to integrate seamlessly with packages like tidytransit and gtfstools for subsequent feed analysis.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Access the Mobility Database API to Discover Transit Feeds">
+<meta name="description" content="Search and access transit feed data from the Mobility Database &lt;https://mobilitydatabase.org&gt;. The package wraps the Mobility Database API, allowing users to discover GTFS (General Transit Feed Specification) and GBFS (General Bikeshare Feed Specification) feeds from agencies worldwide. Functions are designed to integrate seamlessly with packages like tidytransit and gtfstools for subsequent feed analysis.">
+<meta property="og:description" content="Search and access transit feed data from the Mobility Database &lt;https://mobilitydatabase.org&gt;. The package wraps the Mobility Database API, allowing users to discover GTFS (General Transit Feed Specification) and GBFS (General Bikeshare Feed Specification) feeds from agencies worldwide. Functions are designed to integrate seamlessly with packages like tidytransit and gtfstools for subsequent feed analysis.">
 <meta property="og:image" content="https://mobdb.jasonadle.dev/logo.png">
 </head>
 <body>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,11 +75,11 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>To get started, install it from <a href="https://jasonad123.r-universe.dev/mobdb" class="external-link">r-universe</a>:</p>
+<p>Install from <a href="https://jasonad123.r-universe.dev/mobdb" class="external-link">r-universe</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install from r-universe</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'mobdb'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://jasonad123.r-universe.dev'</span>, <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Alternatively, you can install also install <code>mobdb</code> from GitHub:</p>
+<p>Development versions of <code>mobdb</code> are available from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install using pak (recommended)</span></span>
 <span><span class="co"># install.packages("pak")</span></span>
@@ -239,7 +239,7 @@
 <div class="section level3">
 <h3 id="check-feed-quality-before-downloading">Check feed quality before downloading<a class="anchor" aria-label="anchor" href="#check-feed-quality-before-downloading"></a>
 </h3>
-<p>MobilityData validates all GTFS Schedule feeds through the canonical GTFS validator. You can check validation results before downloading:</p>
+<p>The Mobility Database validates all GTFS Schedule feeds through the canonical GTFS validator. You can check validation results before downloading:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get validation report for a feed</span></span>
 <span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mobdb_datasets.html">mobdb_datasets</a></span><span class="op">(</span><span class="st">"mdb-482"</span><span class="op">)</span>  <span class="co"># Alexandria DASH</span></span>
@@ -376,7 +376,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Jason Adle <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Jason Adle <br><small class="roles"> Author, maintainer, copyright holder </small>   </li>
 </ul>
 </div>
 

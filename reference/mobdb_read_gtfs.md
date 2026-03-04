@@ -47,7 +47,7 @@ A `gtfs` object as returned by
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples() && mobdb_has_tidytransit()
 # Read latest feed by ID (Bay Area Rapid Transit)
 gtfs <- mobdb_read_gtfs("mdb-53")
 
@@ -57,5 +57,5 @@ gtfs <- mobdb_read_gtfs(feeds[1, ])
 
 # Read specific historical dataset
 gtfs_historical <- mobdb_read_gtfs("mdb-53", dataset_id = "mdb-53-202510250025")
-} # }
+}
 ```

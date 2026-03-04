@@ -23,12 +23,13 @@ A string. The direct download URL, or `NULL` if not available.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples()
 # Get download URL
 url <- mobdb_feed_url("mdb-53")
-
+}
+if (FALSE) { # mobdb_can_run_examples() && mobdb_has_tidytransit()
 # Use with tidytransit
 library(tidytransit)
 gtfs <- read_gtfs(url)
-} # }
+}
 ```

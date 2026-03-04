@@ -34,9 +34,7 @@ List with cache information (invisibly):
 ``` r
 # Show cache info
 mobdb_cache_info()
-#> 
-#> ── mobdb Cache Information ──
-#> 
+#> mobdb Cache Information
 #> ℹ Path: /home/runner/.cache/R/mobdb
 #> ℹ Files: 0
 #> ℹ Size: 0 MB

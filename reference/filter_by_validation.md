@@ -67,25 +67,48 @@ to view full validation reports
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Find all California feeds with zero errors
+# Create sample data with validation information (search results structure)
+sample_data <- tibble::tibble(
+  id = c("mdb-1", "mdb-2", "mdb-3"),
+  provider = c("Agency A", "Agency B", "Agency C"),
+  latest_dataset = tibble::tibble(
+    id = c("mdb-1-202501", "mdb-2-202501", "mdb-3-202501"),
+    validation_report = tibble::tibble(
+      total_error = c(0L, 5L, 100L),
+      total_warning = c(10L, 50L, 500L),
+      total_info = c(5L, 10L, 20L)
+    )
+  )
+)
+
+# Filter to feeds with zero errors
+filter_by_validation(sample_data, max_errors = 0)
+#> Filtered to 1 of 3 items matching quality criteria.
+#> # A tibble: 1 × 3
+#>   id    provider latest_dataset$id $validation_report$total_er…¹ $$total_warning
+#>   <chr> <chr>    <chr>                                     <int>           <int>
+#> 1 mdb-1 Agency A mdb-1-202501                                  0              10
+#> # ℹ abbreviated name: ¹​$validation_report$total_error
+#> # ℹ 1 more variable: latest_dataset$validation_report$total_info <int>
+
+# Filter with multiple criteria
+filter_by_validation(sample_data, max_errors = 10, max_warnings = 100)
+#> Filtered to 2 of 3 items matching quality criteria.
+#> # A tibble: 2 × 3
+#>   id    provider latest_dataset$id $validation_report$total_er…¹ $$total_warning
+#>   <chr> <chr>    <chr>                                     <int>           <int>
+#> 1 mdb-1 Agency A mdb-1-202501                                  0              10
+#> 2 mdb-2 Agency B mdb-2-202501                                  5              50
+#> # ℹ abbreviated name: ¹​$validation_report$total_error
+#> # ℹ 1 more variable: latest_dataset$validation_report$total_info <int>
+
+if (FALSE) { # mobdb_can_run_examples()
+# With real API data:
 ca_feeds <- feeds(
   country_code = "US",
   subdivision_name = "California",
   data_type = "gtfs"
 )
 clean_feeds <- filter_by_validation(ca_feeds, max_errors = 0)
-
-# Find feeds with minimal issues
-quality_feeds <- filter_by_validation(
-  ca_feeds,
-  max_errors = 0,
-  max_warnings = 100
-)
-
-# Get historical BART datasets with improving quality
-bart <- feeds(provider = "Bay Area Rapid Transit")
-datasets <- mobdb_datasets(bart$id[1], latest = FALSE)
-improving <- filter_by_validation(datasets, max_errors = 5, max_warnings = 3000)
-} # }
+}
 ```

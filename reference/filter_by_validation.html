@@ -17,7 +17,7 @@ validation criteria."><meta property="og:image" content="https://mobdb.jasonadle
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,27 +112,50 @@ feeds/datasets that meet the specified quality criteria.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Find all California feeds with zero errors</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create sample data with validation information (search results structure)</span></span></span>
+<span class="r-in"><span><span class="va">sample_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mdb-1"</span>, <span class="st">"mdb-2"</span>, <span class="st">"mdb-3"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  provider <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Agency A"</span>, <span class="st">"Agency B"</span>, <span class="st">"Agency C"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  latest_dataset <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mdb-1-202501"</span>, <span class="st">"mdb-2-202501"</span>, <span class="st">"mdb-3-202501"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    validation_report <span class="op">=</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      total_error <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">5L</span>, <span class="fl">100L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      total_warning <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10L</span>, <span class="fl">50L</span>, <span class="fl">500L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      total_info <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">10L</span>, <span class="fl">20L</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Filter to feeds with zero errors</span></span></span>
+<span class="r-in"><span><span class="fu">filter_by_validation</span><span class="op">(</span><span class="va">sample_data</span>, max_errors <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Filtered to 1 of 3 items matching quality criteria.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id    provider latest_dataset$id $validation_report$total_er…¹ $$total_warning</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> mdb-1 Agency A mdb-1-202501                                  0              10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​$validation_report$total_error</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: latest_dataset$validation_report$total_info &lt;int&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Filter with multiple criteria</span></span></span>
+<span class="r-in"><span><span class="fu">filter_by_validation</span><span class="op">(</span><span class="va">sample_data</span>, max_errors <span class="op">=</span> <span class="fl">10</span>, max_warnings <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Filtered to 2 of 3 items matching quality criteria.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id    provider latest_dataset$id $validation_report$total_er…¹ $$total_warning</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> mdb-1 Agency A mdb-1-202501                                  0              10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> mdb-2 Agency B mdb-2-202501                                  5              50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​$validation_report$total_error</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: latest_dataset$validation_report$total_info &lt;int&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># mobdb_can_run_examples()</span></span></span>
+<span class="r-in"><span><span class="co"># With real API data:</span></span></span>
 <span class="r-in"><span><span class="va">ca_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="feeds.html">feeds</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  country_code <span class="op">=</span> <span class="st">"US"</span>,</span></span>
 <span class="r-in"><span>  subdivision_name <span class="op">=</span> <span class="st">"California"</span>,</span></span>
 <span class="r-in"><span>  data_type <span class="op">=</span> <span class="st">"gtfs"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">clean_feeds</span> <span class="op">&lt;-</span> <span class="fu">filter_by_validation</span><span class="op">(</span><span class="va">ca_feeds</span>, max_errors <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Find feeds with minimal issues</span></span></span>
-<span class="r-in"><span><span class="va">quality_feeds</span> <span class="op">&lt;-</span> <span class="fu">filter_by_validation</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">ca_feeds</span>,</span></span>
-<span class="r-in"><span>  max_errors <span class="op">=</span> <span class="fl">0</span>,</span></span>
-<span class="r-in"><span>  max_warnings <span class="op">=</span> <span class="fl">100</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Get historical BART datasets with improving quality</span></span></span>
-<span class="r-in"><span><span class="va">bart</span> <span class="op">&lt;-</span> <span class="fu"><a href="feeds.html">feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"Bay Area Rapid Transit"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="mobdb_datasets.html">mobdb_datasets</a></span><span class="op">(</span><span class="va">bart</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, latest <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">improving</span> <span class="op">&lt;-</span> <span class="fu">filter_by_validation</span><span class="op">(</span><span class="va">datasets</span>, max_errors <span class="op">=</span> <span class="fl">5</span>, max_warnings <span class="op">=</span> <span class="fl">3000</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -12,3 +12,11 @@ mobdb_browse()
 ## Value
 
 Invisibly returns the URL that was opened.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+mobdb_browse()
+} # }
+```

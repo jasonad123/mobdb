@@ -33,14 +33,18 @@ Character string with cache path (invisibly)
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 # Show current cache path
 mobdb_cache_path()
+#> ℹ Current cache path: /home/runner/.cache/R/mobdb
 
+# \donttest{
 # Set for current session only
 mobdb_cache_path("~/my_mobdb_cache")
-
+#> ✔ Created cache directory: /home/runner/my_mobdb_cache
+#> ✔ Cache path set to: /home/runner/my_mobdb_cache
+# }
+if (FALSE) {
 # Set permanently in .Renviron
 mobdb_cache_path("~/my_mobdb_cache", install = TRUE)
-} # }
+}
 ```

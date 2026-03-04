@@ -33,10 +33,12 @@ Download feeds for analysis
   selection
 - [`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
   **\[superseded\]** : Read GTFS feed directly from Mobility Database
+- [`gtfs_to_spec_format()`](https://mobdb.jasonadle.dev/reference/gtfs_to_spec_format.md)
+  : Convert tidygtfs object to GTFS-spec-compliant format
 
 ## Assess feed quality
 
-Evaluate feed quality using MobilityData validation reports
+Evaluate feed quality using Mobility Database validation reports
 
 - [`filter_by_validation()`](https://mobdb.jasonadle.dev/reference/filter_by_validation.md)
   : Filter feeds or datasets by validation quality
@@ -79,3 +81,10 @@ Extract and manipulate feed information
   : List cached files
 - [`mobdb_cache_path()`](https://mobdb.jasonadle.dev/reference/mobdb_cache_path.md)
   : Set or show mobdb cache directory
+
+- [`mobdb_has_internet()`](https://mobdb.jasonadle.dev/reference/mobdb_has_internet.md)
+  : Check if internet connection is available
+- [`mobdb_can_run_examples()`](https://mobdb.jasonadle.dev/reference/mobdb_can_run_examples.md)
+  : Check if mobdb examples can run
+- [`mobdb_has_tidytransit()`](https://mobdb.jasonadle.dev/reference/mobdb_has_tidytransit.md)
+  : Check if tidytransit package is available

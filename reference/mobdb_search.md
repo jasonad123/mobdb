@@ -102,7 +102,7 @@ fields compared to
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples()
 # Search for transit agencies (Note: results may not be well-ranked)
 results <- mobdb_search("transit")
 
@@ -131,5 +131,5 @@ ontario_transit <- feeds(
   subdivision_name = "Ontario",
   data_type = "gtfs"
 )
-} # }
+}
 ```

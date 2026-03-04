@@ -17,7 +17,7 @@ This function was formerly called mobdb_download_feed().'><meta property="og:ima
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,6 +77,7 @@ GTFS Realtime and GBFS feeds use a different data model and are not supported by
 <span>  official <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  auth_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  export_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  raw <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -123,10 +124,10 @@ considered. Use <code>NULL</code> (default) to skip this filter.</p></dd>
 
 
 <dt id="arg-use-source-url">use_source_url<a class="anchor" aria-label="anchor" href="#arg-use-source-url"></a></dt>
-<dd><p>A logical. If <code>FALSE</code> (default), uses MobilityData's
+<dd><p>A logical. If <code>FALSE</code> (default), uses Mobility Database's
 hosted/archived URL which ensures you get the exact version in their database.
 If <code>TRUE</code>, uses the provider's direct source URL which may be more current
-but could differ from MobilityData's version.</p></dd>
+but could differ from the hosted version.</p></dd>
 
 
 <dt id="arg-dataset-id">dataset_id<a class="anchor" aria-label="anchor" href="#arg-dataset-id"></a></dt>
@@ -169,9 +170,22 @@ automatically from the feed's metadata.</p></dd>
 
 <dt id="arg-export-path">export_path<a class="anchor" aria-label="anchor" href="#arg-export-path"></a></dt>
 <dd><p>A string. Optional path to save the GTFS feed as a ZIP file
-(e.g., "data/gtfs/feed.zip"). If provided, the feed will be exported using
-<code><a href="https://r-transit.github.io/gtfsio/reference/export_gtfs.html" class="external-link">gtfsio::export_gtfs()</a></code> after downloading. Requires the <code>gtfsio</code> package.
-If <code>NULL</code> (default), the feed is not saved to disk.</p></dd>
+(e.g., "data/gtfs/feed.zip"). Behavior depends on the <code>raw</code> parameter:</p><ul><li><p><code>raw = FALSE</code> (default): The feed is parsed by tidytransit, converted back
+to GTFS-spec-compliant format (YYYYMMDD dates, HH:MM:SS times), and exported
+using <code><a href="https://r-transit.github.io/gtfsio/reference/export_gtfs.html" class="external-link">gtfsio::export_gtfs()</a></code>. Requires <code>tidytransit</code> and <code>gtfsio</code> packages.
+Returns a gtfs object.</p></li>
+<li><p><code>raw = TRUE</code>: The feed is saved directly as downloaded — no tidytransit
+parsing, no format conversion. Does not require <code>tidytransit</code> or <code>gtfsio</code>.
+Returns the file path (invisibly) instead of a gtfs object.
+If <code>NULL</code> (default), the feed is not saved to disk.</p></li>
+</ul></dd>
+
+
+<dt id="arg-raw">raw<a class="anchor" aria-label="anchor" href="#arg-raw"></a></dt>
+<dd><p>A logical. If <code>TRUE</code>, save the raw GTFS ZIP file directly to
+<code>export_path</code> without any tidytransit parsing or format conversion. The file
+is saved exactly as downloaded from the source. Only used when <code>export_path</code>
+is provided. Defaults to <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -180,7 +194,7 @@ If <code>NULL</code> (default), the feed is not saved to disk.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>If <code>latest = TRUE</code>, a <code>gtfs</code> object as returned by <code><a href="https://r-transit.github.io/tidytransit/reference/read_gtfs.html" class="external-link">tidytransit::read_gtfs()</a></code>.
+    <p>If <code>export_path</code> is provided with <code>raw = TRUE</code>, the file path (invisibly). If <code>latest = TRUE</code>, a <code>gtfs</code> object as returned by <code><a href="https://r-transit.github.io/tidytransit/reference/read_gtfs.html" class="external-link">tidytransit::read_gtfs()</a></code>.
 If <code>latest = FALSE</code>, a tibble of all available datasets with their metadata.</p>
     </div>
     <div class="section level2">
@@ -193,7 +207,7 @@ If <code>latest = FALSE</code>, a tibble of all available datasets with their me
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># mobdb_can_run_examples() &amp;&amp; mobdb_has_tidytransit()</span></span></span>
 <span class="r-in"><span><span class="co"># Download by feed ID</span></span></span>
 <span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span><span class="st">"mdb-2862"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -204,16 +218,8 @@ If <code>latest = FALSE</code>, a tibble of all available datasets with their me
 <span class="r-in"><span><span class="co"># Search and download by provider name</span></span></span>
 <span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"Arlington"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Download using agency's source URL instead of MobilityData</span></span></span>
+<span class="r-in"><span><span class="co"># Download using agency's source URL instead of Mobility Database</span></span></span>
 <span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TriMet"</span>, use_source_url <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Download from agency requiring API authentication</span></span></span>
-<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  provider <span class="op">=</span> <span class="st">"WMATA"</span>,</span></span>
-<span class="r-in"><span>  feed_name <span class="op">=</span> <span class="st">"Rail"</span>,</span></span>
-<span class="r-in"><span>  use_source_url <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  auth_args <span class="op">=</span> <span class="st">"your_wmata_api_key"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Filter by location</span></span></span>
 <span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span></span></span>
@@ -231,10 +237,12 @@ If <code>latest = FALSE</code>, a tibble of all available datasets with their me
 <span class="r-in"><span><span class="co"># Download a specific historical version (feed_id auto-extracted from dataset_id)</span></span></span>
 <span class="r-in"><span><span class="va">historical</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span>dataset_id <span class="op">=</span> <span class="st">"mdb-53-202507240047"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Download and save as ZIP file</span></span></span>
+<span class="r-in"><span><span class="co"># Download and save as ZIP file (parsed + re-exported with GTFS-compliant format)</span></span></span>
 <span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span><span class="st">"mdb-247"</span>, export_path <span class="op">=</span> <span class="st">"data/gtfs/trimet.zip"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># Save raw GTFS ZIP without any parsing (fastest, no tidytransit required)</span></span></span>
+<span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span><span class="st">"mdb-247"</span>, export_path <span class="op">=</span> <span class="st">"data/gtfs/trimet_raw.zip"</span>, raw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

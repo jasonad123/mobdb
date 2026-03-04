@@ -56,14 +56,41 @@ to get dataset information directly
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Search for feeds
+# Create sample data matching mobdb_search() output with latest_dataset
+sample_results <- tibble::tibble(
+  id = "mdb-1",
+  provider = "Sample Agency",
+  latest_dataset = tibble::tibble(
+    id = "mdb-1-202501010000",
+    hosted_url = "https://example.com/dataset.zip",
+    downloaded_at = "2025-01-01T00:00:00Z",
+    hash = "abc123",
+    service_date_range_start = "2025-01-01",
+    service_date_range_end = "2025-12-31",
+    agency_timezone = "America/Los_Angeles",
+    validation_report = tibble::tibble(
+      total_error = 0L,
+      total_warning = 5L,
+      total_info = 10L,
+      url_html = "https://example.com/report.html",
+      url_json = "https://example.com/report.json"
+    )
+  )
+)
+
+# Extract dataset information
+mobdb_extract_datasets(sample_results)
+#> # A tibble: 1 × 14
+#>   feed_id provider      dataset_id         hosted_url        downloaded_at hash 
+#>   <chr>   <chr>         <chr>              <chr>             <chr>         <chr>
+#> 1 mdb-1   Sample Agency mdb-1-202501010000 https://example.… 2025-01-01T0… abc1…
+#> # ℹ 8 more variables: service_date_range_start <chr>,
+#> #   service_date_range_end <chr>, agency_timezone <chr>, total_error <int>,
+#> #   total_warning <int>, total_info <int>, html_report <chr>, json_report <chr>
+
+if (FALSE) { # mobdb_can_run_examples()
+# With real API data:
 results <- mobdb_search("transit")
-
-# Get dataset info with validation status
 datasets <- mobdb_extract_datasets(results)
-
-# Filter for feeds with no errors
-clean_feeds <- datasets |> filter(total_error == 0)
-} # }
+}
 ```

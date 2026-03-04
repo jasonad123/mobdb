@@ -55,11 +55,11 @@ to get details for a specific dataset
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples()
 # Get latest dataset for a feed (GTFS schedule feeds only)
 latest <- mobdb_datasets("mdb-53")
 
 # Get all historical datasets
 all_versions <- mobdb_datasets("mdb-53", latest = FALSE)
-} # }
+}
 ```

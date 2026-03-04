@@ -34,6 +34,6 @@ Tibble with columns:
 ``` r
 # List all cached files
 mobdb_cache_list()
-#> ! Cache directory does not exist: /home/runner/.cache/R/mobdb
+#> Warning: Cache directory does not exist: /home/runner/.cache/R/mobdb
 #> # A tibble: 0 × 0
 ```

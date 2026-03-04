@@ -1,8 +1,8 @@
 # View GTFS-Schedule validation report in browser
 
-Opens the MobilityData validation report for a feed or dataset in your
-default web browser. The report shows detailed validation results from
-the canonical GTFS validator.
+Opens the Mobility Database validation report for a feed or dataset in
+your default web browser. The report shows detailed validation results
+from the canonical GTFS validator.
 
 **Note:** This function does *not* support GBFS validation reports at
 this time as GBFS validation reports are located at a different endpoint
@@ -49,7 +49,7 @@ to get dataset information with validation reports
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples()
 # View validation report for Alexandria DASH
 view_validation_report("mdb-482")
 
@@ -59,5 +59,5 @@ view_validation_report(datasets)
 
 # View JSON report instead
 view_validation_report("mdb-482", format = "json")
-} # }
+}
 ```

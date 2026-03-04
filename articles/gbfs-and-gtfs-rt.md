@@ -35,10 +35,9 @@ A detailed overview of what each feed entity does is available on the
 reference](https://gtfs.org/documentation/realtime/reference/).
 
 GTFS-Realtime data is encoded and decoded as [Protocol
-Buffers](https://developers.google.com/protocol-buffers/). In R,
-Protocol Buffers can be interpreted using the
-[RProtoBuf](https://cran.r-project.org/web/packages/RProtoBuf/index.html)
-package.
+Buffers](https://protobuf.dev). In R, Protocol Buffers can be
+interpreted using the
+[RProtoBuf](https://cran.r-project.org/package=RProtoBuf) package.
 
 ### How mobdb handles GTFS-Realtime
 
@@ -163,9 +162,9 @@ yvr_feed
 ```
 
 This can then be passed on to
-[jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html)
-for parsing or to the dedicated [gbfs](https://gbfs.netlify.app/)
-package for discovery.
+[jsonlite](https://cran.r-project.org/package=jsonlite) for parsing or
+to the dedicated [gbfs](https://gbfs.netlify.app/) package for
+discovery.
 
 ``` r
 library(gbfs)
@@ -181,12 +180,12 @@ This vignette covered the basics of discovering GTFS-Realtime and GBFS
 feeds using `mobdb`. For working with the actual feed data:
 
 - **GTFS-Realtime**: Use the
-  [RProtoBuf](https://cran.r-project.org/web/packages/RProtoBuf/index.html)
-  package to decode Protocol Buffer data
+  [RProtoBuf](https://cran.r-project.org/package=RProtoBuf) package to
+  decode Protocol Buffer data
 - **GBFS**: Use the [gbfs](https://gbfs.netlify.app/) package for
   streamlined access to bikeshare data, or
-  [jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html)
-  for direct JSON parsing
+  [jsonlite](https://cran.r-project.org/package=jsonlite) for direct
+  JSON parsing
 
 For discovering GTFS Schedule feeds and working with historical transit
 data, see the main package documentation and other vignettes.

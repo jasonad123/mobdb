@@ -19,11 +19,13 @@ mobdb_cache_clear(older_than = NULL)
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Clear all cache
 mobdb_cache_clear()
+#> ℹ No cache directory found
 
 # Clear only files older than 7 days
 mobdb_cache_clear(older_than = 7)
-} # }
+#> ℹ No cache directory found
+# }
 ```

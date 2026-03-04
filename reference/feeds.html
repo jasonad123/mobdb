@@ -11,7 +11,7 @@ This function was formerly called mobdb_feeds()."><meta property="og:image" cont
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -145,7 +145,7 @@ If <code>FALSE</code>, always fetch fresh data from the API. Cached data expires
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># mobdb_can_run_examples()</span></span></span>
 <span class="r-in"><span><span class="co"># Get all active GTFS feeds in California</span></span></span>
 <span class="r-in"><span><span class="va">ca_feeds</span> <span class="op">&lt;-</span> <span class="fu">feeds</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  country_code <span class="op">=</span> <span class="st">"US"</span>,</span></span>
@@ -160,7 +160,7 @@ If <code>FALSE</code>, always fetch fresh data from the API. Cached data expires
 <span class="r-in"><span><span class="co"># Get feeds with pagination</span></span></span>
 <span class="r-in"><span><span class="va">first_100</span> <span class="op">&lt;-</span> <span class="fu">feeds</span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">100</span>, offset <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">next_100</span> <span class="op">&lt;-</span> <span class="fu">feeds</span><span class="op">(</span>limit <span class="op">=</span> <span class="fl">100</span>, offset <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

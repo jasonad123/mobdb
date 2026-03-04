@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mobdb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,8 +116,8 @@ entities:</p>
 <p>A detailed overview of what each feed entity does is available on the
 <a href="https://gtfs.org/documentation/realtime/reference/" class="external-link">official
 GTFS reference</a>.</p>
-<p>GTFS-Realtime data is encoded and decoded as <a href="https://developers.google.com/protocol-buffers/" class="external-link">Protocol
-Buffers</a>. In R, Protocol Buffers can be interpreted using the <a href="https://cran.r-project.org/web/packages/RProtoBuf/index.html" class="external-link">RProtoBuf</a>
+<p>GTFS-Realtime data is encoded and decoded as <a href="https://protobuf.dev" class="external-link">Protocol Buffers</a>. In R, Protocol Buffers
+can be interpreted using the <a href="https://cran.r-project.org/package=RProtoBuf" class="external-link">RProtoBuf</a>
 package.</p>
 <div class="section level3">
 <h3 id="how-mobdb-handles-gtfs-realtime">How mobdb handles GTFS-Realtime<a class="anchor" aria-label="anchor" href="#how-mobdb-handles-gtfs-realtime"></a>
@@ -231,8 +231,9 @@ will be the auto-discovery endpoint (i.e. <code>gbfs.json</code>).</p>
 <span><span class="va">yvr_feed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_feed_url.html">mobdb_feed_url</a></span><span class="op">(</span><span class="va">gbfs_yvr</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">yvr_feed</span></span></code></pre></div>
-<p>This can then be passed on to <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" class="external-link">jsonlite</a>
-for parsing or to the dedicated <a href="https://gbfs.netlify.app/" class="external-link">gbfs</a> package for discovery.</p>
+<p>This can then be passed on to <a href="https://cran.r-project.org/package=jsonlite" class="external-link">jsonlite</a> for
+parsing or to the dedicated <a href="https://gbfs.netlify.app/" class="external-link">gbfs</a>
+package for discovery.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/simonpcouch/gbfs" class="external-link">gbfs</a></span><span class="op">)</span></span>
 <span></span>
@@ -249,12 +250,12 @@ GBFS feeds using <code>mobdb</code>. For working with the actual feed
 data:</p>
 <ul>
 <li>
-<strong>GTFS-Realtime</strong>: Use the <a href="https://cran.r-project.org/web/packages/RProtoBuf/index.html" class="external-link">RProtoBuf</a>
+<strong>GTFS-Realtime</strong>: Use the <a href="https://cran.r-project.org/package=RProtoBuf" class="external-link">RProtoBuf</a>
 package to decode Protocol Buffer data</li>
 <li>
 <strong>GBFS</strong>: Use the <a href="https://gbfs.netlify.app/" class="external-link">gbfs</a> package for streamlined access
-to bikeshare data, or <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" class="external-link">jsonlite</a>
-for direct JSON parsing</li>
+to bikeshare data, or <a href="https://cran.r-project.org/package=jsonlite" class="external-link">jsonlite</a> for
+direct JSON parsing</li>
 </ul>
 <p>For discovering GTFS Schedule feeds and working with historical
 transit data, see the main package documentation and other

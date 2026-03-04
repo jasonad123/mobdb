@@ -29,6 +29,7 @@ download_feed(
   official = NULL,
   auth_args = NULL,
   export_path = NULL,
+  raw = FALSE,
   ...
 )
 ```
@@ -76,10 +77,10 @@ download_feed(
 
 - use_source_url:
 
-  A logical. If `FALSE` (default), uses MobilityData's hosted/archived
-  URL which ensures you get the exact version in their database. If
-  `TRUE`, uses the provider's direct source URL which may be more
-  current but could differ from MobilityData's version.
+  A logical. If `FALSE` (default), uses Mobility Database's
+  hosted/archived URL which ensures you get the exact version in their
+  database. If `TRUE`, uses the provider's direct source URL which may
+  be more current but could differ from the hosted version.
 
 - dataset_id:
 
@@ -131,10 +132,26 @@ download_feed(
 - export_path:
 
   A string. Optional path to save the GTFS feed as a ZIP file (e.g.,
-  "data/gtfs/feed.zip"). If provided, the feed will be exported using
-  [`gtfsio::export_gtfs()`](https://r-transit.github.io/gtfsio/reference/export_gtfs.html)
-  after downloading. Requires the `gtfsio` package. If `NULL` (default),
-  the feed is not saved to disk.
+  "data/gtfs/feed.zip"). Behavior depends on the `raw` parameter:
+
+  - `raw = FALSE` (default): The feed is parsed by tidytransit,
+    converted back to GTFS-spec-compliant format (YYYYMMDD dates,
+    HH:MM:SS times), and exported using
+    [`gtfsio::export_gtfs()`](https://r-transit.github.io/gtfsio/reference/export_gtfs.html).
+    Requires `tidytransit` and `gtfsio` packages. Returns a gtfs object.
+
+  - `raw = TRUE`: The feed is saved directly as downloaded — no
+    tidytransit parsing, no format conversion. Does not require
+    `tidytransit` or `gtfsio`. Returns the file path (invisibly) instead
+    of a gtfs object. If `NULL` (default), the feed is not saved to
+    disk.
+
+- raw:
+
+  A logical. If `TRUE`, save the raw GTFS ZIP file directly to
+  `export_path` without any tidytransit parsing or format conversion.
+  The file is saved exactly as downloaded from the source. Only used
+  when `export_path` is provided. Defaults to `FALSE`.
 
 - ...:
 
@@ -143,7 +160,8 @@ download_feed(
 
 ## Value
 
-If `latest = TRUE`, a `gtfs` object as returned by
+If `export_path` is provided with `raw = TRUE`, the file path
+(invisibly). If `latest = TRUE`, a `gtfs` object as returned by
 [`tidytransit::read_gtfs()`](https://r-transit.github.io/tidytransit/reference/read_gtfs.html).
 If `latest = FALSE`, a tibble of all available datasets with their
 metadata.
@@ -162,7 +180,7 @@ for more flexible GTFS reading
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples() && mobdb_has_tidytransit()
 # Download by feed ID
 gtfs <- download_feed("mdb-2862")
 
@@ -173,16 +191,8 @@ gtfs <- download_feed(feeds[36, ])
 # Search and download by provider name
 gtfs <- download_feed(provider = "Arlington")
 
-# Download using agency's source URL instead of MobilityData
+# Download using agency's source URL instead of Mobility Database
 gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
-
-# Download from agency requiring API authentication
-gtfs <- download_feed(
-  provider = "WMATA",
-  feed_name = "Rail",
-  use_source_url = TRUE,
-  auth_args = "your_wmata_api_key"
-)
 
 # Filter by location
 gtfs <- download_feed(
@@ -200,8 +210,10 @@ versions <- download_feed("mdb-2862", latest = FALSE)
 # Download a specific historical version (feed_id auto-extracted from dataset_id)
 historical <- download_feed(dataset_id = "mdb-53-202507240047")
 
-# Download and save as ZIP file
+# Download and save as ZIP file (parsed + re-exported with GTFS-compliant format)
 gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
 
-} # }
+# Save raw GTFS ZIP without any parsing (fastest, no tidytransit required)
+path <- download_feed("mdb-247", export_path = "data/gtfs/trimet_raw.zip", raw = TRUE)
+}
 ```

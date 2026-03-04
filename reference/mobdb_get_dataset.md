@@ -21,8 +21,8 @@ A list containing detailed dataset information.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples()
 # Get details for a specific dataset
 dataset_info <- mobdb_get_dataset("mdb-53-202510250025")
-} # }
+}
 ```

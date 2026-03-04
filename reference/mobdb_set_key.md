@@ -31,11 +31,14 @@ Invisibly returns `TRUE` if successful.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Set token for current session
 mobdb_set_key("your_refresh_token_here")
-
+#> ✔ Refresh token set for current session.
+#> ℹ Use `install = TRUE` to save permanently.
+# }
+if (FALSE) {
 # Set token permanently in .Renviron
 mobdb_set_key("your_refresh_token_here", install = TRUE)
-} # }
+}
 ```

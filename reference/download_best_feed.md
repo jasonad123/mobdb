@@ -41,6 +41,7 @@ download_best_feed(
   use_source_url = FALSE,
   auth_args = NULL,
   export_path = NULL,
+  raw = FALSE,
   ...
 )
 ```
@@ -96,8 +97,8 @@ download_best_feed(
 
 - use_source_url:
 
-  Logical. Download from agency's source URL (`TRUE`) or MobilityData's
-  hosted URL (`FALSE`, default).
+  Logical. Download from agency's source URL (`TRUE`) or Mobility
+  Database's hosted URL (`FALSE`, default).
 
 - auth_args:
 
@@ -107,10 +108,16 @@ download_best_feed(
 - export_path:
 
   A string. Optional path to save the GTFS feed as a ZIP file (e.g.,
-  "data/gtfs/feed.zip"). If provided, the feed will be exported using
-  [`gtfsio::export_gtfs()`](https://r-transit.github.io/gtfsio/reference/export_gtfs.html)
-  after downloading. Requires the `gtfsio` package. If `NULL` (default),
-  the feed is not saved to disk.
+  "data/gtfs/feed.zip"). See
+  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
+  for details on behavior with the `raw` parameter.
+
+- raw:
+
+  A logical. If `TRUE`, save the raw GTFS ZIP file directly to
+  `export_path` without any tidytransit parsing. See
+  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md).
+  Defaults to `FALSE`.
 
 - ...:
 
@@ -119,7 +126,9 @@ download_best_feed(
 
 ## Value
 
-A `gtfs` object from tidytransit, or `NULL` if user cancels selection.
+If `export_path` is provided with `raw = TRUE`, the file path
+(invisibly). Otherwise, a `gtfs` object from tidytransit, or `NULL` if
+user cancels selection.
 
 ## Selection Algorithm
 
@@ -180,7 +189,7 @@ for full-text search with validation data
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+if (FALSE) { # mobdb_can_run_examples() && mobdb_has_tidytransit()
 # Simple one-shot download by provider name
 bart_feed <- download_best_feed(provider = "Bay Area Rapid Transit")
 
@@ -199,8 +208,5 @@ ontario_feed <- download_best_feed(
 # Non-interactive mode (for scripts)
 options(mobdb.interactive = FALSE)
 feed <- download_best_feed(provider = "WMATA")
-
-# Download and save as ZIP file
-feed <- download_best_feed(provider = "TriMet", export_path = "data/gtfs/trimet.zip")
-} # }
+}
 ```
