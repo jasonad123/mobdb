@@ -1,4 +1,4 @@
-#' Find GTFS Schedule feeds by location
+#' Find GTFS Schedule feeds by bounding box
 #'
 #' @description
 #' Discover GTFS Schedule feeds whose geographic coverage overlaps with or

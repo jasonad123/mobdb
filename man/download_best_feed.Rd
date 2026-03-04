@@ -2,7 +2,7 @@
 % Please edit documentation in R/integration-tidytransit.R
 \name{download_best_feed}
 \alias{download_best_feed}
-\title{Download the best GTFS Schedule feed with smart selection}
+\title{Download the "best" GTFS Schedule feed with smart selection}
 \usage{
 download_best_feed(
   provider = NULL,
@@ -70,20 +70,20 @@ tidytransit, or \code{NULL} if user cancels selection.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-A higher-level wrapper around \code{\link[=download_feed]{download_feed()}} that automagically selects
+A wrapper around \code{\link[=download_feed]{download_feed()}} that \emph{automagically} selects
 the best GTFS Schedule feed when multiple options exist. This function:
 \itemize{
 \item Searches for feeds using provider name or location
-\item Automatically ranks feeds by status, official designation, and validation quality
+\item Ranks feeds by status, official designation, and validation quality
 \item Prompts for user selection when multiple equally-ranked feeds exist (in interactive mode)
 \item Falls back to historical datasets when current feed is marked "future" or "inactive"
 \item Only works with GTFS Schedule feeds (not GTFS-RT or GBFS)
 }
 
-This is designed for common use cases where you just want the best, most recent feed
+This is designed for use cases where you just want the best, most recent feed
 without needing to specify exact feed IDs or handle multiple results manually.
 }
-\section{Selection Algorithm}{
+\section{Selection algorithm}{
 
 When multiple feeds match the search criteria, feeds are ranked by:
 \enumerate{
@@ -97,17 +97,17 @@ When multiple feeds match the search criteria, feeds are ranked by:
 If multiple feeds have the same score and \code{interactive = TRUE}, you'll be prompted to choose.
 }
 
-\section{Status Handling}{
+\section{Status handling}{
 
 The function handles different feed statuses as follows:
 \itemize{
-\item \strong{"active"}: Preferred status. Feed should be used in public trip planners.
+\item \strong{"active"}: Preferred. Feed should be used in public trip planners.
 \item \strong{"future"} or \strong{"inactive"}: Automatically searches for historical datasets with
 service dates covering today. "future" feeds are not yet active; "inactive" feeds
 haven't been recently updated and may provide outdated information.
-\item \strong{"deprecated"}: Explicitly deprecated and should not be used. Warns user to search
+\item \strong{"deprecated"}: Explicitly deprecated and shouldn't be used. Warns user to search
 for a replacement feed.
-\item \strong{"development"}: For development purposes only, should not be used in production.
+\item \strong{"development"}: For development purposes only, shouldn't be used in production.
 }
 }
 

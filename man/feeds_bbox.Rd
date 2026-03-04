@@ -2,7 +2,7 @@
 % Please edit documentation in R/geo-feeds.R
 \name{feeds_bbox}
 \alias{feeds_bbox}
-\title{Find GTFS Schedule feeds by location}
+\title{Find GTFS Schedule feeds by bounding box}
 \usage{
 feeds_bbox(
   bbox,
