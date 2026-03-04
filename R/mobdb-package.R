@@ -6,7 +6,6 @@
 #' @importFrom lifecycle deprecated
 #' @importFrom rlang .data abort warn inform %||% :=
 #' @importFrom tibble tibble as_tibble
-#' @importFrom utils head
 #' @importFrom utils hasName head
 ## usethis namespace: end
 NULL

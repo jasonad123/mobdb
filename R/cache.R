@@ -11,7 +11,7 @@
 #' 3. tools::R_user_dir("mobdb", "cache") (default)
 #'
 #' @return Character string with cache directory path
-#' @keywords internal
+#' @noRd
 get_mobdb_cache_path <- function() {
   # Priority 1: Environment variable
   env_path <- Sys.getenv("MOBDB_CACHE_PATH", unset = "")
@@ -34,7 +34,7 @@ get_mobdb_cache_path <- function() {
 #' Creates the cache directory if it doesn't exist.
 #'
 #' @return Character string with cache directory path (invisibly)
-#' @keywords internal
+#' @noRd
 ensure_cache_dir <- function() {
   cache_dir <- get_mobdb_cache_path()
   if (!dir.exists(cache_dir)) {
@@ -49,12 +49,12 @@ ensure_cache_dir <- function() {
 #' @param ... Parameters to include in cache key
 #' @param prefix Character prefix for cache key (default: "mobdb")
 #' @return Character string with cache key (filename)
-#' @keywords internal
+#' @noRd
 generate_cache_key <- function(..., prefix = "mobdb") {
   params <- list(...)
 
   # Remove NULL values
-  params <- params[!sapply(params, is.null)]
+  params <- params[!vapply(params, is.null, logical(1))]
 
   # Sort for consistency (same params = same key regardless of order)
   if (length(params) > 0 && !is.null(names(params))) {
@@ -71,7 +71,7 @@ generate_cache_key <- function(..., prefix = "mobdb") {
 #' @param cache_key Cache file name
 #' @param max_age Maximum age in hours (NULL = no limit)
 #' @return Cached data or NULL if not found/expired
-#' @keywords internal
+#' @noRd
 read_from_cache <- function(cache_key, max_age = NULL) {
   cache_dir <- get_mobdb_cache_path()
   cache_file <- file.path(cache_dir, cache_key)
@@ -99,7 +99,8 @@ read_from_cache <- function(cache_key, max_age = NULL) {
 #'
 #' @param data Data to cache
 #' @param cache_key Cache file name
-#' @keywords internal
+#' @return Character. Path to the cache file (invisibly).
+#' @noRd
 write_to_cache <- function(data, cache_key) {
   cache_dir <- ensure_cache_dir()
   cache_file <- file.path(cache_dir, cache_key)
@@ -111,7 +112,7 @@ write_to_cache <- function(data, cache_key) {
 #'
 #' @param endpoint_type Type of endpoint
 #' @return TTL in hours
-#' @keywords internal
+#' @noRd
 get_cache_ttl <- function(endpoint_type = c("feeds", "search", "datasets", "historical")) {
   endpoint_type <- match.arg(endpoint_type)
 

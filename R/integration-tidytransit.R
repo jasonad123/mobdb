@@ -398,7 +398,7 @@ download_feed <- function(feed_id = NULL,
       # Display a clean table of options via message stream
       feed_summary <- feeds[, c("id", "provider", "feed_name", "status")]
       msg <- utils::capture.output(print(feed_summary))
-      message(paste(msg, collapse = "\n"))
+      cli::cli_verbatim(paste(msg, collapse = "\n"))
 
       cli::cli_abort(c(
         "x" = "Multiple feeds found. Please specify which one to download.",
@@ -977,7 +977,7 @@ select_best_feed <- function(feeds, prefer_official = TRUE, prefer_active = TRUE
 
   # Filter by validation errors if threshold specified
   if (!is.null(max_validation_errors)) {
-    feeds_with_validation <- feeds[sapply(seq_len(nrow(feeds)), function(i) {
+    feeds_with_validation <- feeds[vapply(seq_len(nrow(feeds)), function(i) {
       row <- feeds[i, ]
       if ("latest_dataset" %in% names(row) &&
             !is.null(row$latest_dataset) &&
@@ -991,7 +991,7 @@ select_best_feed <- function(feeds, prefer_official = TRUE, prefer_active = TRUE
         }
       }
       TRUE  # Include feeds without validation data
-    }), ]
+    }, logical(1)), ]
 
     if (nrow(feeds_with_validation) == 0) {
       cli::cli_warn(c(
@@ -1004,9 +1004,9 @@ select_best_feed <- function(feeds, prefer_official = TRUE, prefer_active = TRUE
   }
 
   # Score each feed
-  scores <- sapply(seq_len(nrow(feeds)), function(i) {
+  scores <- vapply(seq_len(nrow(feeds)), function(i) {
     score_feed_quality(feeds[i, ], prefer_official, prefer_active)
-  })
+  }, numeric(1))
 
   # Select feed with highest score
   max_score <- max(scores)
@@ -1080,7 +1080,7 @@ find_active_dataset <- function(feed_id) {
   # Filter to datasets with service dates covering today
   today <- Sys.Date()
 
-  active_datasets <- datasets[sapply(seq_len(nrow(datasets)), function(i) {
+  active_datasets <- datasets[vapply(seq_len(nrow(datasets)), function(i) {
     row <- datasets[i, ]
     if ("service_date_range_start" %in% names(row) &&
           "service_date_range_end" %in% names(row)) {
@@ -1092,7 +1092,7 @@ find_active_dataset <- function(feed_id) {
       }
     }
     FALSE
-  }), ]
+  }, logical(1)), ]
 
   if (nrow(active_datasets) == 0) {
     return(NULL)

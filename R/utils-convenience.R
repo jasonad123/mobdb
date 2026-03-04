@@ -7,6 +7,10 @@
 #'
 #' @return Invisibly returns the URL that was opened.
 #'
+#' @examples
+#' \dontrun{
+#' mobdb_browse()
+#' }
 #'
 #' @export
 mobdb_browse <- function() {

@@ -14,3 +14,9 @@ Opens the Mobility Database in your default web browser.
 You'll need to log in or sign up on the website to get an
 API key to use this package.
 }
+\examples{
+\dontrun{
+mobdb_browse()
+}
+
+}
