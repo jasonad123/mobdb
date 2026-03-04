@@ -133,22 +133,18 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   The authentication method (URL parameter or HTTP header) is determined
 #'   automatically from the feed's metadata.
 #' @param export_path A string. Optional path to save the GTFS feed as a ZIP file
-#'   (e.g., "data/gtfs/feed.zip"). Behavior depends on the `raw` parameter:
-#'   * `raw = FALSE` (default): The feed is parsed by tidytransit, converted back
-#'     to GTFS-spec-compliant format (YYYYMMDD dates, HH:MM:SS times), and exported
-#'     using [gtfsio::export_gtfs()]. Requires `tidytransit` and `gtfsio` packages.
-#'     Returns a gtfs object.
-#'   * `raw = TRUE`: The feed is saved directly as downloaded — no tidytransit
-#'     parsing, no format conversion. Does not require `tidytransit` or `gtfsio`.
-#'     Returns the file path (invisibly) instead of a gtfs object.
+#'   (e.g., "data/gtfs/feed.zip"). By default, saves the raw file exactly as
+#'   downloaded. Set `raw = FALSE` to parse with tidytransit and re-export in
+#'   GTFS-spec-compliant format (requires `tidytransit` and `gtfsio`).
 #'   If `NULL` (default), the feed is not saved to disk.
-#' @param raw A logical. If `TRUE`, save the raw GTFS ZIP file directly to
-#'   `export_path` without any tidytransit parsing or format conversion. The file
-#'   is saved exactly as downloaded from the source. Only used when `export_path`
-#'   is provided. Defaults to `FALSE`.
+#' @param raw A logical. Controls whether the file saved to `export_path` is the
+#'   raw download (`TRUE`) or a parsed-and-re-exported version (`FALSE`).
+#'   Defaults to `TRUE` when `export_path` is provided, `FALSE` otherwise.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
-#' @return If `export_path` is provided with `raw = TRUE`, the file path (invisibly). If `latest = TRUE`, a `gtfs` object as returned by [tidytransit::read_gtfs()].
+#' @return If `export_path` is provided with `raw = TRUE` (the default when
+#'   exporting), the file path (invisibly). If `latest = TRUE`, a `gtfs` object
+#'   as returned by [tidytransit::read_gtfs()].
 #'   If `latest = FALSE`, a tibble of all available datasets with their metadata.
 #'
 #' @examplesIf mobdb_can_run_examples() && mobdb_has_tidytransit()
@@ -182,11 +178,11 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' # Search and download all feeds, including unofficial ones
 #' gtfs <- download_feed(provider = "TTC", official = NULL)
 #'
-#' # Download and save as ZIP file (parsed + re-exported with GTFS-compliant format)
-#' gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
+#' # Save GTFS feed to disk (raw file, no parsing required)
+#' path <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
 #'
-#' # Save raw GTFS ZIP without any parsing (fastest, no tidytransit required)
-#' path <- download_feed("mdb-247", export_path = "data/gtfs/trimet_raw.zip", raw = TRUE)
+#' # Save parsed + re-exported GTFS (normalized to spec format, requires tidytransit + gtfsio)
+#' gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip", raw = FALSE)
 #'
 #' @seealso
 #' [mobdb_datasets()] to list all available historical versions,
@@ -209,25 +205,29 @@ download_feed <- function(feed_id = NULL,
                           official = NULL,
                           auth_args = NULL,
                           export_path = NULL,
-                          raw = FALSE,
+                          raw = NULL,
                           ...) {
-  # raw + export_path bypasses tidytransit entirely — only require it otherwise
-  if (!raw || is.null(export_path)) {
-    if (!requireNamespace("tidytransit", quietly = TRUE)) {
-      cli::cli_abort(c(
-        "The {.pkg tidytransit} package is required to use this function.",
-        "i" = "Install it with {.code install.packages('tidytransit')}.",
-        "i" = "Or use {.code export_path} with {.code raw = TRUE} to download the raw ZIP without parsing."
-      ))
-    }
+  # Resolve raw: default TRUE when export_path is provided, FALSE otherwise
+  if (is.null(raw)) {
+    raw <- !is.null(export_path)
   }
 
-  # Validate parameter combinations
   if (raw && is.null(export_path)) {
     cli::cli_abort(c(
       "{.arg export_path} is required when {.arg raw = TRUE}.",
       "i" = "Specify a file path to save the raw GTFS ZIP to."
     ))
+  }
+
+  # raw + export_path bypasses tidytransit entirely -- only require it otherwise
+  if (!raw || is.null(export_path)) {
+    if (!requireNamespace("tidytransit", quietly = TRUE)) {
+      cli::cli_abort(c(
+        "The {.pkg tidytransit} package is required to use this function.",
+        "i" = "Install it with {.code install.packages('tidytransit')}.",
+        "i" = "Or use {.code export_path} to download the raw ZIP without parsing."
+      ))
+    }
   }
 
   if (!is.null(dataset_id) && use_source_url) {
@@ -709,14 +709,15 @@ download_feed <- function(feed_id = NULL,
 #'   Mobility Database's hosted URL (`FALSE`, default).
 #' @param auth_args Authentication arguments if required (see [download_feed()]).
 #' @param export_path A string. Optional path to save the GTFS feed as a ZIP file
-#'   (e.g., "data/gtfs/feed.zip"). See [download_feed()] for details on behavior
-#'   with the `raw` parameter.
-#' @param raw A logical. If `TRUE`, save the raw GTFS ZIP file directly to
-#'   `export_path` without any tidytransit parsing. See [download_feed()].
-#'   Defaults to `FALSE`.
+#'   (e.g., "data/gtfs/feed.zip"). See [download_feed()] for details.
+#' @param raw A logical. Controls whether the file saved to `export_path` is the
+#'   raw download (`TRUE`) or a parsed-and-re-exported version (`FALSE`).
+#'   Defaults to `TRUE` when `export_path` is provided, `FALSE` otherwise.
 #' @param ... Additional arguments passed to [tidytransit::read_gtfs()].
 #'
-#' @return If `export_path` is provided with `raw = TRUE`, the file path (invisibly). Otherwise, a `gtfs` object from tidytransit, or `NULL` if user cancels selection.
+#' @return If `export_path` is provided with `raw = TRUE` (the default when
+#'   exporting), the file path (invisibly). Otherwise, a `gtfs` object from
+#'   tidytransit, or `NULL` if user cancels selection.
 #'
 #' @section Selection Algorithm:
 #' When multiple feeds match the search criteria, feeds are ranked by:
@@ -783,9 +784,13 @@ download_best_feed <- function(provider = NULL,
                              use_source_url = FALSE,
                              auth_args = NULL,
                              export_path = NULL,
-                             raw = FALSE,
+                             raw = NULL,
                                ...) {
-  # raw + export_path bypasses tidytransit entirely — only require it otherwise
+  # Resolve raw: default TRUE when export_path is provided, FALSE otherwise
+  if (is.null(raw)) {
+    raw <- !is.null(export_path)
+  }
+
   if (raw && is.null(export_path)) {
     cli::cli_abort(c(
       "{.arg export_path} is required when {.arg raw = TRUE}.",
@@ -793,12 +798,13 @@ download_best_feed <- function(provider = NULL,
     ))
   }
 
+  # raw + export_path bypasses tidytransit entirely -- only require it otherwise
   if (!raw || is.null(export_path)) {
     if (!requireNamespace("tidytransit", quietly = TRUE)) {
       cli::cli_abort(c(
         "The {.pkg tidytransit} package is required to use this function.",
         "i" = "Install it with {.code install.packages('tidytransit')}.",
-        "i" = "Or use {.code export_path} with {.code raw = TRUE} to download the raw ZIP without parsing."
+        "i" = "Or use {.code export_path} to download the raw ZIP without parsing."
       ))
     }
   }

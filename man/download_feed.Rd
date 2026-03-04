@@ -19,7 +19,7 @@ download_feed(
   official = NULL,
   auth_args = NULL,
   export_path = NULL,
-  raw = FALSE,
+  raw = NULL,
   ...
 )
 }
@@ -85,27 +85,21 @@ The authentication method (URL parameter or HTTP header) is determined
 automatically from the feed's metadata.}
 
 \item{export_path}{A string. Optional path to save the GTFS feed as a ZIP file
-(e.g., "data/gtfs/feed.zip"). Behavior depends on the \code{raw} parameter:
-\itemize{
-\item \code{raw = FALSE} (default): The feed is parsed by tidytransit, converted back
-to GTFS-spec-compliant format (YYYYMMDD dates, HH:MM:SS times), and exported
-using \code{\link[gtfsio:export_gtfs]{gtfsio::export_gtfs()}}. Requires \code{tidytransit} and \code{gtfsio} packages.
-Returns a gtfs object.
-\item \code{raw = TRUE}: The feed is saved directly as downloaded — no tidytransit
-parsing, no format conversion. Does not require \code{tidytransit} or \code{gtfsio}.
-Returns the file path (invisibly) instead of a gtfs object.
-If \code{NULL} (default), the feed is not saved to disk.
-}}
+(e.g., "data/gtfs/feed.zip"). By default, saves the raw file exactly as
+downloaded. Set \code{raw = FALSE} to parse with tidytransit and re-export in
+GTFS-spec-compliant format (requires \code{tidytransit} and \code{gtfsio}).
+If \code{NULL} (default), the feed is not saved to disk.}
 
-\item{raw}{A logical. If \code{TRUE}, save the raw GTFS ZIP file directly to
-\code{export_path} without any tidytransit parsing or format conversion. The file
-is saved exactly as downloaded from the source. Only used when \code{export_path}
-is provided. Defaults to \code{FALSE}.}
+\item{raw}{A logical. Controls whether the file saved to \code{export_path} is the
+raw download (\code{TRUE}) or a parsed-and-re-exported version (\code{FALSE}).
+Defaults to \code{TRUE} when \code{export_path} is provided, \code{FALSE} otherwise.}
 
 \item{...}{Additional arguments passed to \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.}
 }
 \value{
-If \code{export_path} is provided with \code{raw = TRUE}, the file path (invisibly). If \code{latest = TRUE}, a \code{gtfs} object as returned by \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.
+If \code{export_path} is provided with \code{raw = TRUE} (the default when
+exporting), the file path (invisibly). If \code{latest = TRUE}, a \code{gtfs} object
+as returned by \code{\link[tidytransit:read_gtfs]{tidytransit::read_gtfs()}}.
 If \code{latest = FALSE}, a tibble of all available datasets with their metadata.
 }
 \description{
@@ -150,11 +144,11 @@ gtfs <- download_feed(
 # Search and download all feeds, including unofficial ones
 gtfs <- download_feed(provider = "TTC", official = NULL)
 
-# Download and save as ZIP file (parsed + re-exported with GTFS-compliant format)
-gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
+# Save GTFS feed to disk (raw file, no parsing required)
+path <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
 
-# Save raw GTFS ZIP without any parsing (fastest, no tidytransit required)
-path <- download_feed("mdb-247", export_path = "data/gtfs/trimet_raw.zip", raw = TRUE)
+# Save parsed + re-exported GTFS (normalized to spec format, requires tidytransit + gtfsio)
+gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip", raw = FALSE)
 \dontshow{\}) # examplesIf}
 }
 \seealso{

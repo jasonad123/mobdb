@@ -1,6 +1,6 @@
 # mobdb 1.0.0
 
-Setting the state for an initial CRAN release and bugfixes.
+Setting the stage for an initial CRAN release and bugfixes.
 
 ## Major changes
 
