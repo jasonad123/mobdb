@@ -87,7 +87,7 @@ get_validation_report(sample_datasets)
 
 if (FALSE) { # mobdb_can_run_examples()
 # With real API data:
-bart_feeds <- feeds(provider = "Bay Area Rapid Transit")
+bart_feeds <- feeds(provider = "Bay Area Rapid Transit", data_type = "gtfs")
 datasets <- mobdb_datasets(bart_feeds$id[1])
 validation <- get_validation_report(datasets)
 }

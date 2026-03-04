@@ -126,7 +126,7 @@ validation criteria.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># mobdb_can_run_examples()</span></span></span>
 <span class="r-in"><span><span class="co"># With real API data:</span></span></span>
-<span class="r-in"><span><span class="va">bart_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="feeds.html">feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"Bay Area Rapid Transit"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bart_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="feeds.html">feeds</a></span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"Bay Area Rapid Transit"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="mobdb_datasets.html">mobdb_datasets</a></span><span class="op">(</span><span class="va">bart_feeds</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">validation</span> <span class="op">&lt;-</span> <span class="fu">get_validation_report</span><span class="op">(</span><span class="va">datasets</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>

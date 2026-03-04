@@ -185,8 +185,8 @@ if (FALSE) { # mobdb_can_run_examples() && mobdb_has_tidytransit()
 gtfs <- download_feed("mdb-2862")
 
 # Download from search results
-feeds <- feeds(provider = "TransLink")
-gtfs <- download_feed(feeds[36, ])
+feeds <- feeds(provider = "TransLink", data_type = "gtfs")
+gtfs <- download_feed(feeds[1, ])
 
 # Search and download by provider name
 gtfs <- download_feed(provider = "Arlington")
@@ -194,7 +194,14 @@ gtfs <- download_feed(provider = "Arlington")
 # Download using agency's source URL instead of Mobility Database
 gtfs <- download_feed(provider = "TriMet", use_source_url = TRUE)
 
-# Filter by location
+# See all available versions for a feed
+versions <- download_feed("mdb-2862", latest = FALSE)
+
+# Download a specific historical version (feed_id auto-extracted from dataset_id)
+historical <- download_feed(dataset_id = "mdb-53-202507240047")
+}
+if (FALSE) {
+# Filter by location (may return multiple feeds requiring disambiguation)
 gtfs <- download_feed(
   country_code = "US",
   subdivision_name = "California",
@@ -203,12 +210,6 @@ gtfs <- download_feed(
 
 # Search and download all feeds, including unofficial ones
 gtfs <- download_feed(provider = "TTC", official = NULL)
-
-# See all available versions for a feed
-versions <- download_feed("mdb-2862", latest = FALSE)
-
-# Download a specific historical version (feed_id auto-extracted from dataset_id)
-historical <- download_feed(dataset_id = "mdb-53-202507240047")
 
 # Download and save as ZIP file (parsed + re-exported with GTFS-compliant format)
 gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")

@@ -17,6 +17,5 @@ Logical. `TRUE` if examples can run, `FALSE` otherwise.
 
 ``` r
 mobdb_can_run_examples()
-#> Warning: URL 'https://api.mobilitydatabase.org/?apiKey=***REDACTED_API_KEY***&mode=login&tid=_59033768865&redirect_uri=https://iap.googleapis.com/v1beta1/gcip/resources/288F4075118BE963:handleRedirect&state=***REDACTED_JWT_TOKEN*** [... truncated]
 #> [1] FALSE
 ```

@@ -49,7 +49,7 @@ to get dataset information with validation reports
 ## Examples
 
 ``` r
-if (FALSE) { # mobdb_can_run_examples()
+if (FALSE) { # \dontrun{
 # View validation report for Alexandria DASH
 view_validation_report("mdb-482")
 
@@ -59,5 +59,5 @@ view_validation_report(datasets)
 
 # View JSON report instead
 view_validation_report("mdb-482", format = "json")
-}
+} # }
 ```
