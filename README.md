@@ -1,6 +1,7 @@
 # mobdb <img src="man/figures/logo.png" align="right" width="180" alt="logo" />
 
 <!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/jasonad123/mobdb/graph/badge.svg)](https://app.codecov.io/gh/jasonad123/mobdb)
 [![mobdb status badge](https://jasonad123.r-universe.dev/mobdb/badges/version)](https://jasonad123.r-universe.dev/mobdb)
