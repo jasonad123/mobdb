@@ -67,9 +67,9 @@ usethis::edit_r_environ()
 # MOBDB_REFRESH_TOKEN=your-refresh-token-here
 ```
 
-## Basic Workflow: Discovery → Download → Analysis
+## Basics: Discover, download, analyze
 
-### Step 1: Discover feeds
+### Discover feeds
 
 Find GTFS feeds using various search criteria:
 
@@ -136,7 +136,7 @@ plot(bart_sf$stops)
 
 ## Common use cases
 
-### Finding Feeds by Location
+### Finding feeds by location
 
 ``` r
 # Find feeds in a specific municipality
@@ -154,7 +154,7 @@ bc_feeds <- feeds(
 )
 ```
 
-### Working with Multiple Feeds
+### Working with multiple feeds
 
 ``` r
 # Get feeds for several cities
@@ -173,7 +173,21 @@ frequencies <- lapply(feeds_list, function(gtfs) {
 })
 ```
 
-## Complete Example Workflow
+### Downloading feeds to local storage
+
+``` r
+# Find feeds in a specific municipality or jurisdiction
+seattle_feeds <- feeds(municipality = "Seattle", data_type = "gtfs")
+pdx_feeds <- feeds(municipality = "Portland", data_type = "gtfs")
+
+# Download a feed directly to disk
+seattle_dl <- download_feed("mdb-1080", export_path= "data/gtfs/seattle.zip")
+
+# Download the raw feed, bypassing any processing by tidytransit
+pdx_dl <- download_feed("mdb-247", export_path= "data/gtfs/portland.zip", raw = TRUE)
+```
+
+## Example workflow
 
 Here’s a complete example from discovery to analysis:
 
@@ -199,7 +213,7 @@ translink <- download_feed(vancouver_feeds$id[1])
 validation <- validate_gtfs(translink)
 print(validation)
 
-# 3a. VALIDATE (another way): Check feed quality (using the MobilityData report)
+# 3a. VALIDATE (another way): Check feed quality (using the Mobility Database report)
 vancouver_datasets <- mobdb_datasets(vancouver_feeds$id[1])
 feed_report <- get_validation_report(vancouver_datasets)
 print(feed_report)
@@ -237,11 +251,67 @@ routes_sf_buffer %>%
   theme_bw()
 ```
 
+## Advanced features
+
+### Accessing archived feeds (datasets)
+
+The Mobility Database downloads and archives GTFS Schedule feeds at
+midnight UTC, allowing users to download and reference historical
+versions of feeds.
+
+These historical versions are called “datasets” in the Mobility Database
+nomenclature. We can access datasets through the Mobility Database API
+and download them independently.
+
+``` r
+versions <- download_feed("mdb-53", latest = FALSE)  # BART
+nrow(versions)
+head(versions$id, n = 10)
+
+# Download a specific historical version
+historical <- download_feed(dataset_id = "mdb-53-202507240047")
+
+# Compare validation across versions
+recent_versions <- versions[1:3, ]
+sapply(1:3, function(i) {
+  get_validation_report(recent_versions[i, ])$total_error
+})
+```
+
+### Check feed quality before downloading
+
+The Mobility Database validates all GTFS Schedule feeds through the
+canonical GTFS validator. You can check validation results before
+downloading.
+
+``` r
+
+# Get validation report for a feed
+datasets <- mobdb_datasets("mdb-482")  # Alexandria DASH
+validation <- get_validation_report(datasets)
+validation
+
+# View detailed validation report in browser
+view_validation_report("mdb-482")
+
+# Check feed quality, then download if clean
+if (validation$total_error == 0) {
+  gtfs <- download_feed("mdb-482")
+}
+```
+
+## Other feed types
+
+For information on how to use `mobdb` with other feed types accessible
+in the Mobility Database, see [this
+vignette](https://mobdb.jasonadle.dev/articles/gbfs-and-gtfs-rt.md).
+
 ## Related packages
 
 mobdb is just the first stop, not the end of the route when it comes to
-transit and transportation on R. Here are some other packages in the R
-ecosystem for analyzing GTFS.
+transit and transportation on R.
+
+Other packages for analyzing GTFS in the R ecosystem include:
 
 - [tidytransit](https://r-transit.github.io/tidytransit/): A tool to
   read and analyze GTFS feeds

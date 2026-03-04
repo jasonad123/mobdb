@@ -20,7 +20,7 @@ Search and explore available transit feeds
 - [`feeds()`](https://mobdb.jasonadle.dev/reference/feeds.md) : List and
   filter GTFS Schedule, GTFS-RT, and GBFS feeds
 - [`feeds_bbox()`](https://mobdb.jasonadle.dev/reference/feeds_bbox.md)
-  : Find GTFS Schedule feeds by location
+  : Find GTFS Schedule feeds by bounding box
 
 ## Download feeds
 
@@ -29,8 +29,8 @@ Download feeds for analysis
 - [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
   : Download GTFS Schedule feeds
 - [`download_best_feed()`](https://mobdb.jasonadle.dev/reference/download_best_feed.md)
-  **\[experimental\]** : Download the best GTFS Schedule feed with smart
-  selection
+  **\[experimental\]** : Download the "best" GTFS Schedule feed with
+  smart selection
 - [`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
   **\[superseded\]** : Read GTFS feed directly from Mobility Database
 - [`gtfs_to_spec_format()`](https://mobdb.jasonadle.dev/reference/gtfs_to_spec_format.md)

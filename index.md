@@ -49,11 +49,13 @@ mobdb_set_key("your_refresh_token_here", install = TRUE)
 Alternatively, you can set the `MOBDB_REFRESH_TOKEN` environment
 variable in your `.Renviron` file.
 
-## Usage
+## Getting started
 
 ### Search for feeds
 
 ``` r
+library(mobdb)
+
 # Search by provider name
 bart_feeds <- feeds(provider = "BART")
 
@@ -79,19 +81,19 @@ function downloads GTFS Schedule feeds by feed ID or by searching for
 providers/locations.
 
 ``` r
+library(mobdb)
 library(tidytransit)
-library(gtfsio)
 
 # Download by feed ID
 stm_montreal <- download_feed("mdb-2126")
 
-# Download by provider name (excludes GTFS-Flex feeds automatically)
+# Or by provider name (excludes GTFS-Flex feeds automatically)
 bart_gtfs <- download_feed(provider = "BART")
 
 # Use feed_name parameter when multiple feeds exist for a provider
 dc_bus <- download_feed(provider = "WMATA", feed_name = "Bus")
 
-# Download from agency source URL instead of MobilityData hosted version
+# Download from agency source URL instead of Mobility Database hosted version
 kcm_gtfs <- download_feed(provider = "King County", use_source_url = TRUE)
 
 # Filter by location
@@ -100,90 +102,40 @@ on_gtfs <- download_feed(
   subdivision_name = "Ontario"
 )
 
-# Export as GTFS zip file
-pdx_gtfs <- download_feed("mdb-247")
-export_gtfs(stm_montreal, "data/gtfs/trimet.zip")
+# Export as a zip file 
+pdx_gtfs <- download_feed("mdb-247", export_path = file.path("data/gtfs/trimet.zip"))
 
 # Check exported file contents
 zip::zip_list("data/gtfs/trimet.zip")$filename
-#> [1] "agency.txt"         "calendar.txt"       "calendar_dates.txt"
-#> [4] "feed_info.txt"      "routes.txt"         "shapes.txt"
-#> [7] "stops.txt"          "stop_times.txt"     "trips.txt"
+#> [1] "feed_info.txt"           "stops.txt"               "agency.txt"              "calendar.txt"   
+#> [5] "calendar_dates.txt"      "fare_attributes.txt"     "fare_leg_rules.txt"      "fare_media.txt" 
+#> [7] "fare_products.txt"       "fare_rules.txt"          "fare_transfer_rules.txt" "rider_categories.txt"
+#> [13] "routes.txt"              "route_directions.txt"    "shapes.txt"              "stop_features.txt"
+#> [17] "stop_times.txt"          "transfers.txt"           "trips.txt"               "linked_datasets.txt" 
 ```
 
-**Note:** When multiple feeds match your search criteria, the function
-displays a table of options and prompts you to specify which feed to
-download using its feed ID.
+**Note:** When multiple feeds share the same name or search criteria,
+[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
+displays a `tibble` of options and prompts you to specify which feed to
+download using its feed ID or using more qualifiers.
 
 ``` r
-gtfs <- download_feed(provider = "San Francisco")
+gtfs <- download_feed(provider = "WMATA")
 #> Searching for GTFS Schedule feeds...
 #> ! Found 2 matching feeds:
 #>
 #> # A tibble: 2 × 4
-#>   id     provider                                          feed_name status
-#>   <chr>  <chr>                                             <chr>     <chr>
-#> 1 mdb-62 San Francisco Bay Area Water Emergency Transp... ""        active
-#> 2 mdb-50 San Francisco Municipal Transportation Agency ... ""        inactive
+#> A tibble: 2 × 4
+#>  id       provider                                               feed_name status
+#>  <chr>    <chr>                                                  <chr>     <chr> 
+#> 1 mdb-1846 Washington Metropolitan Area Transit Authority (WMATA) Bus       active
+#> 2 mdb-1847 Washington Metropolitan Area Transit Authority (WMATA) Rail      active
 #>
-#> Error: Multiple feeds found. Please specify which one to download.
-#> Use `download_feed(feed_id = "mdb-XXX")` with one of the IDs above.
+#> Error in `download_feed()`:
+#> ✖ Multiple feeds found. Please specify which one to download.
+#> ℹ Use `download_feed(feed_id = "mdb-XXX")` with one of the IDs above.
+#> ℹ Or refine your search with the `provider` or `feed_name` parameters.
 ```
-
-### Smart feed selection with `download_best_feed()`
-
-The
-[`download_best_feed()`](https://mobdb.jasonadle.dev/reference/download_best_feed.md)
-function provides intelligent, one-shot downloading with automatic feed
-selection. It ranks feeds by status (active \> future \> inactive \>
-deprecated), official designation, validation quality, and service date
-coverage.
-
-``` r
-# Simple one-shot download - automatically selects the best feed
-bart_feed <- download_best_feed(provider = "Bay Area Rapid Transit")
-
-# Download with quality filtering - only error-free feeds
-clean_feed <- download_best_feed(
-  provider = "Capital Metro",
-  max_validation_errors = 0
-)
-
-# Location-based search
-ontario_feed <- download_best_feed(
-  country_code = "CA",
-  subdivision_name = "Ontario"
-)
-
-# Interactive mode prompts when multiple equally-ranked feeds exist
-wmata_feed <- download_best_feed(provider = "WMATA")
-#> Multiple GTFS Schedule feeds found. Please select one:
-#>   1. [mdb-1124] Washington Metropolitan Area Transit Authority (Bus)
-#>      Status: active | Official: TRUE | Errors: 0 | Warnings: 23
-#>      Service: 2024-11-15 to 2025-06-30
-#>
-#>   2. [mdb-1125] Washington Metropolitan Area Transit Authority (Rail)
-#>      Status: active | Official: TRUE | Errors: 0 | Warnings: 15
-#>      Service: 2024-12-01 to 2025-06-30
-#>
-#> Enter selection (1-2) or 'q' to quit: 1
-
-# Non-interactive mode for scripts
-options(mobdb.interactive = FALSE)
-feed <- download_best_feed(provider = "Metro Transit")
-```
-
-The function automatically falls back to historical datasets when the
-current feed is marked “future” or “inactive”, ensuring you get usable
-data.
-
-**Note:** Like
-[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md),
-this function only works with GTFS Schedule feeds. For GTFS-RT or GBFS
-feeds, use
-[`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)
-or fetch URLs with
-[`mobdb_get_feed()`](https://mobdb.jasonadle.dev/reference/mobdb_get_feed.md).
 
 ### Get feed details
 
@@ -199,99 +151,24 @@ feeds <- feeds(country_code = "US", data_type = "gtfs", limit = 10)
 urls <- mobdb_extract_urls(feeds)
 ```
 
-### Check feed quality before downloading
+### Using with other R transit packages
 
-The Mobility Database validates all GTFS Schedule feeds through the
-canonical GTFS validator. You can check validation results before
-downloading:
+When downloading GTFS Schedule feeds, `mobdb` provides outputs that are
+compatible with for working with
+[tidytransit](https://github.com/r-transit/tidytransit) and other R
+transit packages.
 
-``` r
-# Get validation report for a feed
-datasets <- mobdb_datasets("mdb-482")  # Alexandria DASH
-validation <- get_validation_report(datasets)
-validation
-#> # A tibble: 1 × 12
-#>   dataset_id    feed_id total_error total_warning total_info html_report
-#>   <chr>         <chr>         <int>         <int>      <int> <chr>
-#> 1 mdb-482-2025… mdb-482           0            38          0 https://...
+## More information
 
-# View detailed validation report in browser
-view_validation_report("mdb-482")
+For more details on how to use more advanced functionality of `mobdb`,
+have a look at the following vignettes:
 
-# Check feed quality, then download if clean
-if (validation$total_error == 0) {
-  gtfs <- download_feed("mdb-482")
-}
-```
+- [Intro to mobdb for and use with GTFS Schedule
+  feeds](https://mobdb.jasonadle.dev/articles/mobdb.html)
+- [GTFs-Realtime and GBFS usage (within what’s possible with
+  R)](https://mobdb.jasonadle.dev/articles/gbfs-and-gtfs-rt.html)
 
-### Access historical datasets
-
-``` r
-# List all available versions for a feed
-versions <- download_feed("mdb-53", latest = FALSE)  # BART
-nrow(versions)
-#> [1] 29
-
-# Download a specific historical version
-historical <- download_feed(dataset_id = "mdb-53-202507240047")
-
-# Compare validation across versions
-recent_versions <- versions[1:3, ]
-sapply(1:3, function(i) {
-  get_validation_report(recent_versions[i, ])$total_error
-})
-#> [1]   2 266   2
-```
-
-### Using with tidytransit
-
-The package provides three functions for working with
-[tidytransit](https://github.com/r-transit/tidytransit):
-
-- **[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)** -
-  Download GTFS Schedule feeds with provider/location search
-  (recommended)
-- **[`download_best_feed()`](https://mobdb.jasonadle.dev/reference/download_best_feed.md)** -
-  Download “best available” GTFS Schedule feed for a selected provider
-- **[`mobdb_read_gtfs()`](https://mobdb.jasonadle.dev/reference/mobdb_read_gtfs.md)** -
-  More flexible reader that works with any GTFS feed type
-
-``` r
-library(tidytransit)
-library(dplyr)
-
-# Download GTFS Schedule feed with search (recommended for most users)
-gtfs <- download_feed(provider = "TriMet")
-
-# Or use mobdb_read_gtfs() for more flexibility
-gtfs <- mobdb_read_gtfs("mdb-247")
-
-# Pass a data frame from feeds()
-feeds <- feeds(provider = "TriMet", data_type = "gtfs")
-gtfs <- mobdb_read_gtfs(feeds[1, ])
-
-# Or manually extract URLs and use tidytransit directly
-urls <- mobdb_extract_urls(feeds)
-gtfs <- read_gtfs(urls[1])
-
-# Now analyze with tidytransit
-gtfs$routes
-gtfs$stops
-```
-
-### Pagination
-
-For large result sets, use pagination:
-
-``` r
-# Get first 100 results
-page1 <- feeds(limit = 100, offset = 0)
-
-# Get next 100 results
-page2 <- feeds(limit = 100, offset = 100)
-```
-
-## Related Packages
+## Related packages
 
 - [tidytransit](https://github.com/r-transit/tidytransit) - Read,
   validate, and analyze GTFS feeds
@@ -306,19 +183,19 @@ MIT License
 
 ## Disclaimers
 
-**Not Affiliated with MobilityData**: This package is an independent,
+**Not affiliated with MobilityData**: This package is an independent,
 community-developed project and is not officially affiliated with,
 endorsed by, or supported by MobilityData or the Mobility Database
 project. It is a third-party API wrapper created to facilitate R users’
 access to the Mobility Database.
 
-**Work in Progress**: This package is under active development. While
+**Work in progress**: This package is under active development. While
 all functions have been tested against the live API and the package
 passes R CMD check, the API structure may change, and some features are
 still being refined. Use in production environments at your own
 discretion.
 
-**Generative AI Assistance**: This code and documentation were developed
+**Generative AI assistance**: This code and documentation were developed
 with assistance from generative AI tools, including Claude and Claude
 Code. While all outputs have been reviewed and tested, users should
 validate results independently before use in production environments.

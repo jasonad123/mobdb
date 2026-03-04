@@ -1,4 +1,4 @@
-# Find GTFS Schedule feeds by location
+# Find GTFS Schedule feeds by bounding box
 
 Discover GTFS Schedule feeds whose geographic coverage overlaps with or
 is contained within a specified bounding box. This function is designed

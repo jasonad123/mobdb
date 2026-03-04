@@ -1,16 +1,15 @@
-# Download the best GTFS Schedule feed with smart selection
+# Download the "best" GTFS Schedule feed with smart selection
 
 **\[experimental\]**
 
-A higher-level wrapper around
+A wrapper around
 [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
-that automagically selects the best GTFS Schedule feed when multiple
+that *automagically* selects the best GTFS Schedule feed when multiple
 options exist. This function:
 
 - Searches for feeds using provider name or location
 
-- Automatically ranks feeds by status, official designation, and
-  validation quality
+- Ranks feeds by status, official designation, and validation quality
 
 - Prompts for user selection when multiple equally-ranked feeds exist
   (in interactive mode)
@@ -20,8 +19,8 @@ options exist. This function:
 
 - Only works with GTFS Schedule feeds (not GTFS-RT or GBFS)
 
-This is designed for common use cases where you just want the best, most
-recent feed without needing to specify exact feed IDs or handle multiple
+This is designed for use cases where you just want the best, most recent
+feed without needing to specify exact feed IDs or handle multiple
 results manually.
 
 ## Usage
@@ -129,7 +128,7 @@ If `export_path` is provided with `raw = TRUE` (the default when
 exporting), the file path (invisibly). Otherwise, a `gtfs` object from
 tidytransit, or `NULL` if user cancels selection.
 
-## Selection Algorithm
+## Selection algorithm
 
 When multiple feeds match the search criteria, feeds are ranked by:
 
@@ -148,23 +147,22 @@ When multiple feeds match the search criteria, feeds are ranked by:
 If multiple feeds have the same score and `interactive = TRUE`, you'll
 be prompted to choose.
 
-## Status Handling
+## Status handling
 
 The function handles different feed statuses as follows:
 
-- **"active"**: Preferred status. Feed should be used in public trip
-  planners.
+- **"active"**: Preferred. Feed should be used in public trip planners.
 
 - **"future"** or **"inactive"**: Automatically searches for historical
   datasets with service dates covering today. "future" feeds are not yet
   active; "inactive" feeds haven't been recently updated and may provide
   outdated information.
 
-- **"deprecated"**: Explicitly deprecated and should not be used. Warns
+- **"deprecated"**: Explicitly deprecated and shouldn't be used. Warns
   user to search for a replacement feed.
 
-- **"development"**: For development purposes only, should not be used
-  in production.
+- **"development"**: For development purposes only, shouldn't be used in
+  production.
 
 ## GTFS Schedule Only
 

@@ -49,11 +49,10 @@ Setting the stage for an initial CRAN release and bugfixes.
   [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
   and
   [`download_best_feed()`](https://mobdb.jasonadle.dev/reference/download_best_feed.md).
-  This argument wraps
-  [`export_gtfs()`](https://r-transit.github.io/gtfsio/reference/export_gtfs.html)
-  from `gtfsio` to save GTFS Schedule files as a ZIP file locally.
-  Perfect for workflows that need a local ZIP file and not a tidygtfs
-  object, like analysis in [R5r](https://ipeagit.github.io/r5r/)
+  This argument wraps `export_gtfs()` from `gtfsio` to save GTFS
+  Schedule files as a ZIP file locally. Perfect for workflows that need
+  a local ZIP file and not a tidygtfs object, like analysis in
+  [R5r](https://ipeagit.github.io/r5r/)
 - *FYI:* Documentation for this package has now been moved to a new
   domain - <https://mobdb.jasonadle.dev> - you should be redirected
   automatically and we’ll keep it up on the old domain for a period of
