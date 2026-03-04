@@ -29,7 +29,7 @@ GBFS validation reports are located at a different endpoint and have a different
 validation criteria.
 }
 \examples{
-\dontshow{if (mobdb_can_run_examples()) withAutoprint(\{ # examplesIf}
+\dontrun{
 # View validation report for Alexandria DASH
 view_validation_report("mdb-482")
 
@@ -39,7 +39,8 @@ view_validation_report(datasets)
 
 # View JSON report instead
 view_validation_report("mdb-482", format = "json")
-\dontshow{\}) # examplesIf}
+}
+
 }
 \seealso{
 \code{\link[=get_validation_report]{get_validation_report()}} to extract validation data as a tibble,

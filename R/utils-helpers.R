@@ -326,7 +326,7 @@ mobdb_extract_datasets <- function(results) {
 #'
 #' @examplesIf mobdb_can_run_examples()
 #' # With real API data:
-#' bart_feeds <- feeds(provider = "Bay Area Rapid Transit")
+#' bart_feeds <- feeds(provider = "Bay Area Rapid Transit", data_type = "gtfs")
 #' datasets <- mobdb_datasets(bart_feeds$id[1])
 #' validation <- get_validation_report(datasets)
 #'
@@ -431,7 +431,8 @@ get_validation_report <- function(data) {
 #'
 #' @return Invisibly returns the URL that was opened.
 #'
-#' @examplesIf mobdb_can_run_examples()
+#' @examples
+#' \dontrun{
 #' # View validation report for Alexandria DASH
 #' view_validation_report("mdb-482")
 #'
@@ -441,6 +442,7 @@ get_validation_report <- function(data) {
 #'
 #' # View JSON report instead
 #' view_validation_report("mdb-482", format = "json")
+#' }
 #'
 #' @seealso
 #' [get_validation_report()] to extract validation data as a tibble,

@@ -9,16 +9,13 @@
 #' Used internally to control example execution on CRAN.
 #'
 #' @return Logical. `TRUE` if internet is available, `FALSE` otherwise.
+#' @importFrom curl nslookup
 #' @keywords internal
 #' @export
 #' @examples
 #' mobdb_has_internet()
 mobdb_has_internet <- function() {
-  tryCatch({
-    con <- url("https://api.mobilitydatabase.org", open = "r")
-    on.exit(close(con))
-    TRUE
-  }, error = function(e) FALSE)
+  !is.null(curl::nslookup("api.mobilitydatabase.org", error = FALSE))
 }
 
 #' Check if mobdb examples can run
