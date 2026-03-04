@@ -42,7 +42,7 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="mobdb-100">mobdb 1.0.0<a class="anchor" aria-label="anchor" href="#mobdb-100"></a></h2>
-<p>Initial CRAN release.</p>
+<p>Setting the state for an initial CRAN release and bugfixes.</p>
 <div class="section level3">
 <h3 id="major-changes-1-0-0">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-1-0-0"></a></h3>
 <ul><li>First stable release prepared for CRAN submission</li>
@@ -52,10 +52,13 @@
 <h3 id="minor-changes-1-0-0">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-1-0-0"></a></h3>
 <ul><li>Refined API response caching system</li>
 <li>Improved error messages and user feedback</li>
+<li>
+<strong>New!</strong> <code>raw=</code> argument added to <code><a href="../reference/download_feed.html">download_feed()</a></code> and <code><a href="../reference/download_best_feed.html">download_best_feed()</a></code> - download raw ZIP files without parsing or processing</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-0-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-0"></a></h3>
 <ul><li>Various stability improvements from pre-release testing</li>
+<li>Feed download functions like <code><a href="../reference/download_feed.html">download_feed()</a></code> should now consistently have GTFS spec-compliant dates and times.</li>
 </ul></div>
 </div>
     <div class="section level2">

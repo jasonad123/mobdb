@@ -2,7 +2,7 @@
 
 ## mobdb 1.0.0
 
-Initial CRAN release.
+Setting the state for an initial CRAN release and bugfixes.
 
 ### Major changes
 
@@ -13,10 +13,18 @@ Initial CRAN release.
 
 - Refined API response caching system
 - Improved error messages and user feedback
+- **New!** `raw=` argument added to
+  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
+  and
+  [`download_best_feed()`](https://mobdb.jasonadle.dev/reference/download_best_feed.md) -
+  download raw ZIP files without parsing or processing
 
 ### Bug fixes
 
 - Various stability improvements from pre-release testing
+- Feed download functions like
+  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
+  should now consistently have GTFS spec-compliant dates and times.
 
 ## mobdb 0.1.8
 
