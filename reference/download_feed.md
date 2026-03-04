@@ -29,7 +29,7 @@ download_feed(
   official = NULL,
   auth_args = NULL,
   export_path = NULL,
-  raw = FALSE,
+  raw = NULL,
   ...
 )
 ```
@@ -132,26 +132,16 @@ download_feed(
 - export_path:
 
   A string. Optional path to save the GTFS feed as a ZIP file (e.g.,
-  "data/gtfs/feed.zip"). Behavior depends on the `raw` parameter:
-
-  - `raw = FALSE` (default): The feed is parsed by tidytransit,
-    converted back to GTFS-spec-compliant format (YYYYMMDD dates,
-    HH:MM:SS times), and exported using
-    [`gtfsio::export_gtfs()`](https://r-transit.github.io/gtfsio/reference/export_gtfs.html).
-    Requires `tidytransit` and `gtfsio` packages. Returns a gtfs object.
-
-  - `raw = TRUE`: The feed is saved directly as downloaded — no
-    tidytransit parsing, no format conversion. Does not require
-    `tidytransit` or `gtfsio`. Returns the file path (invisibly) instead
-    of a gtfs object. If `NULL` (default), the feed is not saved to
-    disk.
+  "data/gtfs/feed.zip"). By default, saves the raw file exactly as
+  downloaded. Set `raw = FALSE` to parse with tidytransit and re-export
+  in GTFS-spec-compliant format (requires `tidytransit` and `gtfsio`).
+  If `NULL` (default), the feed is not saved to disk.
 
 - raw:
 
-  A logical. If `TRUE`, save the raw GTFS ZIP file directly to
-  `export_path` without any tidytransit parsing or format conversion.
-  The file is saved exactly as downloaded from the source. Only used
-  when `export_path` is provided. Defaults to `FALSE`.
+  A logical. Controls whether the file saved to `export_path` is the raw
+  download (`TRUE`) or a parsed-and-re-exported version (`FALSE`).
+  Defaults to `TRUE` when `export_path` is provided, `FALSE` otherwise.
 
 - ...:
 
@@ -160,8 +150,9 @@ download_feed(
 
 ## Value
 
-If `export_path` is provided with `raw = TRUE`, the file path
-(invisibly). If `latest = TRUE`, a `gtfs` object as returned by
+If `export_path` is provided with `raw = TRUE` (the default when
+exporting), the file path (invisibly). If `latest = TRUE`, a `gtfs`
+object as returned by
 [`tidytransit::read_gtfs()`](https://r-transit.github.io/tidytransit/reference/read_gtfs.html).
 If `latest = FALSE`, a tibble of all available datasets with their
 metadata.
@@ -211,10 +202,10 @@ gtfs <- download_feed(
 # Search and download all feeds, including unofficial ones
 gtfs <- download_feed(provider = "TTC", official = NULL)
 
-# Download and save as ZIP file (parsed + re-exported with GTFS-compliant format)
-gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
+# Save GTFS feed to disk (raw file, no parsing required)
+path <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
 
-# Save raw GTFS ZIP without any parsing (fastest, no tidytransit required)
-path <- download_feed("mdb-247", export_path = "data/gtfs/trimet_raw.zip", raw = TRUE)
+# Save parsed + re-exported GTFS (normalized to spec format, requires tidytransit + gtfsio)
+gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip", raw = FALSE)
 }
 ```

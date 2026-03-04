@@ -41,7 +41,7 @@ download_best_feed(
   use_source_url = FALSE,
   auth_args = NULL,
   export_path = NULL,
-  raw = FALSE,
+  raw = NULL,
   ...
 )
 ```
@@ -110,14 +110,13 @@ download_best_feed(
   A string. Optional path to save the GTFS feed as a ZIP file (e.g.,
   "data/gtfs/feed.zip"). See
   [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
-  for details on behavior with the `raw` parameter.
+  for details.
 
 - raw:
 
-  A logical. If `TRUE`, save the raw GTFS ZIP file directly to
-  `export_path` without any tidytransit parsing. See
-  [`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md).
-  Defaults to `FALSE`.
+  A logical. Controls whether the file saved to `export_path` is the raw
+  download (`TRUE`) or a parsed-and-re-exported version (`FALSE`).
+  Defaults to `TRUE` when `export_path` is provided, `FALSE` otherwise.
 
 - ...:
 
@@ -126,9 +125,9 @@ download_best_feed(
 
 ## Value
 
-If `export_path` is provided with `raw = TRUE`, the file path
-(invisibly). Otherwise, a `gtfs` object from tidytransit, or `NULL` if
-user cancels selection.
+If `export_path` is provided with `raw = TRUE` (the default when
+exporting), the file path (invisibly). Otherwise, a `gtfs` object from
+tidytransit, or `NULL` if user cancels selection.
 
 ## Selection Algorithm
 

@@ -91,7 +91,7 @@ without needing to specify exact feed IDs or handle multiple results manually.</
 <span>  use_source_url <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  auth_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  export_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  raw <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  raw <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -156,14 +156,13 @@ Mobility Database's hosted URL (<code>FALSE</code>, default).</p></dd>
 
 <dt id="arg-export-path">export_path<a class="anchor" aria-label="anchor" href="#arg-export-path"></a></dt>
 <dd><p>A string. Optional path to save the GTFS feed as a ZIP file
-(e.g., "data/gtfs/feed.zip"). See <code><a href="download_feed.html">download_feed()</a></code> for details on behavior
-with the <code>raw</code> parameter.</p></dd>
+(e.g., "data/gtfs/feed.zip"). See <code><a href="download_feed.html">download_feed()</a></code> for details.</p></dd>
 
 
 <dt id="arg-raw">raw<a class="anchor" aria-label="anchor" href="#arg-raw"></a></dt>
-<dd><p>A logical. If <code>TRUE</code>, save the raw GTFS ZIP file directly to
-<code>export_path</code> without any tidytransit parsing. See <code><a href="download_feed.html">download_feed()</a></code>.
-Defaults to <code>FALSE</code>.</p></dd>
+<dd><p>A logical. Controls whether the file saved to <code>export_path</code> is the
+raw download (<code>TRUE</code>) or a parsed-and-re-exported version (<code>FALSE</code>).
+Defaults to <code>TRUE</code> when <code>export_path</code> is provided, <code>FALSE</code> otherwise.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -172,7 +171,9 @@ Defaults to <code>FALSE</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>If <code>export_path</code> is provided with <code>raw = TRUE</code>, the file path (invisibly). Otherwise, a <code>gtfs</code> object from tidytransit, or <code>NULL</code> if user cancels selection.</p>
+    <p>If <code>export_path</code> is provided with <code>raw = TRUE</code> (the default when
+exporting), the file path (invisibly). Otherwise, a <code>gtfs</code> object from
+tidytransit, or <code>NULL</code> if user cancels selection.</p>
     </div>
     <div class="section level2">
     <h2 id="selection-algorithm">Selection Algorithm<a class="anchor" aria-label="anchor" href="#selection-algorithm"></a></h2>

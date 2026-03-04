@@ -77,7 +77,7 @@ GTFS Realtime and GBFS feeds use a different data model and are not supported by
 <span>  official <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  auth_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  export_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  raw <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  raw <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -170,22 +170,16 @@ automatically from the feed's metadata.</p></dd>
 
 <dt id="arg-export-path">export_path<a class="anchor" aria-label="anchor" href="#arg-export-path"></a></dt>
 <dd><p>A string. Optional path to save the GTFS feed as a ZIP file
-(e.g., "data/gtfs/feed.zip"). Behavior depends on the <code>raw</code> parameter:</p><ul><li><p><code>raw = FALSE</code> (default): The feed is parsed by tidytransit, converted back
-to GTFS-spec-compliant format (YYYYMMDD dates, HH:MM:SS times), and exported
-using <code><a href="https://r-transit.github.io/gtfsio/reference/export_gtfs.html" class="external-link">gtfsio::export_gtfs()</a></code>. Requires <code>tidytransit</code> and <code>gtfsio</code> packages.
-Returns a gtfs object.</p></li>
-<li><p><code>raw = TRUE</code>: The feed is saved directly as downloaded — no tidytransit
-parsing, no format conversion. Does not require <code>tidytransit</code> or <code>gtfsio</code>.
-Returns the file path (invisibly) instead of a gtfs object.
-If <code>NULL</code> (default), the feed is not saved to disk.</p></li>
-</ul></dd>
+(e.g., "data/gtfs/feed.zip"). By default, saves the raw file exactly as
+downloaded. Set <code>raw = FALSE</code> to parse with tidytransit and re-export in
+GTFS-spec-compliant format (requires <code>tidytransit</code> and <code>gtfsio</code>).
+If <code>NULL</code> (default), the feed is not saved to disk.</p></dd>
 
 
 <dt id="arg-raw">raw<a class="anchor" aria-label="anchor" href="#arg-raw"></a></dt>
-<dd><p>A logical. If <code>TRUE</code>, save the raw GTFS ZIP file directly to
-<code>export_path</code> without any tidytransit parsing or format conversion. The file
-is saved exactly as downloaded from the source. Only used when <code>export_path</code>
-is provided. Defaults to <code>FALSE</code>.</p></dd>
+<dd><p>A logical. Controls whether the file saved to <code>export_path</code> is the
+raw download (<code>TRUE</code>) or a parsed-and-re-exported version (<code>FALSE</code>).
+Defaults to <code>TRUE</code> when <code>export_path</code> is provided, <code>FALSE</code> otherwise.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -194,7 +188,9 @@ is provided. Defaults to <code>FALSE</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>If <code>export_path</code> is provided with <code>raw = TRUE</code>, the file path (invisibly). If <code>latest = TRUE</code>, a <code>gtfs</code> object as returned by <code><a href="https://r-transit.github.io/tidytransit/reference/read_gtfs.html" class="external-link">tidytransit::read_gtfs()</a></code>.
+    <p>If <code>export_path</code> is provided with <code>raw = TRUE</code> (the default when
+exporting), the file path (invisibly). If <code>latest = TRUE</code>, a <code>gtfs</code> object
+as returned by <code><a href="https://r-transit.github.io/tidytransit/reference/read_gtfs.html" class="external-link">tidytransit::read_gtfs()</a></code>.
 If <code>latest = FALSE</code>, a tibble of all available datasets with their metadata.</p>
     </div>
     <div class="section level2">
@@ -238,11 +234,11 @@ If <code>latest = FALSE</code>, a tibble of all available datasets with their me
 <span class="r-in"><span><span class="co"># Search and download all feeds, including unofficial ones</span></span></span>
 <span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span>provider <span class="op">=</span> <span class="st">"TTC"</span>, official <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Download and save as ZIP file (parsed + re-exported with GTFS-compliant format)</span></span></span>
-<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span><span class="st">"mdb-247"</span>, export_path <span class="op">=</span> <span class="st">"data/gtfs/trimet.zip"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Save GTFS feed to disk (raw file, no parsing required)</span></span></span>
+<span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span><span class="st">"mdb-247"</span>, export_path <span class="op">=</span> <span class="st">"data/gtfs/trimet.zip"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Save raw GTFS ZIP without any parsing (fastest, no tidytransit required)</span></span></span>
-<span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span><span class="st">"mdb-247"</span>, export_path <span class="op">=</span> <span class="st">"data/gtfs/trimet_raw.zip"</span>, raw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Save parsed + re-exported GTFS (normalized to spec format, requires tidytransit + gtfsio)</span></span></span>
+<span class="r-in"><span><span class="va">gtfs</span> <span class="op">&lt;-</span> <span class="fu">download_feed</span><span class="op">(</span><span class="st">"mdb-247"</span>, export_path <span class="op">=</span> <span class="st">"data/gtfs/trimet.zip"</span>, raw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
