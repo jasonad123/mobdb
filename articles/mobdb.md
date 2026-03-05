@@ -3,20 +3,9 @@
 ## Introduction
 
 **mobdb** is your first stop to analyzing transit in R. It helps you
-**find** and **download** GTFS feeds from the [Mobility
+**find** and **download** GTFS and GBFS feeds from the [Mobility
 Database](https://mobilitydatabase.org/), which contains information for
 about 4000+ transit and shared mobility feeds worldwide.
-
-After discovering and downloading feeds with `mobdb`, you can:
-
-- **Analyze** feeds with
-  [tidytransit](https://r-transit.github.io/tidytransit/) - calculate
-  frequencies, travel times, and visualize routes
-- **Edit** feeds with
-  [gtfstools](https://ipeagit.github.io/gtfstools/) - filter, merge, and
-  validate feeds
-- **Read/Write** feeds with
-  [gtfsio](https://r-transit.github.io/gtfsio/) - fast I/O operations
 
 ## Installation
 
@@ -36,12 +25,13 @@ pak::pak("jasonad123/mobdb")
 
 ## Authentication
 
-The Mobility Database API requires authentication. You’ll need to:
+The Mobility Database API requires authentication in the form of a
+*Refresh Token*. To get your Refresh Token, follow these steps:
 
 1.  Go to <https://mobilitydatabase.org/>
-2.  Sign in (or create a free account)
-3.  Go to your account settings
-4.  Generate an API refresh token
+2.  Create a free account - or sign in if you already have one
+3.  Go to the “Account” menu, then click “Account Details”
+4.  Copy the Refresh Token from the account page
 5.  Store it in your R environment
 
 ``` r
@@ -65,6 +55,7 @@ each session:
 usethis::edit_r_environ()
 # Add this line:
 # MOBDB_REFRESH_TOKEN=your-refresh-token-here
+# Then restart your R session
 ```
 
 ## Basics: Discover, download, analyze
@@ -175,16 +166,25 @@ frequencies <- lapply(feeds_list, function(gtfs) {
 
 ### Downloading feeds to local storage
 
+Oftentimes, you’ll need to download your feeds as a ZIP file to local
+storage - whether that’s because you’re just archiving it or because
+your workflow specifically uses it, as is the case with packages that
+use external routing engines like
+[r5r](https://cran.r-project.org/package=r5r). For this use case, just
+give
+[`download_feed()`](https://mobdb.jasonadle.dev/reference/download_feed.md)
+a value for the `export_path` parameter to save it locally.
+
 ``` r
 # Find feeds in a specific municipality or jurisdiction
 seattle_feeds <- feeds(municipality = "Seattle", data_type = "gtfs")
 pdx_feeds <- feeds(municipality = "Portland", data_type = "gtfs")
 
 # Download a feed directly to disk
-seattle_dl <- download_feed("mdb-1080", export_path= "data/gtfs/seattle.zip")
+seattle_dl <- download_feed("mdb-1080", export_path = "data/gtfs/seattle.zip")
 
 # Download the raw feed, bypassing any processing by tidytransit
-pdx_dl <- download_feed("mdb-247", export_path= "data/gtfs/portland.zip", raw = TRUE)
+pdx_dl <- download_feed("mdb-247", export_path = "data/gtfs/portland.zip", raw = TRUE)
 ```
 
 ## Example workflow
@@ -285,7 +285,6 @@ canonical GTFS validator. You can check validation results before
 downloading.
 
 ``` r
-
 # Get validation report for a feed
 datasets <- mobdb_datasets("mdb-482")  # Alexandria DASH
 validation <- get_validation_report(datasets)

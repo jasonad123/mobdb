@@ -80,22 +80,9 @@
 </h2>
 <p><strong>mobdb</strong> is your first stop to analyzing transit in R.
 It helps you <strong>find</strong> and <strong>download</strong> GTFS
-feeds from the <a href="https://mobilitydatabase.org/" class="external-link">Mobility
+and GBFS feeds from the <a href="https://mobilitydatabase.org/" class="external-link">Mobility
 Database</a>, which contains information for about 4000+ transit and
 shared mobility feeds worldwide.</p>
-<p>After discovering and downloading feeds with <code>mobdb</code>, you
-can:</p>
-<ul>
-<li>
-<strong>Analyze</strong> feeds with <a href="https://r-transit.github.io/tidytransit/" class="external-link">tidytransit</a> -
-calculate frequencies, travel times, and visualize routes</li>
-<li>
-<strong>Edit</strong> feeds with <a href="https://ipeagit.github.io/gtfstools/" class="external-link">gtfstools</a> - filter,
-merge, and validate feeds</li>
-<li>
-<strong>Read/Write</strong> feeds with <a href="https://r-transit.github.io/gtfsio/" class="external-link">gtfsio</a> - fast I/O
-operations</li>
-</ul>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -112,14 +99,15 @@ operations</li>
 <div class="section level2">
 <h2 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a>
 </h2>
-<p>The Mobility Database API requires authentication. You’ll need
-to:</p>
+<p>The Mobility Database API requires authentication in the form of a
+<em>Refresh Token</em>. To get your Refresh Token, follow these
+steps:</p>
 <ol style="list-style-type: decimal">
 <li>Go to <a href="https://mobilitydatabase.org/" class="external-link uri">https://mobilitydatabase.org/</a>
 </li>
-<li>Sign in (or create a free account)</li>
-<li>Go to your account settings</li>
-<li>Generate an API refresh token</li>
+<li>Create a free account - or sign in if you already have one</li>
+<li>Go to the “Account” menu, then click “Account Details”</li>
+<li>Copy the Refresh Token from the account page</li>
 <li>Store it in your R environment</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -139,7 +127,8 @@ file to avoid entering it each session:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Add this line:</span></span>
-<span><span class="co"># MOBDB_REFRESH_TOKEN=your-refresh-token-here</span></span></code></pre></div>
+<span><span class="co"># MOBDB_REFRESH_TOKEN=your-refresh-token-here</span></span>
+<span><span class="co"># Then restart your R session</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="basics-discover-download-analyze">Basics: Discover, download, analyze<a class="anchor" aria-label="anchor" href="#basics-discover-download-analyze"></a>
@@ -250,16 +239,22 @@ file to avoid entering it each session:</p>
 <div class="section level3">
 <h3 id="downloading-feeds-to-local-storage">Downloading feeds to local storage<a class="anchor" aria-label="anchor" href="#downloading-feeds-to-local-storage"></a>
 </h3>
+<p>Oftentimes, you’ll need to download your feeds as a ZIP file to local
+storage - whether that’s because you’re just archiving it or because
+your workflow specifically uses it, as is the case with packages that
+use external routing engines like <a href="https://cran.r-project.org/package=r5r" class="external-link">r5r</a>. For this use
+case, just give <code><a href="../reference/download_feed.html">download_feed()</a></code> a value for the
+<code>export_path</code> parameter to save it locally.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Find feeds in a specific municipality or jurisdiction</span></span>
 <span><span class="va">seattle_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span>municipality <span class="op">=</span> <span class="st">"Seattle"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
 <span><span class="va">pdx_feeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feeds.html">feeds</a></span><span class="op">(</span>municipality <span class="op">=</span> <span class="st">"Portland"</span>, data_type <span class="op">=</span> <span class="st">"gtfs"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Download a feed directly to disk</span></span>
-<span><span class="va">seattle_dl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="st">"mdb-1080"</span>, export_path<span class="op">=</span> <span class="st">"data/gtfs/seattle.zip"</span><span class="op">)</span></span>
+<span><span class="va">seattle_dl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="st">"mdb-1080"</span>, export_path <span class="op">=</span> <span class="st">"data/gtfs/seattle.zip"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Download the raw feed, bypassing any processing by tidytransit</span></span>
-<span><span class="va">pdx_dl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="st">"mdb-247"</span>, export_path<span class="op">=</span> <span class="st">"data/gtfs/portland.zip"</span>, raw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">pdx_dl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/download_feed.html">download_feed</a></span><span class="op">(</span><span class="st">"mdb-247"</span>, export_path <span class="op">=</span> <span class="st">"data/gtfs/portland.zip"</span>, raw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -358,8 +353,7 @@ Database API and download them independently.</p>
 canonical GTFS validator. You can check validation results before
 downloading.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Get validation report for a feed</span></span>
+<code class="sourceCode R"><span><span class="co"># Get validation report for a feed</span></span>
 <span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mobdb_datasets.html">mobdb_datasets</a></span><span class="op">(</span><span class="st">"mdb-482"</span><span class="op">)</span>  <span class="co"># Alexandria DASH</span></span>
 <span><span class="va">validation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_validation_report.html">get_validation_report</a></span><span class="op">(</span><span class="va">datasets</span><span class="op">)</span></span>
 <span><span class="va">validation</span></span>

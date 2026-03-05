@@ -7,7 +7,9 @@ wraps the Mobility Database Catalog API, enabling the discovery of GTFS
 (General Bikeshare Feed Specification) feeds from organizations
 worldwide.
 
-## Installation
+## Setup
+
+### Installation
 
 Install from [r-universe](https://jasonad123.r-universe.dev/mobdb):
 
@@ -28,7 +30,7 @@ pak::pak("jasonad123/mobdb")
 remotes::install_github("jasonad123/mobdb")
 ```
 
-## Authentication
+### Authentication
 
 To use the Mobility Database Catalog API, you need a refresh token:
 
@@ -154,9 +156,8 @@ urls <- mobdb_extract_urls(feeds)
 ### Using with other R transit packages
 
 When downloading GTFS Schedule feeds, `mobdb` provides outputs that are
-compatible with for working with
-[tidytransit](https://github.com/r-transit/tidytransit) and other R
-transit packages.
+compatible with [tidytransit](https://github.com/r-transit/tidytransit)
+and other R transit packages.
 
 ## More information
 
