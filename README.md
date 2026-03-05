@@ -8,8 +8,10 @@
 <!-- badges: end -->
 
 **mobdb** provides R functions to search and access transit feed data from the [Mobility Database](https://mobilitydatabase.org). The package wraps the Mobility Database Catalog API, enabling the discovery of GTFS (General Transit Feed Specification) Schedule, GTFS Realtime, and GBFS (General Bikeshare Feed Specification) feeds from organizations worldwide.
+ 
+## Setup
 
-## Installation
+### Installation
 
 Install from [r-universe](https://jasonad123.r-universe.dev/mobdb):
 
@@ -30,7 +32,7 @@ pak::pak("jasonad123/mobdb")
 remotes::install_github("jasonad123/mobdb")
 ```
 
-## Authentication
+### Authentication
 
 To use the Mobility Database Catalog API, you need a refresh token:
 
@@ -72,7 +74,6 @@ toronto <- mobdb_search(provider = "toronto")
 
 # Note: mobdb_search() has known issues with relevance ranking. 
 # Use feeds() with filters for more precise results.
-
 ```
 
 ### Download GTFS Schedule feeds
@@ -150,7 +151,7 @@ urls <- mobdb_extract_urls(feeds)
 
 ### Using with other R transit packages
 
-When downloading GTFS Schedule feeds, `mobdb` provides outputs that are compatible with for working with [tidytransit](https://github.com/r-transit/tidytransit) and other R transit packages.
+When downloading GTFS Schedule feeds, `mobdb` provides outputs that are compatible with [tidytransit](https://github.com/r-transit/tidytransit) and other R transit packages.
 
 ## More information
 
