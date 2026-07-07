@@ -8,12 +8,12 @@ template:
     # and its periwinkle border — moody, electric, and a little nocturnal.
     bg:                 '#FAF9FE'   # near-white with a cool violet undertone
     fg:                 '#1E1335'   # deep violet-black ink
-    primary:            '#7C3AED'   # vivid violet — links, buttons, active states
-    secondary:          '#9D4EDD'   # amethyst — badges, highlights
-    success:            '#34B27C'   # muted green
-    info:               '#8B7FC7'   # dusty periwinkle
-    warning:            '#F2A65A'   # warm amber
-    danger:             '#D6395F'   # raspberry red
+    primary:            '#6B4FC4'   # softened blue-violet — links, buttons, active states
+    secondary:          '#8347BD'   # muted orchid — badges, highlights
+    success:            '#237A4E'   # deep forest green
+    info:               '#675BA8'   # dusty periwinkle-violet
+    warning:            '#F2A65A'   # warm amber (pairs with dark ink text)
+    danger:             '#C22F58'   # muted raspberry-plum
 
     # ── Navbar ─────────────────────────────────────────────────────────────────
     pkgdown-nav-height: 70px
@@ -54,7 +54,7 @@ template:
       /* ── Navbar ─────────────────────────────────────────────────── */
       .navbar {
         background: #1E1335 !important;
-        border-bottom: 2px solid #7C3AED;
+        border-bottom: 2px solid #6B4FC4;
         letter-spacing: 0.01em;
       }
       .navbar-brand {
@@ -98,7 +98,7 @@ template:
       .bd-toc,
       .bd-toc .nav {
         --bs-nav-link-color:       #5B4B8A;
-        --bs-nav-link-hover-color: #7C3AED;
+        --bs-nav-link-hover-color: #6B4FC4;
       }
       #toc a,
       #toc .nav-link,
@@ -114,8 +114,8 @@ template:
       .bd-toc .nav-link.active,
       .bs-docs-sidebar .nav > li > a:hover,
       .bs-docs-sidebar .nav > li.active > a {
-        color: #7C3AED !important;
-        border-left-color: #7C3AED;
+        color: #6B4FC4 !important;
+        border-left-color: #6B4FC4;
       }
 
       /* Dark mode — pkgdown adds data-bs-theme="dark" on <html> */
