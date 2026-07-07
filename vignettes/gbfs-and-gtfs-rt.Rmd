@@ -26,7 +26,7 @@ The Database also contains GTFS Realtime and GBFS feeds, which provide real-time
 about transit systems and shared mobility services.
 
 As `mobdb` consumes data from the Mobility Database API, a number of the functions in this package
-will provide valid outputs of GTFS-Realtime and GBFS objects. However, it's important to note that support for 
+will provide valid outputs of GTFS-Realtime and GBFS objects. However, it's important to note that support for
 GTFS-Realtime and GBFS in `mobdb` should be considered ***experimental*** at this time and is limited
 only to feed discovery.
 
@@ -49,7 +49,7 @@ can be interpreted using the [RProtoBuf](https://cran.r-project.org/package=RPro
 `mobdb`, whether through `feeds()` or `mobdb_search()` will surface all available GTFS-Realtime feeds on the Mobility Database.
 The URL retrieved from `mobdb_feed_url()` will be the protobuf endpoint url.
 
-**Note:** Many GTFS-Realtime producers *will* require authentication to access their endpoints. 
+**Note:** Many GTFS-Realtime producers *will* require authentication to access their endpoints.
 Use the `source_info` data frame to get authentication information from the Mobility Database.
 
 ```{r gtfs-rt-example}
@@ -110,6 +110,10 @@ for (entity in feed$entity) {
 
 **Note:** The GTFS-Realtime Protocol Buffer definition is maintained in the [Google Transit GitHub repository](https://github.com/google/transit/tree/master/gtfs-realtime/proto). The example above downloads it automatically, but you can also save it locally for repeated use.
 
+### Parsing GTFS-Realtime with `gtfsrealtime` R package
+
+A new R package for reading/parsing GTFS-Realtime packages is now available on CRAN.The  [gtfsrealtime](https://cran.r-project.org/package=gtfsrealtime) package can directly read in values by URL.
+
 ## GBFS data structure
 
 GBFS, or the General Bikeshare Feed Specification, is a "real-time, pull-based, data specification that describes the current status of a mobility system".
@@ -125,7 +129,7 @@ As of the latest version (v3), two files are *required* of any GBFS feed:
 Other feed types are conditionally required depending on the system type (e.g. dock vs dockless), while others
 are fully optional.
 
-A full list of the GBFS feed entities and their requirements are available on the [official GBFS reference documentation](https://gbfs.org/documentation/reference/) 
+A full list of the GBFS feed entities and their requirements are available on the [official GBFS reference documentation](https://gbfs.org/documentation/reference/)
 or on the [GitHub repo](https://github.com/MobilityData/gbfs/blob/master/gbfs.md).
 
 ### How mobdb handles GBFS
@@ -156,7 +160,7 @@ yvr_station_info <- get_station_information(yvr_feed, output = "return")
 
 This vignette covered the basics of discovering GTFS-Realtime and GBFS feeds using `mobdb`. For working with the actual feed data:
 
-- **GTFS-Realtime**: Use the [RProtoBuf](https://cran.r-project.org/package=RProtoBuf) package to decode Protocol Buffer data
+- **GTFS-Realtime**: Use the [RProtoBuf](https://cran.r-project.org/package=RProtoBuf) package to decode Protocol Buffer data or use the [gtfsrealtime](https://cran.r-project.org/package=gtfsrealtime) package
 - **GBFS**: Use the [gbfs](https://gbfs.netlify.app/) package for streamlined access to bikeshare data, or [jsonlite](https://cran.r-project.org/package=jsonlite) for direct JSON parsing
 
 For discovering GTFS Schedule feeds and working with historical transit data, see the main package documentation and other vignettes.
