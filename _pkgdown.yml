@@ -1,13 +1,181 @@
 url: https://mobdb.jasonadle.dev/
 template:
+  # ── Based on duckh3's theme https://cidree.github.io/duckh3/ ──────────────────────────────────────────────────────
   bootstrap: 5
-  light-switch: yes
-  bootswatch: morph
-navbar:
-  structure:
-    right:
-    - github
-    - lightswitch
+  bslib:
+    # ── Palette ────────────────────────────────────────────────────────────────
+    # Cool violet & lilac, drawn from the hex logo's blue-violet transit map
+    # and its periwinkle border — moody, electric, and a little nocturnal.
+    bg:                 '#FAF9FE'   # near-white with a cool violet undertone
+    fg:                 '#1E1335'   # deep violet-black ink
+    primary:            '#6B4FC4'   # softened blue-violet — links, buttons, active states
+    secondary:          '#8347BD'   # muted orchid — badges, highlights
+    success:            '#237A4E'   # deep forest green
+    info:               '#675BA8'   # dusty periwinkle-violet
+    warning:            '#F2A65A'   # warm amber (pairs with dark ink text)
+    danger:             '#C22F58'   # muted raspberry-plum
+
+    # ── Navbar ─────────────────────────────────────────────────────────────────
+    pkgdown-nav-height: 70px
+
+    # ── Typography ─────────────────────────────────────────────────────────────
+    # Instrument Sans
+    # DM Mono
+
+    base_font:
+      google:
+        family: Instrument Sans
+        wght:   "300;400;500;600"
+    heading_font:
+      google:
+        family: Instrument Sans
+        wght:   "600;700"
+    code_font:
+      google:
+        family: DM Mono
+        wght:   "400;500"
+
+    # ── Spacing & shape ────────────────────────────────────────────────────────
+    border-radius:       0.5rem
+    border-radius-sm:    0.3rem
+    border-radius-lg:    0.75rem
+    font-size-base:      1rem
+    line-height-base:    1.65
+
+  # Syntax highlighting
+  light-switch: true
+  theme: a11y-light
+  theme-dark: a11y-dark
+
+  # ── Custom CSS  ───────────────────────────────────────────────────
+  includes:
+    in_header: |
+      <style>
+      /* ── Navbar ─────────────────────────────────────────────────── */
+      .navbar {
+        background: #1E1335 !important;
+        border-bottom: 2px solid #6B4FC4;
+        letter-spacing: 0.01em;
+      }
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: #ffffff !important;
+        letter-spacing: -0.02em;
+      }
+      .navbar-nav .nav-link {
+        color: rgba(255,255,255,0.80) !important;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: color 0.15s;
+      }
+      .navbar-nav .nav-link:hover,
+      .navbar-nav .nav-link.active {
+        color: #C4B5FD !important;
+      }
+
+      .navbar .text-muted {
+        color: rgba(255,255,255,0.60) !important;
+      }
+
+      /* ── Dark mode base colours ─────────────────────────────────── */
+      /* bslib only defines a light palette, so Bootstrap falls back to
+         swapping bg/fg for dark mode — but leaves primary/secondary/info
+         at their light-mode saturation, which reads as under-contrast
+         against the dark violet background. Desaturate the page background
+         slightly and lighten the accent colours to compensate. */
+      [data-bs-theme="dark"] {
+        --bs-body-bg:              #211C2E;
+        --bs-body-color:           #EAE6F5;
+        --bs-emphasis-color:       #F5F3FC;
+        --bs-link-color:           #C4B5FD;
+        --bs-link-color-rgb:       196, 181, 253;
+        --bs-link-hover-color:     #D8B4FE;
+        --bs-link-hover-color-rgb: 216, 180, 254;
+      }
+
+      /* ── Vignette TOC ────────────────────────────────────────────── */
+      /* Shared structure */
+      #toc a,
+      #toc .nav-link,
+      .bd-toc a,
+      .bd-toc .nav-link,
+      .bs-docs-sidebar .nav > li > a {
+        font-size: 0.85rem;
+        border-left: 2px solid transparent;
+        padding-left: 0.75rem;
+        text-decoration: none;
+        transition: border-color 0.15s, color 0.15s;
+      }
+
+      /* Light mode (default) */
+      #toc,
+      #toc .nav,
+      .bd-toc,
+      .bd-toc .nav {
+        --bs-nav-link-color:       #5B4B8A;
+        --bs-nav-link-hover-color: #6B4FC4;
+      }
+      #toc a,
+      #toc .nav-link,
+      .bd-toc a,
+      .bd-toc .nav-link,
+      .bs-docs-sidebar .nav > li > a {
+        color: #5B4B8A !important;
+      }
+      #toc a:hover,
+      #toc .nav-link:hover,
+      #toc .nav-link.active,
+      .bd-toc a:hover,
+      .bd-toc .nav-link.active,
+      .bs-docs-sidebar .nav > li > a:hover,
+      .bs-docs-sidebar .nav > li.active > a {
+        color: #6B4FC4 !important;
+        border-left-color: #6B4FC4;
+      }
+
+      /* Dark mode — pkgdown adds data-bs-theme="dark" on <html> */
+      [data-bs-theme="dark"] #toc,
+      [data-bs-theme="dark"] #toc .nav,
+      [data-bs-theme="dark"] .bd-toc,
+      [data-bs-theme="dark"] .bd-toc .nav {
+        --bs-nav-link-color:       #C4B5FD;
+        --bs-nav-link-hover-color: #D8B4FE;
+      }
+      [data-bs-theme="dark"] #toc a,
+      [data-bs-theme="dark"] #toc .nav-link,
+      [data-bs-theme="dark"] .bd-toc a,
+      [data-bs-theme="dark"] .bd-toc .nav-link,
+      [data-bs-theme="dark"] .bs-docs-sidebar .nav > li > a {
+        color: #C4B5FD !important;
+      }
+      [data-bs-theme="dark"] #toc a:hover,
+      [data-bs-theme="dark"] #toc .nav-link:hover,
+      [data-bs-theme="dark"] #toc .nav-link.active,
+      [data-bs-theme="dark"] .bd-toc a:hover,
+      [data-bs-theme="dark"] .bd-toc .nav-link.active,
+      [data-bs-theme="dark"] .bs-docs-sidebar .nav > li > a:hover,
+      [data-bs-theme="dark"] .bs-docs-sidebar .nav > li.active > a {
+        color: #D8B4FE !important;
+        border-left-color: #D8B4FE;
+      }
+
+      /* ── Tables ─────────────────────────────────────────────────── */
+      .table thead th {
+        background: #1E1335;
+        color: #ffffff;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        font-weight: 600;
+        border: none;
+      }
+      .table tbody tr:hover { background: #F5F0FC; }
+      [data-bs-theme="dark"] .table tbody tr:hover { background: #2C2640; }
+      .table { border-radius: 0.5rem; overflow: hidden; }
+
+      </style>
+
 reference:
 - title: Get started
   desc: Essential functions to begin using mobdb
@@ -49,3 +217,10 @@ reference:
   - mobdb_has_internet
   - mobdb_can_run_examples
   - mobdb_has_tidytransit
+
+navbar:
+  bg: light
+  structure:
+    right:
+    - github
+    - lightswitch
