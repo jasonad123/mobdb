@@ -12,10 +12,137 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Instrument_Sans-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/DM_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to mobdb">
+<style>
+/* ── Navbar ─────────────────────────────────────────────────── */
+.navbar {
+  background: #1E1335 !important;
+  border-bottom: 2px solid #6B4FC4;
+  letter-spacing: 0.01em;
+}
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #ffffff !important;
+  letter-spacing: -0.02em;
+}
+.navbar-nav .nav-link {
+  color: rgba(255,255,255,0.80) !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.15s;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #C4B5FD !important;
+}
+
+.navbar .text-muted {
+  color: rgba(255,255,255,0.60) !important;
+}
+
+/* ── Dark mode base colours ─────────────────────────────────── */
+/* bslib only defines a light palette, so Bootstrap falls back to
+   swapping bg/fg for dark mode — but leaves primary/secondary/info
+   at their light-mode saturation, which reads as under-contrast
+   against the dark violet background. Desaturate the page background
+   slightly and lighten the accent colours to compensate. */
+[data-bs-theme="dark"] {
+  --bs-body-bg:              #211C2E;
+  --bs-body-color:           #EAE6F5;
+  --bs-emphasis-color:       #F5F3FC;
+  --bs-link-color:           #C4B5FD;
+  --bs-link-color-rgb:       196, 181, 253;
+  --bs-link-hover-color:     #D8B4FE;
+  --bs-link-hover-color-rgb: 216, 180, 254;
+}
+
+/* ── Vignette TOC ────────────────────────────────────────────── */
+/* Shared structure */
+#toc a,
+#toc .nav-link,
+.bd-toc a,
+.bd-toc .nav-link,
+.bs-docs-sidebar .nav > li > a {
+  font-size: 0.85rem;
+  border-left: 2px solid transparent;
+  padding-left: 0.75rem;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+/* Light mode (default) */
+#toc,
+#toc .nav,
+.bd-toc,
+.bd-toc .nav {
+  --bs-nav-link-color:       #5B4B8A;
+  --bs-nav-link-hover-color: #6B4FC4;
+}
+#toc a,
+#toc .nav-link,
+.bd-toc a,
+.bd-toc .nav-link,
+.bs-docs-sidebar .nav > li > a {
+  color: #5B4B8A !important;
+}
+#toc a:hover,
+#toc .nav-link:hover,
+#toc .nav-link.active,
+.bd-toc a:hover,
+.bd-toc .nav-link.active,
+.bs-docs-sidebar .nav > li > a:hover,
+.bs-docs-sidebar .nav > li.active > a {
+  color: #6B4FC4 !important;
+  border-left-color: #6B4FC4;
+}
+
+/* Dark mode — pkgdown adds data-bs-theme="dark" on <html> */
+[data-bs-theme="dark"] #toc,
+[data-bs-theme="dark"] #toc .nav,
+[data-bs-theme="dark"] .bd-toc,
+[data-bs-theme="dark"] .bd-toc .nav {
+  --bs-nav-link-color:       #C4B5FD;
+  --bs-nav-link-hover-color: #D8B4FE;
+}
+[data-bs-theme="dark"] #toc a,
+[data-bs-theme="dark"] #toc .nav-link,
+[data-bs-theme="dark"] .bd-toc a,
+[data-bs-theme="dark"] .bd-toc .nav-link,
+[data-bs-theme="dark"] .bs-docs-sidebar .nav > li > a {
+  color: #C4B5FD !important;
+}
+[data-bs-theme="dark"] #toc a:hover,
+[data-bs-theme="dark"] #toc .nav-link:hover,
+[data-bs-theme="dark"] #toc .nav-link.active,
+[data-bs-theme="dark"] .bd-toc a:hover,
+[data-bs-theme="dark"] .bd-toc .nav-link.active,
+[data-bs-theme="dark"] .bs-docs-sidebar .nav > li > a:hover,
+[data-bs-theme="dark"] .bs-docs-sidebar .nav > li.active > a {
+  color: #D8B4FE !important;
+  border-left-color: #D8B4FE;
+}
+
+/* ── Tables ─────────────────────────────────────────────────── */
+.table thead th {
+  background: #1E1335;
+  color: #ffffff;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+  border: none;
+}
+.table tbody tr:hover { background: #F5F0FC; }
+[data-bs-theme="dark"] .table tbody tr:hover { background: #2C2640; }
+.table { border-radius: 0.5rem; overflow: hidden; }
+
+</style>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -291,22 +418,22 @@ case, just give <code><a href="../reference/download_feed.html">download_feed()<
 <span><span class="co"># 4. ANALYZE: Calculate AM route frequencies (tidytransit)</span></span>
 <span><span class="va">am_route_freq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-transit.github.io/tidytransit/reference/get_route_frequency.html" class="external-link">get_route_frequency</a></span><span class="op">(</span><span class="va">translink</span>,</span>
 <span>                                     start_time <span class="op">=</span> <span class="fl">6</span> <span class="op">*</span> <span class="fl">3600</span>, end_time <span class="op">=</span> <span class="fl">10</span> <span class="op">*</span> <span class="fl">3600</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">am_route_freq</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">am_route_freq</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># get_route_geometry needs a gtfs object that includes shapes as simple feature data frames</span></span>
 <span><span class="va">translink</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-transit.github.io/tidytransit/reference/gtfs_as_sf.html" class="external-link">gtfs_as_sf</a></span><span class="op">(</span><span class="va">translink</span><span class="op">)</span></span>
 <span><span class="va">routes_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-transit.github.io/tidytransit/reference/get_route_geometry.html" class="external-link">get_route_geometry</a></span><span class="op">(</span><span class="va">translink</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">routes_sf</span> <span class="op">&lt;-</span> <span class="va">routes_sf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">routes_sf</span> <span class="op">&lt;-</span> <span class="va">routes_sf</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">inner_join</span><span class="op">(</span><span class="va">am_route_freq</span>, by <span class="op">=</span> <span class="st">"route_id"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 5. VISUALIZE: Plot routes with (tidytransit + ggplot2)</span></span>
 <span><span class="co"># convert to an appropriate coordinate reference system</span></span>
 <span><span class="va">routes_sf_crs</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">routes_sf</span>, <span class="fl">26910</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">routes_sf_crs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">median_headways</span> <span class="op">&lt;</span> <span class="fl">10</span> <span class="op">*</span> <span class="fl">60</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">routes_sf_crs</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">median_headways</span> <span class="op">&lt;</span> <span class="fl">10</span> <span class="op">*</span> <span class="fl">60</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">median_headways</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Headways"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -315,7 +442,7 @@ case, just give <code><a href="../reference/download_feed.html">download_feed()<
 <span></span>
 <span><span class="va">routes_sf_buffer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_buffer</a></span><span class="op">(</span><span class="va">routes_sf</span>, dist <span class="op">=</span> <span class="va">routes_sf</span><span class="op">$</span><span class="va">total_departures</span> <span class="op">/</span> <span class="fl">1e6</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">routes_sf_buffer</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">routes_sf_buffer</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span>colour <span class="op">=</span> <span class="fu">alpha</span><span class="op">(</span><span class="st">"white"</span>, <span class="fl">0</span><span class="op">)</span>, fill <span class="op">=</span> <span class="fu">alpha</span><span class="op">(</span><span class="st">"blue"</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -413,7 +540,7 @@ on Directed Graphs in R</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

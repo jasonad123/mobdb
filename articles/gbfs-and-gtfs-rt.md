@@ -116,6 +116,13 @@ repository](https://github.com/google/transit/tree/master/gtfs-realtime/proto).
 The example above downloads it automatically, but you can also save it
 locally for repeated use.
 
+### Parsing GTFS-Realtime with `gtfsrealtime` R package
+
+A new R package for reading/parsing GTFS-Realtime packages is now
+available on CRAN.The
+[gtfsrealtime](https://cran.r-project.org/package=gtfsrealtime) package
+can directly read in values by URL.
+
 ## GBFS data structure
 
 GBFS, or the General Bikeshare Feed Specification, is a “real-time,
@@ -181,7 +188,9 @@ feeds using `mobdb`. For working with the actual feed data:
 
 - **GTFS-Realtime**: Use the
   [RProtoBuf](https://cran.r-project.org/package=RProtoBuf) package to
-  decode Protocol Buffer data
+  decode Protocol Buffer data or use the
+  [gtfsrealtime](https://cran.r-project.org/package=gtfsrealtime)
+  package
 - **GBFS**: Use the [gbfs](https://gbfs.netlify.app/) package for
   streamlined access to bikeshare data, or
   [jsonlite](https://cran.r-project.org/package=jsonlite) for direct
