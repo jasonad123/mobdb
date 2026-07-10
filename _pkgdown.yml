@@ -78,6 +78,22 @@ template:
         color: rgba(255,255,255,0.60) !important;
       }
 
+      /* ── Dark mode base colours ─────────────────────────────────── */
+      /* bslib only defines a light palette, so Bootstrap falls back to
+         swapping bg/fg for dark mode — but leaves primary/secondary/info
+         at their light-mode saturation, which reads as under-contrast
+         against the dark violet background. Desaturate the page background
+         slightly and lighten the accent colours to compensate. */
+      [data-bs-theme="dark"] {
+        --bs-body-bg:              #211C2E;
+        --bs-body-color:           #EAE6F5;
+        --bs-emphasis-color:       #F5F3FC;
+        --bs-link-color:           #C4B5FD;
+        --bs-link-color-rgb:       196, 181, 253;
+        --bs-link-hover-color:     #D8B4FE;
+        --bs-link-hover-color-rgb: 216, 180, 254;
+      }
+
       /* ── Vignette TOC ────────────────────────────────────────────── */
       /* Shared structure */
       #toc a,
@@ -155,6 +171,7 @@ template:
         border: none;
       }
       .table tbody tr:hover { background: #F5F0FC; }
+      [data-bs-theme="dark"] .table tbody tr:hover { background: #2C2640; }
       .table { border-radius: 0.5rem; overflow: hidden; }
 
       </style>
