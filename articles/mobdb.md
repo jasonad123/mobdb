@@ -12,6 +12,7 @@ about 4000+ transit and shared mobility feeds worldwide.
 Install mobdb from r-universe:
 
 ``` r
+
 # install from r-universe
 install.packages("mobdb", repos = c("https://jasonad123.r-universe.dev", "https://cloud.r-project.org"))
 ```
@@ -19,6 +20,7 @@ install.packages("mobdb", repos = c("https://jasonad123.r-universe.dev", "https:
 Alternatively, you can also install mobdb from GitHub:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("jasonad123/mobdb")
 ```
@@ -35,6 +37,7 @@ The Mobility Database API requires authentication in the form of a
 5.  Store it in your R environment
 
 ``` r
+
 library(mobdb)
 
 # Shortcut to launch the Mobility Database in your browser
@@ -52,6 +55,7 @@ mobdb_has_key()
 each session:
 
 ``` r
+
 usethis::edit_r_environ()
 # Add this line:
 # MOBDB_REFRESH_TOKEN=your-refresh-token-here
@@ -65,6 +69,7 @@ usethis::edit_r_environ()
 Find GTFS feeds using various search criteria:
 
 ``` r
+
 # Find all feeds in California
 ca_feeds <- feeds(
   country_code = "US",
@@ -87,6 +92,7 @@ bart_feeds
 Download a specific feed by ID or search term:
 
 ``` r
+
 # Download by feed ID (Bay Area Rapid Transit)
 bart <- download_feed("mdb-53")
 
@@ -106,6 +112,7 @@ names(bart)
 Now that you have the feed, use tidytransit for analysis:
 
 ``` r
+
 library(tidytransit)
 
 # Validate the feed
@@ -130,6 +137,7 @@ plot(bart_sf$stops)
 ### Finding feeds by location
 
 ``` r
+
 # Find feeds in a specific municipality
 seattle_feeds <- feeds(municipality = "Seattle", data_type = "gtfs")
 
@@ -148,6 +156,7 @@ bc_feeds <- feeds(
 ### Working with multiple feeds
 
 ``` r
+
 # Get feeds for several cities
 agencies <- c("TriMet", "King County Metro", "TransLink Vancouver")
 feeds_list <- lapply(agencies, function(agency) {
@@ -176,6 +185,7 @@ give
 a value for the `export_path` parameter to save it locally.
 
 ``` r
+
 # Find feeds in a specific municipality or jurisdiction
 seattle_feeds <- feeds(municipality = "Seattle", data_type = "gtfs")
 pdx_feeds <- feeds(municipality = "Portland", data_type = "gtfs")
@@ -192,6 +202,7 @@ pdx_dl <- download_feed("mdb-247", export_path = "data/gtfs/portland.zip", raw =
 Here’s a complete example from discovery to analysis:
 
 ``` r
+
 library(mobdb)
 library(tidytransit)
 library(ggplot2)
@@ -264,6 +275,7 @@ nomenclature. We can access datasets through the Mobility Database API
 and download them independently.
 
 ``` r
+
 versions <- download_feed("mdb-53", latest = FALSE)  # BART
 nrow(versions)
 head(versions$id, n = 10)
@@ -285,6 +297,7 @@ canonical GTFS validator. You can check validation results before
 downloading.
 
 ``` r
+
 # Get validation report for a feed
 datasets <- mobdb_datasets("mdb-482")  # Alexandria DASH
 validation <- get_validation_report(datasets)

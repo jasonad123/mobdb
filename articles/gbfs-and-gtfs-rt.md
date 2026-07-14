@@ -54,6 +54,7 @@ access their endpoints. Use the `source_info` data frame to get
 authentication information from the Mobility Database.
 
 ``` r
+
 # TransLink Vancouver GTFS-RT
 gtfs_rt_yvr <- feeds(provider = "TransLink Vancouver", data_type = "gtfs_rt")
 
@@ -80,6 +81,7 @@ Once you have the URL, you can use RProtoBuf to decode the Protocol
 Buffer data:
 
 ``` r
+
 library(RProtoBuf)
 
 gtfs_rt_example <- feeds(provider = "sample-agency", data_type = "gtfs_rt")
@@ -160,6 +162,7 @@ retrieved from
 will be the auto-discovery endpoint (i.e. `gbfs.json`).
 
 ``` r
+
 # Search GBFS feeds in Vancouver
 gbfs_yvr <- mobdb_search("vancouver", data_type = "gbfs")
 
@@ -174,6 +177,7 @@ to the dedicated [gbfs](https://gbfs.netlify.app/) package for
 discovery.
 
 ``` r
+
 library(gbfs)
 
 gbfs_yvr <- mobdb_search("vancouver", data_type = "gbfs")

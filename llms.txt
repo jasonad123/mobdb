@@ -14,6 +14,7 @@ worldwide.
 Install from [r-universe](https://jasonad123.r-universe.dev/mobdb):
 
 ``` r
+
 # Install from r-universe
 install.packages('mobdb', repos = c('https://jasonad123.r-universe.dev', 'https://cloud.r-project.org'))
 ```
@@ -21,6 +22,7 @@ install.packages('mobdb', repos = c('https://jasonad123.r-universe.dev', 'https:
 Development versions of `mobdb` are available from GitHub:
 
 ``` r
+
 # Install using pak (recommended)
 # install.packages("pak")
 pak::pak("jasonad123/mobdb")
@@ -39,6 +41,7 @@ To use the Mobility Database Catalog API, you need a refresh token:
 3.  Set your token in R:
 
 ``` r
+
 library(mobdb)
 
 # For current session only
@@ -56,6 +59,7 @@ variable in your `.Renviron` file.
 ### Search for feeds
 
 ``` r
+
 library(mobdb)
 
 # Search by provider name
@@ -83,6 +87,7 @@ function downloads GTFS Schedule feeds by feed ID or by searching for
 providers/locations.
 
 ``` r
+
 library(mobdb)
 library(tidytransit)
 
@@ -122,6 +127,7 @@ displays a `tibble` of options and prompts you to specify which feed to
 download using its feed ID or using more qualifiers.
 
 ``` r
+
 gtfs <- download_feed(provider = "WMATA")
 #> Searching for GTFS Schedule feeds...
 #> ! Found 2 matching feeds:
@@ -142,6 +148,7 @@ gtfs <- download_feed(provider = "WMATA")
 ### Get feed details
 
 ``` r
+
 # Get detailed information about a specific feed
 feed_info <- mobdb_get_feed("mdb-247")
 

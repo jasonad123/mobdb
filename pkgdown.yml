@@ -1,10 +1,10 @@
-pandoc: 3.1.11
+pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   gbfs-and-gtfs-rt: gbfs-and-gtfs-rt.html
   mobdb: mobdb.html
-last_built: 2026-07-14T17:54Z
+last_built: 2026-07-14T18:33Z
 urls:
   reference: https://mobdb.jasonadle.dev/reference
   article: https://mobdb.jasonadle.dev/articles
