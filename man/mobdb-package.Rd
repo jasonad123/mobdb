@@ -22,5 +22,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Jason Adle \email{developer@jasonadle.dev} [copyright holder]
 
+Authors:
+\itemize{
+  \item Jason Adle \email{developer@jasonadle.dev} [copyright holder]
+}
+
 }
 \keyword{internal}
