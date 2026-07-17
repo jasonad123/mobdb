@@ -327,7 +327,7 @@ Other packages for analyzing GTFS in the R ecosystem include:
 
 - [tidytransit](https://r-transit.github.io/tidytransit/): A tool to
   read and analyze GTFS feeds
-- [gtfstools](https://github.com/ipeaGIT/gtfstools): Edit and validate
+- [gtfstools](https://github.com/ipea/gtfstools): Edit and validate
   feeds
 - [gtfsio](https://github.com/r-transit/gtfsio): Fast I/O operations
   like saving GTFS back to ZIP files
