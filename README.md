@@ -13,10 +13,15 @@
 
 ### Installation
 
-Install from [r-universe](https://jasonad123.r-universe.dev/mobdb):
+Install the released version from CRAN:
 
 ```r
-# Install from r-universe
+install.packages("mobdb")
+```
+
+Alternatively, install from [r-universe](https://jasonad123.r-universe.dev/mobdb):
+
+```r
 install.packages('mobdb', repos = c('https://jasonad123.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
