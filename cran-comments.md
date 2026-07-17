@@ -22,3 +22,10 @@
   `skip_if_not(mobdb_has_key())`, so they skip (rather than fail) on CRAN,
   where no API key is configured. A small number of tests also use
   `skip_on_cran()` directly.
+
+* A maintainer running `R CMD check` locally with API credentials configured
+  may see a NOTE about long-running examples (`download_feed()`,
+  `gtfs_to_spec_format()`), since `@examplesIf mobdb_can_run_examples()`
+  allows those examples to execute live API calls in that environment. On
+  CRAN's build servers, no API key is configured, so these examples are
+  skipped entirely and this NOTE will not occur.
