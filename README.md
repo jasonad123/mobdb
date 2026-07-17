@@ -1,7 +1,7 @@
 # mobdb <img src="man/figures/logo.png" align="right" width="180" alt="logo" />
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasonad123/mobdb/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/jasonad123/mobdb/graph/badge.svg)](https://app.codecov.io/gh/jasonad123/mobdb)
 [![mobdb status badge](https://jasonad123.r-universe.dev/mobdb/badges/version)](https://jasonad123.r-universe.dev/mobdb)
@@ -13,10 +13,15 @@
 
 ### Installation
 
-Install from [r-universe](https://jasonad123.r-universe.dev/mobdb):
+Install the released version from CRAN:
 
 ```r
-# Install from r-universe
+install.packages("mobdb")
+```
+
+Alternatively, install from [r-universe](https://jasonad123.r-universe.dev/mobdb):
+
+```r
 install.packages('mobdb', repos = c('https://jasonad123.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
