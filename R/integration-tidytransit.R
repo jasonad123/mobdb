@@ -175,14 +175,9 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   municipality = "San Francisco"
 #' )
 #'
-#' # Search and download all feeds, including unofficial ones
-#' gtfs <- download_feed(provider = "TTC", official = NULL)
-#'
 #' # Save GTFS feed to disk (raw file, no parsing required)
 #' path <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
 #'
-#' # Save parsed + re-exported GTFS (normalized to spec format, requires tidytransit + gtfsio)
-#' gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip", raw = FALSE)
 #'
 #' @seealso
 #' [mobdb_datasets()] to list all available historical versions,
@@ -749,21 +744,10 @@ download_feed <- function(feed_id = NULL,
 #' # Simple one-shot download by provider name
 #' bart_feed <- download_best_feed(provider = "Bay Area Rapid Transit")
 #'
-#' # Download with quality filtering
-#' clean_feed <- download_best_feed(
-#'   provider = "Capital Metro",
-#'   max_validation_errors = 0
-#' )
-#'
-#' # Download by location
-#' ontario_feed <- download_best_feed(
-#'   country_code = "CA",
-#'   subdivision_name = "Ontario"
-#' )
 #'
 #' # Non-interactive mode (for scripts)
 #' options(mobdb.interactive = FALSE)
-#' feed <- download_best_feed(provider = "WMATA")
+#' feed <- download_best_feed(provider = "Bay Area Rapid Transit")
 #'
 #' @seealso
 #' [download_feed()] for precise control,
