@@ -13,7 +13,7 @@
 ^docs$
 ^pkgdown$
 ^\.github$
-.archived_tests
+^\.archived_tests$
 ^doc$
 ^Meta$
 ^tests/testthat/[^/]+/
@@ -22,3 +22,4 @@
 ^renovate\.json$
 ^cran-comments\.md$
 ^revdep$
+^tests/manual$

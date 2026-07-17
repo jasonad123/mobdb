@@ -431,7 +431,7 @@ get_validation_report <- function(data) {
 #'
 #' @return Invisibly returns the URL that was opened.
 #'
-#' @examples
+#' @examplesIf mobdb_can_run_examples()
 #' \dontrun{
 #' # View validation report for Alexandria DASH
 #' view_validation_report("mdb-482")

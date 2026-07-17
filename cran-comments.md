@@ -7,7 +7,7 @@
 ## Test environments
 
 * Local: macOS 15.7.7, R 4.6.1
-* GitHub Actions: Ubuntu-latest, R-release; Windows-latest, R-release
+* GitHub Actions: Ubuntu-latest, R-release; Ubuntu-latest, R-devel; Windows-latest, R-release
 * R-universe (via GitHub Actions): R-devel (Linux, Windows, macOS); R-release (Linux, Windows, macOS), R-old (Linux, Windows, macOS)
 
 ## Notes
@@ -18,5 +18,7 @@
 
 * Vignettes are set to `eval = FALSE` to avoid API calls during CRAN checks.
 
-* Tests use httptest2 for mocking HTTP responses, with `skip_on_cran()`
-  for tests that require live API access.
+* Tests requiring live API access are guarded with
+  `skip_if_not(mobdb_has_key())`, so they skip (rather than fail) on CRAN,
+  where no API key is configured. A small number of tests also use
+  `skip_on_cran()` directly.

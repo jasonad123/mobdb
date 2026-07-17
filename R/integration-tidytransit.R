@@ -118,10 +118,10 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #'   be used with search parameters like `provider` or `country_code`.
 #' @param status A string. Feed status filter: "active" (default), "deprecated",
 #'   "inactive", "development", or "future". Only used when searching by provider/location.
-#' @param official A logical. If `TRUE` (default), return official feeds and feeds
-#'   with unknown official status (NA) when searching by provider/location.
-#'   If `FALSE`, only return feeds explicitly marked as unofficial.
-#'   If `NULL`, return all feeds regardless of official status.
+#' @param official A logical. If `NULL` (default), return all feeds regardless
+#'   of official status when searching by provider/location. If `TRUE`, return
+#'   official feeds and feeds with unknown official status (NA). If `FALSE`,
+#'   only return feeds explicitly marked as unofficial.
 #' @param auth_args A string. Some agencies require authentication to download
 #'   feeds directly from their source URLs. Provide your API key/token in one of
 #'   two formats:

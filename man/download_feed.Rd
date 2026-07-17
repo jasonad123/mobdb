@@ -66,10 +66,10 @@ be used with search parameters like \code{provider} or \code{country_code}.}
 \item{status}{A string. Feed status filter: "active" (default), "deprecated",
 "inactive", "development", or "future". Only used when searching by provider/location.}
 
-\item{official}{A logical. If \code{TRUE} (default), return official feeds and feeds
-with unknown official status (NA) when searching by provider/location.
-If \code{FALSE}, only return feeds explicitly marked as unofficial.
-If \code{NULL}, return all feeds regardless of official status.}
+\item{official}{A logical. If \code{NULL} (default), return all feeds regardless
+of official status when searching by provider/location. If \code{TRUE}, return
+official feeds and feeds with unknown official status (NA). If \code{FALSE},
+only return feeds explicitly marked as unofficial.}
 
 \item{auth_args}{A string. Some agencies require authentication to download
 feeds directly from their source URLs. Provide your API key/token in one of

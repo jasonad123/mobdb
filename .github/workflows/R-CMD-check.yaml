@@ -42,10 +42,8 @@ jobs:
       fail-fast: true
       matrix:
         config:
-          # Development mode: Ubuntu-only for fast, cheap CI (1x minutes)
-          # Before CRAN submission: Uncomment Windows + R-devel below
           - {os: ubuntu-latest,  r: 'release'}
-          # - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
           - {os: windows-latest, r: 'release'}
 
     env:

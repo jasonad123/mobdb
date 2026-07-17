@@ -23,10 +23,6 @@ fixture_exists <- function(fixture_dir) {
 
 # Configure httptest2 behavior
 if (requireNamespace("httptest2", quietly = TRUE)) {
-  # During R CMD check, we don't want to record new fixtures
-  # Set to error mode so missing fixtures cause skips instead of recording
-  Sys.setenv("HTTPTEST_MOCK_MODE" = "read")
-
   # Configure httptest2 to redact authorization headers
   # This prevents issues with bearer token serialization
   httptest2::set_redactor(function(req) {
