@@ -22,3 +22,7 @@ Useful links:
 
 **Maintainer**: Jason Adle <developer@jasonadle.dev> \[copyright
 holder\]
+
+Authors:
+
+- Jason Adle <developer@jasonadle.dev> \[copyright holder\]
