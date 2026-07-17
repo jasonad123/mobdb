@@ -6,7 +6,7 @@
 
 ## Test environments
 
-* Local: macOS 15.7.3, R 4.5.2
+* Local: macOS 15.7.7, R 4.6.1
 * GitHub Actions: Ubuntu-latest, R-release; Windows-latest, R-release
 * R-universe (via GitHub Actions): R-devel (Linux, Windows, macOS); R-release (Linux, Windows, macOS), R-old (Linux, Windows, macOS)
 
