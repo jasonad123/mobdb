@@ -275,10 +275,10 @@ be used with search parameters like <code>provider</code> or <code>country_code<
 
 
 <dt id="arg-official">official<a class="anchor" aria-label="anchor" href="#arg-official"></a></dt>
-<dd><p>A logical. If <code>TRUE</code> (default), return official feeds and feeds
-with unknown official status (NA) when searching by provider/location.
-If <code>FALSE</code>, only return feeds explicitly marked as unofficial.
-If <code>NULL</code>, return all feeds regardless of official status.</p></dd>
+<dd><p>A logical. If <code>NULL</code> (default), return all feeds regardless
+of official status when searching by provider/location. If <code>TRUE</code>, return
+official feeds and feeds with unknown official status (NA). If <code>FALSE</code>,
+only return feeds explicitly marked as unofficial.</p></dd>
 
 
 <dt id="arg-auth-args">auth_args<a class="anchor" aria-label="anchor" href="#arg-auth-args"></a></dt>

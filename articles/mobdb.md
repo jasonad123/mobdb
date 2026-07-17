@@ -9,7 +9,14 @@ about 4000+ transit and shared mobility feeds worldwide.
 
 ## Installation
 
-Install mobdb from r-universe:
+Install the released version of mobdb from CRAN:
+
+``` r
+
+install.packages("mobdb")
+```
+
+Alternatively, install from r-universe:
 
 ``` r
 
@@ -17,7 +24,7 @@ Install mobdb from r-universe:
 install.packages("mobdb", repos = c("https://jasonad123.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
-Alternatively, you can also install mobdb from GitHub:
+You can also install mobdb from GitHub:
 
 ``` r
 

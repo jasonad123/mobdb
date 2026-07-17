@@ -107,10 +107,10 @@ download_feed(
 
 - official:
 
-  A logical. If `TRUE` (default), return official feeds and feeds with
-  unknown official status (NA) when searching by provider/location. If
-  `FALSE`, only return feeds explicitly marked as unofficial. If `NULL`,
-  return all feeds regardless of official status.
+  A logical. If `NULL` (default), return all feeds regardless of
+  official status when searching by provider/location. If `TRUE`, return
+  official feeds and feeds with unknown official status (NA). If
+  `FALSE`, only return feeds explicitly marked as unofficial.
 
 - auth_args:
 
