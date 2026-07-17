@@ -141,14 +141,9 @@ gtfs <- download_feed(
   municipality = "San Francisco"
 )
 
-# Search and download all feeds, including unofficial ones
-gtfs <- download_feed(provider = "TTC", official = NULL)
-
 # Save GTFS feed to disk (raw file, no parsing required)
 path <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
 
-# Save parsed + re-exported GTFS (normalized to spec format, requires tidytransit + gtfsio)
-gtfs <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip", raw = FALSE)
 \dontshow{\}) # examplesIf}
 }
 \seealso{

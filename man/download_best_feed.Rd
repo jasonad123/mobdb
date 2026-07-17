@@ -122,21 +122,10 @@ For GTFS-RT or GBFS feeds, use \code{\link[=mobdb_read_gtfs]{mobdb_read_gtfs()}}
 # Simple one-shot download by provider name
 bart_feed <- download_best_feed(provider = "Bay Area Rapid Transit")
 
-# Download with quality filtering
-clean_feed <- download_best_feed(
-  provider = "Capital Metro",
-  max_validation_errors = 0
-)
-
-# Download by location
-ontario_feed <- download_best_feed(
-  country_code = "CA",
-  subdivision_name = "Ontario"
-)
 
 # Non-interactive mode (for scripts)
 options(mobdb.interactive = FALSE)
-feed <- download_best_feed(provider = "WMATA")
+feed <- download_best_feed(provider = "Bay Area Rapid Transit")
 \dontshow{\}) # examplesIf}
 }
 \seealso{
