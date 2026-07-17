@@ -163,7 +163,7 @@ For more details on how to use more advanced functionality of `mobdb`, have a lo
 ## Related packages
 
 - [tidytransit](https://github.com/r-transit/tidytransit) - Read, validate, and analyze GTFS feeds
-- [gtfstools](https://github.com/ipeaGIT/gtfstools) - Edit and analyze GTFS feeds
+- [gtfstools](https://github.com/ipea/gtfstools) - Edit and analyze GTFS feeds
 - [gtfsio](https://github.com/r-transit/gtfsio) - Read and write GTFS files
 
 ## License

@@ -308,7 +308,7 @@ mobdb is just the first stop, not the end of the route when it comes to transit 
 Other packages for analyzing GTFS in the R ecosystem include:
 
 -   [tidytransit](https://r-transit.github.io/tidytransit/): A tool to read and analyze GTFS feeds
--   [gtfstools](https://github.com/ipeaGIT/gtfstools): Edit and validate feeds
+-   [gtfstools](https://github.com/ipea/gtfstools): Edit and validate feeds
 -   [gtfsio](https://github.com/r-transit/gtfsio): Fast I/O operations like saving GTFS back to ZIP files
 
 Once you have GTFS files or GTFS objects, you can perform some pretty interesting analysis with other tools like:
