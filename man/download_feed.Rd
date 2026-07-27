@@ -132,8 +132,7 @@ versions <- download_feed("mdb-2862", latest = FALSE)
 
 # Download a specific historical version (feed_id auto-extracted from dataset_id)
 historical <- download_feed(dataset_id = "mdb-53-202507240047")
-\dontshow{\}) # examplesIf}
-\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
+
 # Filter by location (may return multiple feeds requiring disambiguation)
 gtfs <- download_feed(
   country_code = "US",
@@ -142,8 +141,7 @@ gtfs <- download_feed(
 )
 
 # Save GTFS feed to disk (raw file, no parsing required)
-path <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
-
+path <- download_feed("mdb-247", export_path = tempfile(fileext = ".zip"))
 \dontshow{\}) # examplesIf}
 }
 \seealso{

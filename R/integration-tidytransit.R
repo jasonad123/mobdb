@@ -167,7 +167,6 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' # Download a specific historical version (feed_id auto-extracted from dataset_id)
 #' historical <- download_feed(dataset_id = "mdb-53-202507240047")
 #'
-#' @examplesIf FALSE
 #' # Filter by location (may return multiple feeds requiring disambiguation)
 #' gtfs <- download_feed(
 #'   country_code = "US",
@@ -176,8 +175,7 @@ mobdb_read_gtfs <- function(feed_id, dataset_id = NULL, ...) {
 #' )
 #'
 #' # Save GTFS feed to disk (raw file, no parsing required)
-#' path <- download_feed("mdb-247", export_path = "data/gtfs/trimet.zip")
-#'
+#' path <- download_feed("mdb-247", export_path = tempfile(fileext = ".zip"))
 #'
 #' @seealso
 #' [mobdb_datasets()] to list all available historical versions,

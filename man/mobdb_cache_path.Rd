@@ -31,8 +31,9 @@ mobdb_cache_path()
 # Set for current session only
 mobdb_cache_path("~/my_mobdb_cache")
 }
-\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
+
+\dontrun{
 # Set permanently in .Renviron
 mobdb_cache_path("~/my_mobdb_cache", install = TRUE)
-\dontshow{\}) # examplesIf}
+}
 }

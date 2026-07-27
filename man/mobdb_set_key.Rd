@@ -26,9 +26,10 @@ The refresh token is used to generate short-lived access tokens automatically.
 # Set token for current session
 mobdb_set_key("your_refresh_token_here")
 }
-\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
+
+\dontrun{
 # Set token permanently in .Renviron
 mobdb_set_key("your_refresh_token_here", install = TRUE)
-\dontshow{\}) # examplesIf}
+}
 }
 \concept{authentication}

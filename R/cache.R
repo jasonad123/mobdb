@@ -150,9 +150,11 @@ get_cache_ttl <- function(endpoint_type = c("feeds", "search", "datasets", "hist
 #' # Set for current session only
 #' mobdb_cache_path("~/my_mobdb_cache")
 #' }
-#' @examplesIf FALSE
+#'
+#' \dontrun{
 #' # Set permanently in .Renviron
 #' mobdb_cache_path("~/my_mobdb_cache", install = TRUE)
+#' }
 mobdb_cache_path <- function(path = NULL, install = FALSE, overwrite = FALSE) {
 
   # If no path provided, just show current path
