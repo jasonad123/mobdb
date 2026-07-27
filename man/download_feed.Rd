@@ -135,14 +135,11 @@ historical <- download_feed(dataset_id = "mdb-53-202507240047")
 
 # Filter by location (may return multiple feeds requiring disambiguation,
 # in which case refine with `provider` or `feed_name`)
-gtfs <- tryCatch(
-  download_feed(
-    country_code = "US",
-    subdivision_name = "California",
-    municipality = "San Francisco"
-  ),
-  error = function(e) NULL
-)
+try(download_feed(
+  country_code = "US",
+  subdivision_name = "California",
+  municipality = "San Francisco"
+))
 
 # Save GTFS feed to disk (raw file, no parsing required)
 path <- download_feed("mdb-247", export_path = tempfile(fileext = ".zip"))
