@@ -325,7 +325,7 @@ mobdb_cache_list <- function() {
 #' @param older_than Optional. Remove only files older than this many days.
 #'   If NULL (default), removes all cached files.
 #'
-#' @return NULL
+#' @return A message indicating the cache status.
 #' @export
 #'
 #' @examples
