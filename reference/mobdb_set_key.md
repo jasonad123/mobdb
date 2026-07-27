@@ -37,8 +37,9 @@ mobdb_set_key("your_refresh_token_here")
 #> ✔ Refresh token set for current session.
 #> ℹ Use `install = TRUE` to save permanently.
 # }
-if (FALSE) {
+
+if (FALSE) { # \dontrun{
 # Set token permanently in .Renviron
 mobdb_set_key("your_refresh_token_here", install = TRUE)
-}
+} # }
 ```

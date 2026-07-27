@@ -1,5 +1,16 @@
 # Changelog
 
+## mobdb 1.0.1
+
+### Bug fixes
+
+- Quoted certain software/API items in in the package description per
+  CRAN
+- Added documentation to
+  [`mobdb_cache_clear()`](https://mobdb.jasonadle.dev/reference/mobdb_cache_clear.md)
+- Replaced remaining `if(FALSE)`-disabled examples with `\dontrun{}` or
+  runnable equivalents
+
 ## mobdb 1.0.0
 
 Setting the stage for an initial CRAN release and bugfixes.

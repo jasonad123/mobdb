@@ -9,13 +9,13 @@
 Source:
 [`DESCRIPTION`](https://github.com/jasonad123/mobdb/blob/main/DESCRIPTION)
 
-Adle J (2026). *mobdb: Access the Mobility Database API to Discover
-Transit Feeds*. R package version 1.0.0, <https://mobdb.jasonadle.dev>.
+Adle J (2026). *mobdb: Access the 'Mobility Database' API to Discover
+Transit Feeds*. R package version 1.0.1, <https://mobdb.jasonadle.dev>.
 
     @Manual{,
-      title = {mobdb: Access the Mobility Database API to Discover Transit Feeds},
+      title = {mobdb: Access the 'Mobility Database' API to Discover Transit Feeds},
       author = {Jason Adle},
       year = {2026},
-      note = {R package version 1.0.0},
+      note = {R package version 1.0.1},
       url = {https://mobdb.jasonadle.dev},
     }

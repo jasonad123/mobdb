@@ -1,9 +1,9 @@
-# mobdb: Access the Mobility Database API to Discover Transit Feeds
+# mobdb: Access the 'Mobility Database' API to Discover Transit Feeds
 
-Search and access transit feed data from the Mobility Database
+Search and access transit feed data from the 'Mobility Database'
 <https://mobilitydatabase.org>. The package wraps the 'Mobility
-Database' API, allowing users to discover GTFS (General Transit Feed
-Specification) and GBFS (General Bikeshare Feed Specification) feeds
+Database' API, allowing users to discover 'GTFS' (General Transit Feed
+Specification) and 'GBFS' (General Bikeshare Feed Specification) feeds
 from agencies worldwide. Functions are designed to integrate seamlessly
 with packages like 'tidytransit' and 'gtfstools' for subsequent feed
 analysis.

@@ -43,8 +43,9 @@ mobdb_cache_path("~/my_mobdb_cache")
 #> ✔ Created cache directory: /home/runner/my_mobdb_cache
 #> ✔ Cache path set to: /home/runner/my_mobdb_cache
 # }
-if (FALSE) {
+
+if (FALSE) { # \dontrun{
 # Set permanently in .Renviron
 mobdb_cache_path("~/my_mobdb_cache", install = TRUE)
-}
+} # }
 ```
