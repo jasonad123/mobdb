@@ -10,6 +10,9 @@ mobdb_cache_clear(older_than = NULL)
 \item{older_than}{Optional. Remove only files older than this many days.
 If NULL (default), removes all cached files.}
 }
+\value{
+Invisibly returns NULL. Called for its side effect of removing cached files (and, if requested via older_than, only those older than the given number of days)
+}
 \description{
 Removes cached files from the cache directory. Can remove all files
 or only those older than a specified number of days.

@@ -4,6 +4,17 @@
 
 * This is a new release.
 
+## Resubmission
+
+This is a resubmission addressing CRAN feedback from the initial submission:
+
+* Quoted `'Mobility Database'`, `'GTFS'` and `'GBFS'` in the `Description` field.
+* Added a `\value` tag to `mobdb_cache_clear()`.
+* Removed the remaining `if(FALSE)`-style disabled examples
+  (`mobdb_cache_path()`, `mobdb_set_key()`, `download_feed()`), replacing them
+  with `\dontrun{}` where the example writes permanently to `.Renviron`, or
+  folding them into an existing runnable `@examplesIf` block otherwise.
+
 ## Test environments
 
 * Local: macOS 15.7.7, R 4.6.1

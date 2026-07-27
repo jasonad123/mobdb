@@ -17,9 +17,11 @@
 #' # Set token for current session
 #' mobdb_set_key("your_refresh_token_here")
 #' }
-#' @examplesIf FALSE
+#'
+#' \dontrun{
 #' # Set token permanently in .Renviron
 #' mobdb_set_key("your_refresh_token_here", install = TRUE)
+#' }
 #' @concept authentication
 #' @export
 mobdb_set_key <- function(refresh_token, install = FALSE) {
