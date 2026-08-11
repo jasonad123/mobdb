@@ -2,6 +2,8 @@
 
 ## mobdb 1.0.1
 
+CRAN release: 2026-08-07
+
 ### Bug fixes
 
 - Quoted certain software/API items in in the package description per
