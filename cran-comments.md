@@ -1,12 +1,23 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-* This is a new release.
+0 errors | 0 warnings | 0 notes
 
 ## Resubmission
 
-This is a resubmission addressing CRAN feedback from the initial submission:
+This is a resubmission addressing a CRAN "Additional issues" NOTE reported
+against 1.0.1 (checking for new files in some other directories, on the
+r-devel Fedora `--run-donttest` flavor):
+
+* The `\donttest{}` example for `mobdb_cache_path()` called
+  `mobdb_cache_path("~/my_mobdb_cache")`, which creates the given directory.
+  Because `\donttest{}` examples are executed by that check flavor, this left
+  a `my_mobdb_cache` directory behind in the checking user's home directory.
+  The example now uses a path under `tempdir()` instead, so nothing persists
+  outside the session temp directory.
+
+## Previous resubmission (1.0.1)
+
+This was a resubmission addressing CRAN feedback from the initial submission:
 
 * Quoted `'Mobility Database'`, `'GTFS'` and `'GBFS'` in the `Description` field.
 * Added a `\value` tag to `mobdb_cache_clear()`.

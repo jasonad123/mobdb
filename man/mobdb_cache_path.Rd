@@ -29,7 +29,7 @@ mobdb_cache_path()
 
 \donttest{
 # Set for current session only
-mobdb_cache_path("~/my_mobdb_cache")
+mobdb_cache_path(file.path(tempdir(), "mobdb_cache_example"))
 }
 
 \dontrun{
