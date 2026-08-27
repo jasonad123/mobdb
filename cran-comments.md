@@ -15,20 +15,9 @@ r-devel Fedora `--run-donttest` flavor):
   The example now uses a path under `tempdir()` instead, so nothing persists
   outside the session temp directory.
 
-## Previous resubmission (1.0.1)
-
-This was a resubmission addressing CRAN feedback from the initial submission:
-
-* Quoted `'Mobility Database'`, `'GTFS'` and `'GBFS'` in the `Description` field.
-* Added a `\value` tag to `mobdb_cache_clear()`.
-* Removed the remaining `if(FALSE)`-style disabled examples
-  (`mobdb_cache_path()`, `mobdb_set_key()`, `download_feed()`), replacing them
-  with `\dontrun{}` where the example writes permanently to `.Renviron`, or
-  folding them into an existing runnable `@examplesIf` block otherwise.
-
 ## Test environments
 
-* Local: macOS 15.7.7, R 4.6.1
+* Local: macOS 15.7.7 and Windows 11 25H2, R 4.6.1
 * GitHub Actions: Ubuntu-latest, R-release; Ubuntu-latest, R-devel; Windows-latest, R-release
 * R-universe (via GitHub Actions): R-devel (Linux, Windows, macOS); R-release (Linux, Windows, macOS), R-old (Linux, Windows, macOS)
 
