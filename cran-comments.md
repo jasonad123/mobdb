@@ -1,23 +1,23 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-* This is a new release.
+0 errors | 0 warnings | 0 notes
 
 ## Resubmission
 
-This is a resubmission addressing CRAN feedback from the initial submission:
+This is a resubmission addressing a CRAN "Additional issues" NOTE reported
+against 1.0.1 (checking for new files in some other directories, on the
+r-devel Fedora `--run-donttest` flavor):
 
-* Quoted `'Mobility Database'`, `'GTFS'` and `'GBFS'` in the `Description` field.
-* Added a `\value` tag to `mobdb_cache_clear()`.
-* Removed the remaining `if(FALSE)`-style disabled examples
-  (`mobdb_cache_path()`, `mobdb_set_key()`, `download_feed()`), replacing them
-  with `\dontrun{}` where the example writes permanently to `.Renviron`, or
-  folding them into an existing runnable `@examplesIf` block otherwise.
+* The `\donttest{}` example for `mobdb_cache_path()` called
+  `mobdb_cache_path("~/my_mobdb_cache")`, which creates the given directory.
+  Because `\donttest{}` examples are executed by that check flavor, this left
+  a `my_mobdb_cache` directory behind in the checking user's home directory.
+  The example now uses a path under `tempdir()` instead, so nothing persists
+  outside the session temp directory.
 
 ## Test environments
 
-* Local: macOS 15.7.7, R 4.6.1
+* Local: macOS 15.7.7 and Windows 11 25H2, R 4.6.1
 * GitHub Actions: Ubuntu-latest, R-release; Ubuntu-latest, R-devel; Windows-latest, R-release
 * R-universe (via GitHub Actions): R-devel (Linux, Windows, macOS); R-release (Linux, Windows, macOS), R-old (Linux, Windows, macOS)
 

@@ -1,3 +1,12 @@
+# mobdb 1.0.2
+
+## Bug fixes
+
+* Fixed the `mobdb_cache_path()` `\donttest{}` example writing a persistent
+  `my_mobdb_cache` directory to the user's home filesystem when run by
+  CRAN's `--run-donttest` check, per CRAN feedback. The example now uses a
+  path under `tempdir()`.
+
 # mobdb 1.0.1
 
 ## Bug fixes
