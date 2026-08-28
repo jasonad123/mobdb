@@ -2,35 +2,44 @@
 
 |field    |value                                                                        |
 |:--------|:----------------------------------------------------------------------------|
-|version  |R version 4.5.2 (2025-10-31)                                                 |
-|os       |macOS Sequoia 15.7.4                                                         |
-|system   |aarch64, darwin20                                                            |
+|version  |R version 4.6.1 (2026-06-24)                                                 |
+|os       |macOS Sequoia 15.7.7                                                         |
+|system   |aarch64, darwin23                                                            |
 |ui       |Positron                                                                     |
 |language |(EN)                                                                         |
 |collate  |en_US.UTF-8                                                                  |
 |ctype    |en_US.UTF-8                                                                  |
 |tz       |America/New_York                                                             |
-|date     |2026-03-03                                                                   |
-|pandoc   |3.9 @ /opt/homebrew/bin/pandoc                                               |
-|quarto   |1.8.27 @ /Applications/Positron.app/Contents/Resources/app/quarto/bin/quarto |
+|date     |2026-08-27                                                                   |
+|pandoc   |3.10.2 @ /opt/homebrew/bin/pandoc                                            |
+|quarto   |1.9.38 @ /Applications/Positron.app/Contents/Resources/app/quarto/bin/quarto |
 
 # Dependencies
 
-|package   |old |new    |Δ  |
-|:---------|:---|:------|:--|
-|mobdb     |NA  |1.0.0  |*  |
-|digest    |NA  |0.6.39 |*  |
-|dplyr     |NA  |1.2.0  |*  |
-|httr2     |NA  |1.2.2  |*  |
-|lifecycle |NA  |1.0.5  |*  |
-|magrittr  |NA  |2.0.4  |*  |
-|openssl   |NA  |2.3.5  |*  |
-|pillar    |NA  |1.11.1 |*  |
-|rappdirs  |NA  |0.3.4  |*  |
-|rlang     |NA  |1.1.7  |*  |
-|tibble    |NA  |3.3.1  |*  |
-|utf8      |NA  |1.2.6  |*  |
-|vctrs     |NA  |0.7.1  |*  |
+|package    |old    |new    |Δ  |
+|:----------|:------|:------|:--|
+|mobdb      |1.0.1  |1.0.2  |*  |
+|askpass    |1.2.1  |1.2.1  |   |
+|cli        |3.6.6  |3.6.6  |   |
+|curl       |8.0.0  |8.0.0  |   |
+|digest     |0.6.39 |0.6.39 |   |
+|dplyr      |1.2.1  |1.2.1  |   |
+|generics   |0.1.4  |0.1.4  |   |
+|glue       |1.8.1  |1.8.1  |   |
+|httr2      |1.3.0  |1.3.0  |   |
+|lifecycle  |1.0.5  |1.0.5  |   |
+|magrittr   |2.0.5  |2.0.5  |   |
+|openssl    |2.4.2  |2.4.2  |   |
+|pillar     |1.11.1 |1.11.1 |   |
+|pkgconfig  |2.0.3  |2.0.3  |   |
+|R6         |2.6.1  |2.6.1  |   |
+|rlang      |1.3.0  |1.3.0  |   |
+|sys        |3.4.3  |3.4.3  |   |
+|tibble     |3.3.1  |3.3.1  |   |
+|tidyselect |1.2.1  |1.2.1  |   |
+|utf8       |1.2.6  |1.2.6  |   |
+|vctrs      |0.7.3  |0.7.3  |   |
+|withr      |3.0.3  |3.0.3  |   |
 
 # Revdeps
 
