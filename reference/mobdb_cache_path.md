@@ -40,8 +40,8 @@ mobdb_cache_path()
 # \donttest{
 # Set for current session only
 mobdb_cache_path(file.path(tempdir(), "mobdb_cache_example"))
-#> ✔ Created cache directory: /tmp/RtmpvhCJIw/mobdb_cache_example
-#> ✔ Cache path set to: /tmp/RtmpvhCJIw/mobdb_cache_example
+#> ✔ Created cache directory: /tmp/Rtmp49HNah/mobdb_cache_example
+#> ✔ Cache path set to: /tmp/Rtmp49HNah/mobdb_cache_example
 # }
 
 if (FALSE) { # \dontrun{
