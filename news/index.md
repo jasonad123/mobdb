@@ -1,5 +1,16 @@
 # Changelog
 
+## mobdb 1.0.2
+
+### Bug fixes
+
+- Fixed the
+  [`mobdb_cache_path()`](https://mobdb.jasonadle.dev/reference/mobdb_cache_path.md)
+  `\donttest{}` example writing a persistent `my_mobdb_cache` directory
+  to the user’s home filesystem when run by CRAN’s `--run-donttest`
+  check, per CRAN feedback. The example now uses a path under
+  [`tempdir()`](https://rdrr.io/r/base/tempfile.html).
+
 ## mobdb 1.0.1
 
 CRAN release: 2026-08-07
