@@ -66,3 +66,5 @@ docs
 /doc/
 /Meta/
 inst/doc
+CRAN-SUBMISSION
+.meta/*

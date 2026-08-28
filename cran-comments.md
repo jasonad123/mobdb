@@ -4,6 +4,10 @@
 
 ## Resubmission
 
+This is a resubmission addressing an automated check. `CRAN-SUBMISSION` was accidentally included in the bundle.
+
+## Previous notes from 1.0.2
+
 This is a resubmission addressing a CRAN "Additional issues" NOTE reported
 against 1.0.1 (checking for new files in some other directories, on the
 r-devel Fedora `--run-donttest` flavor):

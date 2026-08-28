@@ -1,3 +1,9 @@
+# mobdb 1.0.3
+
+## Bug fixes
+
+* Minor post-submission fix.
+
 # mobdb 1.0.2
 
 ## Bug fixes

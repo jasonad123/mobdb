@@ -1,24 +1,24 @@
 # Platform
 
-|field    |value                                                                        |
-|:--------|:----------------------------------------------------------------------------|
-|version  |R version 4.6.1 (2026-06-24)                                                 |
-|os       |macOS Sequoia 15.7.7                                                         |
-|system   |aarch64, darwin23                                                            |
-|ui       |Positron                                                                     |
-|language |(EN)                                                                         |
-|collate  |en_US.UTF-8                                                                  |
-|ctype    |en_US.UTF-8                                                                  |
-|tz       |America/New_York                                                             |
-|date     |2026-08-27                                                                   |
-|pandoc   |3.10.2 @ /opt/homebrew/bin/pandoc                                            |
-|quarto   |1.9.38 @ /Applications/Positron.app/Contents/Resources/app/quarto/bin/quarto |
+|field    |value                                                                         |
+|:--------|:-----------------------------------------------------------------------------|
+|version  |R version 4.6.1 (2026-06-24)                                                  |
+|os       |macOS Sequoia 15.7.7                                                          |
+|system   |aarch64, darwin23                                                             |
+|ui       |Positron                                                                      |
+|language |(EN)                                                                          |
+|collate  |en_US.UTF-8                                                                   |
+|ctype    |en_US.UTF-8                                                                   |
+|tz       |America/New_York                                                              |
+|date     |2026-08-28                                                                    |
+|pandoc   |3.10.2 @ /opt/homebrew/bin/pandoc                                             |
+|quarto   |1.10.18 @ /Applications/Positron.app/Contents/Resources/app/quarto/bin/quarto |
 
 # Dependencies
 
 |package    |old    |new    |Δ  |
 |:----------|:------|:------|:--|
-|mobdb      |1.0.1  |1.0.2  |*  |
+|mobdb      |1.0.1  |1.0.3  |*  |
 |askpass    |1.2.1  |1.2.1  |   |
 |cli        |3.6.6  |3.6.6  |   |
 |curl       |8.0.0  |8.0.0  |   |
