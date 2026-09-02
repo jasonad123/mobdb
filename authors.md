@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jasonad123/mobdb/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jasonad123/mobdb/blob/v1.0.3/DESCRIPTION)
 
 Adle J (2026). *mobdb: Access the 'Mobility Database' API to Discover
 Transit Feeds*. R package version 1.0.3, <https://mobdb.jasonadle.dev>.
